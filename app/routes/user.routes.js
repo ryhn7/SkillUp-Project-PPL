@@ -1,5 +1,6 @@
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/user.controller");
+const { verifySignUp } = require("../middlewares");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -30,5 +31,16 @@ module.exports = function (app) {
     "/departemen",
     [authJwt.verifyToken, authJwt.isDepartemen],
     controller.departemenBoard
+  );
+
+  app.post(
+    "/generate",
+    [
+      verifySignUp.checkDuplicateUsernameOrEmail,
+      verifySignUp.checkRolesExisted,
+      authJwt.verifyToken,
+      authJwt.isAdmin,
+    ],
+    controller.signup
   );
 };

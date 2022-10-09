@@ -52,9 +52,8 @@ exports.signin = (req, res) => {
       // var token = jwt.sign({ id: user.id }, SECRET, {
       //   expiresIn: 3600, // 1hours
       // });
-      // var authorities = user.roles.name;
 
-      var token = await new jose.SignJWT({ id: user.id })
+      var token = await new jose.SignJWT({ id: user.id, role: user.roles.name })
         .setProtectedHeader({ alg: "HS256", typ: "JWT" })
         .setIssuedAt()
         .setExpirationTime("1h")
@@ -64,7 +63,7 @@ exports.signin = (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        roles: user.roles,
+        roles: user.roles.name,
         accessToken: token,
       });
     });

@@ -53,19 +53,18 @@ exports.signin = (req, res) => {
       // var token = jwt.sign({ id: user.id }, SECRET, {
       //   expiresIn: 3600, // 1hours
       // });
-      // var authorities = user.roles.name;
 
-      var token = await new jose.SignJWT({ id: user.id })
+      var token = await new jose.SignJWT({ id: user.id, role: user.roles.name })
         .setProtectedHeader({ alg: "HS256", typ: "JWT" })
         .setIssuedAt()
         .setExpirationTime("1h")
-        .sign(new TextEncoder().encode(config.secret));
+        .sign(new TextEncoder().encode(SECRET));
 
       res.status(200).send({
         id: user._id,
         username: user.username,
         email: user.email,
-        roles: authorities,
+        roles: user.roles.name,
         accessToken: token,
       });
     });

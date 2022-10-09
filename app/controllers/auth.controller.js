@@ -3,7 +3,6 @@ const db = require("../models");
 const User = db.user;
 //session
 
-var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 var jose = require("jose");
 
@@ -59,13 +58,13 @@ exports.signin = (req, res) => {
         .setProtectedHeader({ alg: "HS256", typ: "JWT" })
         .setIssuedAt()
         .setExpirationTime("1h")
-        .sign(new TextEncoder().encode(config.secret));
+        .sign(new TextEncoder().encode(SECRET));
 
       res.status(200).send({
         id: user._id,
         username: user.username,
         email: user.email,
-        roles: authorities,
+        roles: user.roles,
         accessToken: token,
       });
     });

@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const db = require("./app/models");
 const Role = db.role;
+const Status = db.status;
 //get mongourl from .env
 const MONGO_URL = process.env.MONGO_URL;
 const SECRET = process.env.SECRET;
@@ -101,6 +102,79 @@ function initial() {
         }
 
         console.log("added 'departemen' to roles collection");
+      });
+    }
+  });
+  Status.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      new Status({
+        name: "aktif",
+      }).save((err) => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'Aktif' to status collection");
+      });
+
+      new Status({
+        name: "cuti",
+      }).save((err) => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'Cuti' to status collection");
+      });
+
+      new Status({
+        name: "mangkir",
+      }).save((err) => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'Mangkir' to status collection");
+      });
+
+      new Status({
+        name: "do",
+      }).save((err) => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'DO' to status collection");
+      });
+
+      new Status({
+        name: "undur diri",
+      }).save((err) => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'Undur Diri' to status collection");
+      });
+
+      new Status({
+        name: "lulus",
+      }).save((err) => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'Lulus' to status collection");
+      });
+
+      new Status({
+        name: "meninggal dunia",
+      }).save((err) => {
+        if (err) {
+          console.log("error", err);
+        }
+
+        console.log("added 'Meninggal Dunia' to status collection");
       });
     }
   });

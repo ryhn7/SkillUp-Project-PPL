@@ -1,6 +1,8 @@
 const db = require("../models");
 const User = db.user;
 const Role = db.role;
+const Mahasiswa = db.mahasiswa;
+const Status = db.status;
 var bcrypt = require("bcryptjs");
 
 exports.allAccess = (req, res) => {
@@ -28,6 +30,13 @@ exports.signup = (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
+  });
+
+  const mahasiswa = new Mahasiswa({
+    name: req.body.name,
+    nim: req.body.nim,
+    user: user._id,
+    angkatan: req.body.angkatan,
   });
 
   user.save((err, user) => {
@@ -66,11 +75,41 @@ exports.signup = (req, res) => {
         }
 
         user.roles = [role._id];
+
         user.save((err) => {
           if (err) {
             res.status(500).send({ message: err });
             return;
           }
+
+          //make new mahasiswa
+          mahasiswa.save((err, user) => {
+            if (err) {
+              res.status(500).send({ message: err });
+              return;
+            }
+            if (req.body.status) {
+              Status.find(
+                {
+                  name: { $in: req.body.status },
+                },
+                (err, status) => {
+                  if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                  }
+
+                  mahasiswa.status = status.map((status) => status._id);
+                  mahasiswa.save((err) => {
+                    if (err) {
+                      res.status(500).send({ message: err });
+                      return;
+                    }
+                  });
+                }
+              );
+            }
+          });
 
           res.send({ message: "User was registered successfully!" });
         });

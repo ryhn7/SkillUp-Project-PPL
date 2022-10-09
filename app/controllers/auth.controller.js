@@ -4,13 +4,14 @@ const User = db.user;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+var jose = require("jose");
 
 exports.signin = (req, res) => {
   User.findOne({
     username: req.body.username,
   })
     .populate("roles", "-__v")
-    .exec((err, user) => {
+    .exec(async (err, user) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
@@ -32,14 +33,20 @@ exports.signin = (req, res) => {
         });
       }
 
-      var token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: 86400, // 24 hours
-      });
+      // var token = jwt.sign({ id: user.id }, config.secret, {
+      //   expiresIn: 86400, // 24 hours
+      // });
+
+      var token = await new jose.SignJWT({ id: user.id })
+        .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+        .setIssuedAt()
+        .setExpirationTime("1h")
+        .sign(new TextEncoder().encode(config.secret));
 
       var authorities = [];
 
       for (let i = 0; i < user.roles.length; i++) {
-        authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
+        authorities.push(user.roles[i].name);
       }
       res.status(200).send({
         id: user._id,

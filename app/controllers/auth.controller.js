@@ -1,6 +1,7 @@
-const config = require("../config/auth.config");
+const SECRET = process.env.SECRET;
 const db = require("../models");
 const User = db.user;
+//session
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
@@ -33,9 +34,26 @@ exports.signin = (req, res) => {
         });
       }
 
-      // var token = jwt.sign({ id: user.id }, config.secret, {
-      //   expiresIn: 86400, // 24 hours
+      // check if session is already set if yes then respond with 200
+      if (req.session.user) {
+        return res.status(200).send({
+          message: "User already logged in",
+        });
+      } else {
+        // set session
+        req.session.user = user.username;
+        req.session.save(function (err) {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+        });
+      }
+
+      // var token = jwt.sign({ id: user.id }, SECRET, {
+      //   expiresIn: 3600, // 1hours
       // });
+      // var authorities = user.roles.name;
 
       var token = await new jose.SignJWT({ id: user.id })
         .setProtectedHeader({ alg: "HS256", typ: "JWT" })
@@ -43,11 +61,6 @@ exports.signin = (req, res) => {
         .setExpirationTime("1h")
         .sign(new TextEncoder().encode(config.secret));
 
-      var authorities = [];
-
-      for (let i = 0; i < user.roles.length; i++) {
-        authorities.push(user.roles[i].name);
-      }
       res.status(200).send({
         id: user._id,
         username: user.username,
@@ -58,11 +71,16 @@ exports.signin = (req, res) => {
     });
 };
 
-exports.signout = async (req, res) => {
-  try {
-    req.session = null;
-    return res.status(200).send({ message: "You've been signed out!" });
-  } catch (err) {
-    this.next(err);
-  }
+exports.signout = (req, res) => {
+  req.session.user = null;
+  req.session.save(function (err) {
+    if (err) next(err);
+
+    // regenerate the session, which is good practice to help
+    // guard against forms of session fixation
+    req.session.regenerate(function (err) {
+      if (err) next(err);
+      res.redirect("/");
+    });
+  });
 };

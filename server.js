@@ -1,12 +1,26 @@
 const express = require("express");
 const cors = require("cors");
-const dbConfig = require("./app/config/db.config");
+require("dotenv").config();
+const db = require("./app/models");
+const Role = db.role;
+//get mongourl from .env
+const MONGO_URL = process.env.MONGO_URL;
+const SECRET = process.env.SECRET;
 
 const app = express();
+const session = require("express-session");
 
 var corsOptions = {
   origin: "http://localhost:3000",
 };
+
+app.use(
+  session({
+    secret: SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use(cors(corsOptions));
 // app.use(cors());
@@ -17,17 +31,11 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-const db = require("./app/models");
-const Role = db.role;
-
 db.mongoose
-  .connect(
-    "mongodb+srv://skillup:admin@cluster0.3xlfnxt.mongodb.net/?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Successfully connect to MongoDB.");
     initial();

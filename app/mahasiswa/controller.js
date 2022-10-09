@@ -1,0 +1,1 @@
+const Mhs = require('./model')

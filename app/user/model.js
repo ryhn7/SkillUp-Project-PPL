@@ -28,7 +28,7 @@ let userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['admin', 'dosen', 'mahasiswa', 'departmen'],
-        default: 'admin'
+        default: 'mahasiswa'
     },
     status: {
         type: String,
@@ -36,6 +36,24 @@ let userSchema = new mongoose.Schema({
         default: 'aktif'
     }
 }, {timestamps: true});
+
+userSchema.path('email').validate(async (value) => {
+    try {
+        const count = await mongoose.models.User.countDocuments({ email: value });
+        return !count;
+    } catch (error) {
+        throw error;
+    }
+}, attr => `${attr.value} has been registered`);
+
+userSchema.path('kode').validate(async (value) => {
+    try {
+        const count = await mongoose.models.User.countDocuments({ kode: value });
+        return !count;
+    } catch (error) {
+        throw error;
+    }
+}, attr => `${attr.value} has been registered`);
 
 userSchema.pre('save', function (next) {
     this.password = bcrypt.hashSync(this.password, HASH_ROUND);

@@ -1,0 +1,1 @@
+const Khs = require('../models');

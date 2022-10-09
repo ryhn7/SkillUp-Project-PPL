@@ -1,0 +1,1 @@
+const Skripsi = require('./model.js');

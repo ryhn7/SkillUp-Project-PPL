@@ -5,6 +5,7 @@ const Mahasiswa = mongoose.model(
   new mongoose.Schema({
     name: String,
     nim: String,
+    email: String,
     alamat: String,
     avatar: String,
     kode_provinsi: String,

@@ -27,13 +27,14 @@ exports.departemenBoard = (req, res) => {
 
 exports.signup = (req, res) => {
   const user = new User({
-    username: req.body.username,
+    username: req.body.nim,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
+    password: bcrypt.hashSync(req.body.name.toLowerCase().split(" ")[0], 8),
   });
 
   const mahasiswa = new Mahasiswa({
     name: req.body.name,
+    email: req.body.email,
     nim: req.body.nim,
     user: user._id,
     angkatan: req.body.angkatan,
@@ -109,9 +110,8 @@ exports.signup = (req, res) => {
                 }
               );
             }
+            res.send({ message: "User was registered successfully!" });
           });
-
-          res.send({ message: "User was registered successfully!" });
         });
       });
     }

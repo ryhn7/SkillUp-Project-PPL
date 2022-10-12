@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const db = require("./app/models");
-const multer = require("multer");
 const Role = db.role;
 const Status = db.status;
 //get mongourl from .env
@@ -11,53 +10,6 @@ const SECRET = process.env.SECRET;
 
 const app = express();
 const session = require("express-session");
-
-const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // Get url from request
-    const url = req.url;
-    // Get the second last part of url
-    const urlSplit = url.split("/");
-    const urlSplitLength = urlSplit.length;
-    const urlSplitSecondLast = urlSplit[urlSplitLength - 2];
-
-    // Check if url is for irs
-    if (urlSplitSecondLast === "irs") {
-      cb(null, "uploads/irs");
-    }
-
-    // cb(null, "uploads");
-
-    // //if file is irs upload in irs folder
-    // if (file.fieldname === "irs") {
-    //   cb(null, "uploads/irs");
-    // }
-    // //if file is krs upload in krs folder
-    // if (file.fieldname === "krs") {
-    //   cb(null, "uploads/krs");
-    // }
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().getTime() + "-" + file.originalname);
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg" ||
-    file.mimetype === "application/pdf"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-//use multer
-app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("file")
-);
 
 var corsOptions = {
   origin: "http://localhost:3000",
@@ -102,9 +54,7 @@ app.get("/", (req, res) => {
 // routes
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
-require("./app/routes/provinsi.routes")(app);
-require("./app/routes/kabupaten.routes")(app);
-require("./app/routes/irs.routes")(app);
+require("./app/routes/skripsi.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
@@ -139,7 +89,7 @@ function initial() {
         name: "dosen",
       }).save((err) => {
         if (err) {
-          console.log("error", err);
+          console.log("error", err);  
         }
 
         console.log("added 'dosen' to roles collection");

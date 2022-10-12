@@ -11,6 +11,57 @@ const SECRET = process.env.SECRET;
 const app = express();
 const session = require("express-session");
 
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // Get url from request
+    const url = req.url;
+    // Get the second last part of url
+    const urlSplit = url.split("/");
+    const urlSplitLength = urlSplit.length;
+    const urlSplitSecondLast = urlSplit[urlSplitLength - 2];
+
+    // Check if url is for irs
+    if (urlSplitSecondLast === "irs") {
+      cb(null, "uploads/irs");
+    } else if (urlSplitSecondLast === "khs") {
+      cb(null, "uploads/khs");
+    } else if (urlSplitSecondLast === "skripsi") {
+      cb(null, "uploads/skripsi");
+    }
+
+    // cb(null, "uploads");
+
+    // //if file is irs upload in irs folder
+    // if (file.fieldname === "irs") {
+    //   cb(null, "uploads/irs");
+    // }
+    // //if file is krs upload in krs folder
+    // if (file.fieldname === "krs") {
+    //   cb(null, "uploads/krs");
+    // }
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().getTime() + "-" + file.originalname);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "application/pdf"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+//use multer
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single("file")
+);
+
 var corsOptions = {
   origin: "http://localhost:3000",
 };

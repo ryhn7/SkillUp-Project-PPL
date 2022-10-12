@@ -4,6 +4,20 @@ const db = require("../models");
 const Mahasiswa = db.mahasiswa;
 const User = db.user;
 const Role = db.role;
+const Mahasiswa = db.mahasiswa;
+
+getMahasiswaId = (req, res, next) => {
+  Mahasiswa.findOne({
+    user: req.userId,
+  }).exec((err, mahasiswa) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    req.mahasiswaId = mahasiswa._id;
+    next();
+  });
+};
 
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"] ;

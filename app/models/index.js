@@ -9,7 +9,9 @@ db.user = require("./user.model");
 db.role = require("./role.model");
 db.mahasiswa = require("./mahasiswa.model");
 db.status = require("./status.model");
+db.khs = require("./khs.model");
 db.skripsi = require("./skripsi.model");
+
 
 db.ROLES = ["admin", "dosen", "mahasiswa", "departemen"];
 db.STATUS = [

@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const db = require("./app/models");
-const multer = require("multer");
 const Role = db.role;
 const Status = db.status;
 //get mongourl from .env
@@ -106,7 +105,7 @@ app.get("/", (req, res) => {
 // routes
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
-require("./app/routes/irs.routes")(app);
+require("./app/routes/skripsi.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
@@ -141,7 +140,7 @@ function initial() {
         name: "dosen",
       }).save((err) => {
         if (err) {
-          console.log("error", err);
+          console.log("error", err);  
         }
 
         console.log("added 'dosen' to roles collection");

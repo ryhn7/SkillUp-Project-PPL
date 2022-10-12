@@ -120,28 +120,25 @@ exports.signup = (req, res) => {
 
 exports.listUser = (req, res) => {
 
-  User.find({}, function (err, users) {
-    var userMap = {};
+  User.find({}, { password: 0 }, function (err, users) {
+    var userMap = [];
 
     users.forEach(function (user) {
-      userMap[user._id] = user;
+      userMap.push(user);
     });
 
     res.send(userMap);
   });
+};
 
+exports.listDataMahasiswa = (req, res) => {
+  Mahasiswa.find({}, function (err, mahasiswa) {
+    var mahasiswaMap = [];
 
+    mahasiswa.forEach(function (mahasiswa) {
+      mahasiswaMap.push(mahasiswa);
+    });
 
-
-
-  //   User.find()
-  //     .populate("roles", "-__v")
-  //     .exec((err, users) => {
-  //       if (err) {
-  //         res.status(500).send({ message: err });
-  //         return;
-  //       }
-
-  //       res.status(200).send(users);
-  //     });
+    res.send(mahasiswaMap);
+  });
 };

@@ -5,7 +5,7 @@ const User = db.user;
 checkDuplicateUsernameOrEmail = (req, res, next) => {
   // Username
   User.findOne({
-    username: req.body.username,
+    username: req.body.nim,
   }).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
@@ -33,9 +33,9 @@ checkRolesExisted = (req, res, next) => {
   next();
 };
 
-const verifySignUp = {
+const verifyGenerate = {
   checkDuplicateUsernameOrEmail,
   checkRolesExisted,
 };
 
-module.exports = verifySignUp;
+module.exports = verifyGenerate;

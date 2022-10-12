@@ -24,6 +24,10 @@ const fileStorage = multer.diskStorage({
     // Check if url is for irs
     if (urlSplitSecondLast === "irs") {
       cb(null, "uploads/irs");
+    } else if (urlSplitSecondLast === "khs") {
+      cb(null, "uploads/khs");
+    } else if (urlSplitSecondLast === "skripsi") {
+      cb(null, "uploads/skripsi");
     }
 
     // cb(null, "uploads");

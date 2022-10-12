@@ -44,6 +44,10 @@ const Mahasiswa = mongoose.model(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Kabupaten',
     },
+    status: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Status",
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

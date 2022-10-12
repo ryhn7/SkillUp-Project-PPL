@@ -3,6 +3,20 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const User = db.user;
 const Role = db.role;
+const Mahasiswa = db.mahasiswa;
+
+getMahasiswaId = (req, res, next) => {
+  Mahasiswa.findOne({
+    user: req.userId,
+  }).exec((err, mahasiswa) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    req.mahasiswaId = mahasiswa._id;
+    next();
+  });
+};
 
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
@@ -150,5 +164,6 @@ const authJwt = {
   isDosen,
   isDepartemen,
   isMahasiswa,
+  getMahasiswaId
 };
 module.exports = authJwt;

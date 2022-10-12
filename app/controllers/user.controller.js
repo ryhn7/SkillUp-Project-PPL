@@ -117,3 +117,31 @@ exports.signup = (req, res) => {
     }
   });
 };
+
+exports.listUser = (req, res) => {
+
+  User.find({}, function (err, users) {
+    var userMap = {};
+
+    users.forEach(function (user) {
+      userMap[user._id] = user;
+    });
+
+    res.send(userMap);
+  });
+
+
+
+
+
+  //   User.find()
+  //     .populate("roles", "-__v")
+  //     .exec((err, users) => {
+  //       if (err) {
+  //         res.status(500).send({ message: err });
+  //         return;
+  //       }
+
+  //       res.status(200).send(users);
+  //     });
+};

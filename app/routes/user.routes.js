@@ -43,4 +43,10 @@ module.exports = function (app) {
     ],
     controller.signup
   );
+
+  app.get(
+    "/list-user",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.listUser
+  );
 };

@@ -3,6 +3,7 @@ const User = db.user;
 const Role = db.role;
 const Mahasiswa = db.mahasiswa;
 const Status = db.status;
+
 var bcrypt = require("bcryptjs");
 
 exports.allAccess = (req, res) => {
@@ -33,11 +34,12 @@ exports.signup = (req, res) => {
   });
 
   const mahasiswa = new Mahasiswa({
+    user: user._id,
     name: req.body.name,
     email: req.body.email,
     nim: req.body.nim,
-    user: user._id,
     angkatan: req.body.angkatan,
+    doswal: req.body.doswal,
   });
 
   user.save((err, user) => {

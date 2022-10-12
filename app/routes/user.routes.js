@@ -1,6 +1,6 @@
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/user.controller");
-const { verifySignUp } = require("../middlewares");
+const { verifyGenerate } = require("../middlewares");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -36,8 +36,8 @@ module.exports = function (app) {
   app.post(
     "/generate",
     [
-      verifySignUp.checkDuplicateUsernameOrEmail,
-      verifySignUp.checkRolesExisted,
+      verifyGenerate.checkDuplicateUsernameOrEmail,
+      verifyGenerate.checkRolesExisted,
       authJwt.verifyToken,
       authJwt.isAdmin,
     ],

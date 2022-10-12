@@ -11,6 +11,7 @@ const Mahasiswa = mongoose.model(
     kode_provinsi: String,
     kode_kabupaten: String,
     angkatan: String,
+    doswal: String,
     status: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Status",

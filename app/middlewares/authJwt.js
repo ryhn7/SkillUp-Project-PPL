@@ -1,6 +1,7 @@
 const SECRET = process.env.SECRET;
 const jwt = require("jsonwebtoken");
 const db = require("../models");
+const Mahasiswa = db.mahasiswa;
 const User = db.user;
 const Role = db.role;
 const Mahasiswa = db.mahasiswa;
@@ -19,7 +20,7 @@ getMahasiswaId = (req, res, next) => {
 };
 
 verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+  let token = req.headers["x-access-token"] ;
 
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
@@ -158,12 +159,25 @@ isDepartemen = (req, res, next) => {
   });
 };
 
+getMahasiswaId = (req, res, next) => {
+  Mahasiswa.findOne({
+    user: req.userId,
+  }).exec((err, mahasiswa) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    req.mahasiswaId = mahasiswa._id;
+    next();
+  });
+};
+
 const authJwt = {
   verifyToken,
   isAdmin,
   isDosen,
   isDepartemen,
   isMahasiswa,
-  getMahasiswaId,
+  getMahasiswaId
 };
 module.exports = authJwt;

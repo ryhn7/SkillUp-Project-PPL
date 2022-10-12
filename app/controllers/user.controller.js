@@ -3,6 +3,8 @@ const User = db.user;
 const Role = db.role;
 const Mahasiswa = db.mahasiswa;
 const Status = db.status;
+const Skripsi = db.skripsi;
+
 var bcrypt = require("bcryptjs");
 
 exports.allAccess = (req, res) => {
@@ -39,6 +41,15 @@ exports.signup = (req, res) => {
     user: user._id,
     angkatan: req.body.angkatan,
   });
+  
+  const skripsi = new Skripsi({
+    status: req.body.skripsi,
+    nilai: req.body.nilai,
+    tanggal: req.body.tanggal,
+    lama_studi: req.body.lama_studi,
+    status_konfirmasi: req.body.status_konfirmasi,
+    updlaod: req.body.upload_skripsi,
+  })
 
   user.save((err, user) => {
     if (err) {

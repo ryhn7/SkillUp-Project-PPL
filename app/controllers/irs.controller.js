@@ -8,6 +8,7 @@ exports.submitIRS = (req, res) => {
     sks: req.body.sks,
     file: req.file.path,
     //get from logged mahasiswa objectid
+    konfirmasi: "Belum",
     mahasiswa: req.mahasiswaId,
   });
   irs.save((err, irs) => {

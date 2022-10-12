@@ -1,1 +1,0 @@
-const Provinsi = require('./model');

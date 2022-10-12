@@ -121,7 +121,6 @@ exports.signup = (req, res) => {
 };
 
 exports.listUser = (req, res) => {
-
   User.find({}, { password: 0 }, function (err, users) {
     var userMap = [];
 

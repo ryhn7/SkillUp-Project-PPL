@@ -26,6 +26,13 @@ const fileStorage = multer.diskStorage({
       cb(null, "uploads/irs");
     }
 
+    // Check if url is for skripsi
+    else if (urlSplitSecondLast === "skripsi") {
+      cb(null, "uploads/skripsi");
+    } else if (urlSplitSecondLast === "khs") {
+      cb(null, "uploads/khs");
+    }
+
     // cb(null, "uploads");
 
     // //if file is irs upload in irs folder

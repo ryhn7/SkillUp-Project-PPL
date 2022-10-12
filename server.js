@@ -14,7 +14,28 @@ const session = require("express-session");
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./uploads/");
+    // Get url from request
+    const url = req.url;
+    // Get the second last part of url
+    const urlSplit = url.split("/");
+    const urlSplitLength = urlSplit.length;
+    const urlSplitSecondLast = urlSplit[urlSplitLength - 2];
+
+    // Check if url is for irs
+    if (urlSplitSecondLast === "irs") {
+      cb(null, "uploads/irs");
+    }
+
+    // cb(null, "uploads");
+
+    // //if file is irs upload in irs folder
+    // if (file.fieldname === "irs") {
+    //   cb(null, "uploads/irs");
+    // }
+    // //if file is krs upload in krs folder
+    // if (file.fieldname === "krs") {
+    //   cb(null, "uploads/krs");
+    // }
   },
   filename: (req, file, cb) => {
     cb(null, new Date().getTime() + "-" + file.originalname);

@@ -1,6 +1,6 @@
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/user.controller");
-const { verifyGenerate } = require("../middlewares");
+const { verifySignUp } = require("../middlewares");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -36,8 +36,8 @@ module.exports = function (app) {
   app.post(
     "/generate",
     [
-      verifyGenerate.checkDuplicateUsernameOrEmail,
-      verifyGenerate.checkRolesExisted,
+      verifySignUp.checkDuplicateUsernameOrEmail,
+      verifySignUp.checkRolesExisted,
       authJwt.verifyToken,
       authJwt.isAdmin,
     ],
@@ -48,11 +48,5 @@ module.exports = function (app) {
     "/list-user",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.listUser
-  );
-
-  app.get(
-    "/list-mahasiswa",
-    [authJwt.verifyToken, authJwt.isAdmin || authJwt.isDepartemen],
-    controller.listDataMahasiswa
   );
 };

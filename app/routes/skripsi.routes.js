@@ -1,5 +1,6 @@
 const { authJwt } = require("../middlewares");
-const controller = require("../controllers/irs.controller");
+const controller = require("../controllers/skripsi.controller");
+const { verifySignUp } = require("../middlewares");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -9,9 +10,15 @@ module.exports = function (app) {
     );
     next();
   });
+
   app.post(
-    "/irs/submit",
-    [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
-    controller.submitIRS
+    "/skripsi/submit",
+    [
+      authJwt.verifyToken,
+      authJwt.isMahasiswa,
+      authJwt.getMahasiswaId
+    ],
+    controller.submitSkripsi
   );
+
 };

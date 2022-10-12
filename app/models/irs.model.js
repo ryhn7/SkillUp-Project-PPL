@@ -6,6 +6,10 @@ const IRS = mongoose.model(
 <<<<<<< HEAD
     nim: { // mau nim / mahasiswa, monggo penake
 =======
+    semester: String,
+    sks: String,
+    file: String,
+    mahasiswa: {
 >>>>>>> parent of 3704cc5 (remake irs db model)
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Mahasiswa',

@@ -3,7 +3,10 @@ const mongoose = require("mongoose");
 const IRS = mongoose.model(
   "IRS",
   new mongoose.Schema({
+<<<<<<< HEAD
     nim: { // mau nim / mahasiswa, monggo penake
+=======
+>>>>>>> parent of 3704cc5 (remake irs db model)
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Mahasiswa',
   },

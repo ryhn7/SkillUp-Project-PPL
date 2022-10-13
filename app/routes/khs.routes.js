@@ -11,7 +11,7 @@ module.exports = function (app) {
   });
 
   app.post(
-    "/khs/submit",
+    "/khs/submit", 
     [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
     controller.submitKHS
   );

@@ -43,6 +43,7 @@ const Mahasiswa = mongoose.model(
     },
     status: {
       type: mongoose.Schema.Types.ObjectId,
+      required: [true, "Status wajib diisi"],
       ref: "Status",
     },
     user: {

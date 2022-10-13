@@ -1,4 +1,7 @@
-const db = require('../models')
+const { mahasiswa } = require('../models');
+const db = require('../models');
+const { findByIdAndUpdate } = require('../models/user.model');
+const pklRoutes = require('../routes/pkl.routes');
 const PKL = db.pkl
 
 exports.submitPKL = (req, res) => {
@@ -7,15 +10,35 @@ exports.submitPKL = (req, res) => {
         nilai: req.body.nilai,
         semester: req.body.semester,
         status_konfirmasi: req.body.status_konfirmasi,
-        // upload_pkl: req.file.path,
+        file: req.file.path,
         mahasiswa: req.mahasiswaId
     })
-
-    pkl.save((err, pkl) => {
-        if(err){
-            res.status(500).send({ message: err});
-            return
+    PKL.countDocuments({ mahasiswa: pkl.mahasiswa }, function (err, count) {
+        //console.log('there are %d entry using this account before', count);
+        if (count == 0) {
+            pkl.save((err, pkl) => {
+                if (err) {
+                    res.status(500).send({ message: err });
+                    return
+                }
+                res.send({ message: 'PKL was uploaded successfully!' })
+            })
+        } else {
+            PKL.findOneAndUpdate({ mahasiswa: pkl.mahasiswa }, {
+                status: pkl.status,
+                nilai: pkl.nilai,
+                semester: pkl.semester,
+                status_konfirmasi: pkl.status_konfirmasi,
+                file: pkl.upload_pkl,
+            }, function (err, data){
+                if(err){
+                    res.status(500).send({ message: err });
+                    return
+                }
+                res.send({ message: 'PKL was updated successfully!' })
+            })
+            
         }
-        res.send({message: 'PKL was uploaded successfully!'})
-    })
+    });
+
 }

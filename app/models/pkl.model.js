@@ -14,15 +14,15 @@ const pkl = mongoose.model(
     },
     semester: {
       type: Number,
-      maxlength: [1, 'Semester maksimal 1 karakter'],
+      maxlength: [2, 'Semester maksimal 1 karakter'],
     },
     status_konfirmasi: {
       type: String,
       maxlength: [20, 'Status konfirmasi  maksimal 20 karakter'],
     },
-    upload_pkl: {
+    file: {
       type: String,
-      maxlength: [100, 'Alamat maksimal 100 karakter'],
+      // maxlength: [100, 'Alamat maksimal 100 karakter'],
     },
     mahasiswa: {
       type: mongoose.Schema.Types.ObjectId,

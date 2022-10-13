@@ -133,13 +133,26 @@ exports.listUser = (req, res) => {
 };
 
 exports.listDataMahasiswa = (req, res) => {
-  Mahasiswa.find({}, function (err, mahasiswa) {
-    var mahasiswaMap = [];
-
-    mahasiswa.forEach(function (mahasiswa) {
-      mahasiswaMap.push(mahasiswa);
+  let statusMap = {};
+  Status.find({}, { name: 1 }, function (err, status) {
+    status.forEach(function (status) {
+      statusMap[status._id] = status.name;
     });
-
-    res.send(mahasiswaMap);
+  }).then(() => {
+    Mahasiswa.find({}, function (err, mahasiswa) {
+      var mahasiswaMap = [];
+      mahasiswa.forEach(function (mahasiswa) {
+        mahasiswaMap.push({
+          _id: mahasiswa._id,
+          name: mahasiswa.name,
+          nim: mahasiswa.nim,
+          angkatan: mahasiswa.angkatan,
+          doswal: mahasiswa.doswal,
+          status: statusMap[mahasiswa.status],
+          user: mahasiswa.user,
+        });
+      });
+      res.send(mahasiswaMap);
+    });
   });
 };

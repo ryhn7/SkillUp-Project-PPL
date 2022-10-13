@@ -51,35 +51,54 @@ exports.signin = (req, res) => {
         });
       }
 
-      // Get mahasiswa name from user.id
-      const mahasiswa = await Mahasiswa.findOne(
-        { user: user._id },
-        (err, mahasiswa) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
+      if (user.roles.name == "mahasiswa") {
+        // Get mahasiswa name from user.id
+        const mahasiswa = await Mahasiswa.findOne(
+          { user: user._id },
+          (err, mahasiswa) => {
+            if (err) {
+              res.status(500).send({ message: err });
+              return;
+            }
+            return mahasiswa;
           }
-          return mahasiswa;
-        }
-      );
+        );
 
-      var token = await new jose.SignJWT({
-        id: user.id,
-        role: user.roles.name,
-        name: mahasiswa.name,
-      })
-        .setProtectedHeader({ alg: "HS256", typ: "JWT" })
-        .setIssuedAt()
-        .setExpirationTime("1h")
-        .sign(new TextEncoder().encode(SECRET));
+        var token = await new jose.SignJWT({
+          id: user.id,
+          role: user.roles.name,
+          name: mahasiswa.name,
+        })
+          .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+          .setIssuedAt()
+          .setExpirationTime("1h")
+          .sign(new TextEncoder().encode(SECRET));
 
-      res.status(200).send({
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        roles: user.roles.name,
-        accessToken: token,
-      });
+        res.status(200).send({
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          roles: user.roles.name,
+          accessToken: token,
+        });
+      } else {
+        var token = await new jose.SignJWT({
+          id: user.id,
+          role: user.roles.name,
+        })
+          .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+          .setIssuedAt()
+          .setExpirationTime("1h")
+          .sign(new TextEncoder().encode(SECRET));
+
+        res.status(200).send({
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          roles: user.roles.name,
+          accessToken: token,
+        });
+      }
     });
 };
 

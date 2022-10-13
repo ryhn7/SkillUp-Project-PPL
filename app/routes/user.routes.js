@@ -52,7 +52,7 @@ module.exports = function (app) {
 
   app.get(
     "/list-mahasiswa",
-    [authJwt.verifyToken, authJwt.isAdmin || authJwt.isDepartemen],
+    [authJwt.verifyToken, authJwt.isMaster],
     controller.listDataMahasiswa
   );
 };

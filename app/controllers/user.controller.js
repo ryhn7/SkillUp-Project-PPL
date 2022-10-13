@@ -134,6 +134,11 @@ exports.listUser = (req, res) => {
 };
 
 exports.listDataMahasiswa = (req, res) => {
+
+  //get all mahasiswa with status.name from status collection
+
+
+
   Mahasiswa.find({}, function (err, mahasiswa) {
     var mahasiswaMap = [];
 

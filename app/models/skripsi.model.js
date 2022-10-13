@@ -9,9 +9,9 @@ const Skripsi = mongoose.model(
             required : [true, "status wajib di isi"],
             maxlength: [15, "status maksimal 15 karakter"],
         },
-        nilai : {
+        nilai : { 
             type : String,
-            required: [true, 'nilai wajib di isi'],
+            required: [true, 'nilai wajib di isi'], 
             maxlength : [1,"max length 1"]
         },
         tanggal : {
@@ -26,10 +26,10 @@ const Skripsi = mongoose.model(
             type : String,
             required: [true, "status konfirmasi harus di isi"],
         },
-        upload_skripsi : {
+        file : {
             // belum tipe data varbinary sementara string 
             type : String,
-            // required: [false, "upload skripsi harus di isi"],
+            required: [true, "upload skripsi harus di isi"],
         },
         mahasiswa: { 
             type : mongoose.Schema.Types.ObjectId,

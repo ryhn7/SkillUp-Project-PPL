@@ -11,13 +11,27 @@ module.exports = function (app) {
     next();
   });
 
-  app.post(
+  app.post( 
     "/skripsi/submit",
+    // midleware jwt
     [
       authJwt.verifyToken,
       authJwt.isMahasiswa,
       authJwt.getMahasiswaId
     ],
+    // controller
+    controller.submitSkripsi
+  );
+
+  app.get( 
+    "/skripsi/file",
+    // midleware jwt
+    [
+      authJwt.verifyToken,
+      authJwt.isMahasiswa,
+      authJwt.getMahasiswaId
+    ],
+    // controller
     controller.submitSkripsi
   );
 

@@ -153,7 +153,7 @@ getMahasiswaId = (req, res, next) => {
       res.status(500).send({ message: err });
       return;
     }
-    req.mahasiswaId = mahasiswa._id;
+    req.mahasiswaId = Mahasiswa._id;
     next();
   });
 };

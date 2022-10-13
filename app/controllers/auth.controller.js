@@ -1,6 +1,8 @@
 const SECRET = process.env.SECRET;
 const db = require("../models");
 const User = db.user;
+const Mahasiswa = db.mahasiswa;
+
 //session
 
 var bcrypt = require("bcryptjs");
@@ -49,11 +51,23 @@ exports.signin = (req, res) => {
         });
       }
 
-      // var token = jwt.sign({ id: user.id }, SECRET, {
-      //   expiresIn: 3600, // 1hours
-      // });
+      // Get mahasiswa name from user.id
+      const mahasiswa = await Mahasiswa.findOne(
+        { user: user._id },
+        (err, mahasiswa) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+          return mahasiswa;
+        }
+      );
 
-      var token = await new jose.SignJWT({ id: user.id, role: user.roles.name })
+      var token = await new jose.SignJWT({
+        id: user.id,
+        role: user.roles.name,
+        name: mahasiswa.name,
+      })
         .setProtectedHeader({ alg: "HS256", typ: "JWT" })
         .setIssuedAt()
         .setExpirationTime("1h")

@@ -48,7 +48,7 @@ const Mahasiswa = mongoose.model(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-  }, { timestamps: true })
+  })
 );
 
 module.exports = Mahasiswa;

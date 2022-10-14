@@ -31,6 +31,8 @@ const fileStorage = multer.diskStorage({
       cb(null, "uploads/skripsi");
     } else if (urlSplitSecondLast === "khs") {
       cb(null, "uploads/khs");
+    } else if (urlSplitSecondLast === "pkl") {
+      cb(null, "uploads/pkl");
     }
 
     // cb(null, "uploads");
@@ -107,12 +109,16 @@ app.get("/", (req, res) => {
 });
 
 // routes
+//req pkl
+require("./app/routes/profil.routes")(app);
+require("./app/routes/pkl.routes")(app);
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/provinsi.routes")(app);
 require("./app/routes/kabupaten.routes")(app);
 require("./app/routes/irs.routes")(app);
-
+require("./app/routes/khs.routes")(app);
+require("./app/routes/skripsi.routes")(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

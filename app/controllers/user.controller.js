@@ -39,7 +39,7 @@ exports.signup = (req, res) => {
     email: req.body.email,
     nim: req.body.nim,
     angkatan: req.body.angkatan,
-    doswal: req.body.doswal,
+    kodeWali: req.body.kodeWali,
   });
 
   user.save((err, user) => {
@@ -111,8 +111,8 @@ exports.signup = (req, res) => {
                   });
                 }
               );
+              res.send({ message: "User was registered successfully!" });
             }
-            res.send({ message: "User was registered successfully!" });
           });
         });
       });

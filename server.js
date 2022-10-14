@@ -13,7 +13,6 @@ const app = express();
 const session = require("express-session");
 
 const fileStorage = multer.diskStorage({
-<<<<<<< HEAD
     destination: (req, file, cb) => {
         const url = req.url;
         const urlSplit = url.split("/");
@@ -46,60 +45,6 @@ const fileFilter = (req, file, cb) => {
     } else {
         cb(null, false);
     }
-=======
-  destination: (req, file, cb) => {
-    // Get url from request
-    const url = req.url;
-    // Get the second last part of url
-    const urlSplit = url.split("/");
-    const urlSplitLength = urlSplit.length;
-    const urlSplitSecondLast = urlSplit[urlSplitLength - 2];
-
-    // Check if url is for irs
-    if (urlSplitSecondLast === "irs") {
-      cb(null, "uploads/irs");
-    } else if (urlSplitSecondLast === "khs") {
-      cb(null, "uploads/khs");
-    } else if (urlSplitSecondLast === "skripsi") {
-      cb(null, "uploads/skripsi");
-    }
-
-    // cb(null, "uploads");
-
-    // //if file is irs upload in irs folder
-    // if (file.fieldname === "irs") {
-    //   cb(null, "uploads/irs");
-    // }
-    // //if file is krs upload in krs folder
-    // if (file.fieldname === "krs") {
-    //   cb(null, "uploads/krs");
-    // }
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().getTime() + "-" + file.originalname);
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg" ||
-    file.mimetype === "application/pdf"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-//use multer
-app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("file")
-);
-
-var corsOptions = {
-  origin: "http://localhost:3000",
->>>>>>> b991091996472e0a4829a14ee6dc4ab1ec586373
 };
 
 app.use(
@@ -274,106 +219,5 @@ function initial() {
                 console.log("added 'Meninggal Dunia' to status collection");
             });
         }
-<<<<<<< HEAD
     });
-=======
-
-        console.log("added 'admin' to roles collection");
-      });
-
-      new Role({
-        name: "dosen",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);  
-        }
-
-        console.log("added 'dosen' to roles collection");
-      });
-
-      new Role({
-        name: "departemen",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'departemen' to roles collection");
-      });
-    }
-  });
-  Status.estimatedDocumentCount((err, count) => {
-    if (!err && count === 0) {
-      new Status({
-        name: "aktif",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'Aktif' to status collection");
-      });
-
-      new Status({
-        name: "cuti",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'Cuti' to status collection");
-      });
-
-      new Status({
-        name: "mangkir",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'Mangkir' to status collection");
-      });
-
-      new Status({
-        name: "do",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'DO' to status collection");
-      });
-
-      new Status({
-        name: "undur diri",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'Undur Diri' to status collection");
-      });
-
-      new Status({
-        name: "lulus",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'Lulus' to status collection");
-      });
-
-      new Status({
-        name: "meninggal dunia",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'Meninggal Dunia' to status collection");
-      });
-    }
-  });
->>>>>>> b991091996472e0a4829a14ee6dc4ab1ec586373
 }

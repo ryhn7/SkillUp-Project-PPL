@@ -15,13 +15,13 @@ db.irs = require("./irs.model");
 
 db.ROLES = ["admin", "dosen", "mahasiswa", "departemen"];
 db.STATUS = [
-  "aktif",
-  "cuti",
-  "mangkir",
-  "do",
-  "undur diri",
-  "lulus",
-  "meninggal dunia",
+  "Aktif",
+  "Cuti",
+  "Mangkir",
+  "Drop Out",
+  "Mengundurkan Diri",
+  "Lulus",
+  "Meninggal Dunia",
 ];
 
 module.exports = db;

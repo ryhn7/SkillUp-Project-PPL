@@ -121,7 +121,7 @@ exports.signup = (req, res) => {
 };
 
 exports.listUser = (req, res) => {
-  User.find({}, { password: 0 }, function (err, users) {
+  User.find({}, { password: 0 }).populate('roles', 'name').exec(function(err, users){
     var userMap = [];
 
     users.forEach(function (user) {
@@ -133,12 +133,7 @@ exports.listUser = (req, res) => {
 };
 
 exports.listDataMahasiswa = (req, res) => {
-
-  //get all mahasiswa with status.name from status collection
-
-
-
-  Mahasiswa.find({}, function (err, mahasiswa) {
+  Mahasiswa.find({}).populate('status', 'name').exec(function(err, mahasiswa){
     var mahasiswaMap = [];
 
     mahasiswa.forEach(function (mahasiswa) {

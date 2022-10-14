@@ -38,8 +38,7 @@ const Mahasiswa = mongoose.model(
       ref: "Dosen",
     },
     kodeKab: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Kabupaten",
+      type: String,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

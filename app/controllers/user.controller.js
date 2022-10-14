@@ -71,6 +71,7 @@ exports.signup = (req, res) => {
         }
       );
     } else {
+      //if roles is empty then assign mahasiswa role and make mahasiswa
       Role.findOne({ name: "mahasiswa" }, (err, role) => {
         if (err) {
           res.status(500).send({ message: err });
@@ -78,42 +79,28 @@ exports.signup = (req, res) => {
         }
 
         user.roles = [role._id];
-
         user.save((err) => {
           if (err) {
             res.status(500).send({ message: err });
             return;
           }
 
-          //make new mahasiswa
-          mahasiswa.save((err, user) => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
-            if (req.body.status) {
-              Status.find(
-                {
-                  name: { $in: req.body.status },
-                },
-                (err, status) => {
-                  if (err) {
-                    res.status(500).send({ message: err });
-                    return;
-                  }
-
-                  mahasiswa.status = status.map((status) => status._id);
-                  mahasiswa.save((err) => {
-                    if (err) {
-                      res.status(500).send({ message: err });
-                      return;
-                    }
-                  });
+          if (req.body.status) {
+            Status.findOne({ name: req.body.status }, (err, status) => {
+              if (err) {
+                res.status(500).send({ message: err });
+                return;
+              }
+              mahasiswa.status = status._id;
+              mahasiswa.save((err) => {
+                if (err) {
+                  res.status(500).send({ message: err });
+                  return;
                 }
-              );
-              res.send({ message: "User was registered successfully!" });
-            }
-          });
+                res.send({ message: "User was registered successfully!" });
+              });
+            });
+          }
         });
       });
     }

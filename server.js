@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+// akan masuk otomatis ke index.js
 const db = require("./app/models");
-const multer = require('multer')
+const multer = require("multer");
 const Role = db.role;
 const Status = db.status;
 //get mongourl from .env
@@ -11,6 +12,7 @@ const SECRET = process.env.SECRET;
 
 const app = express();
 const session = require("express-session");
+
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -115,6 +117,8 @@ require("./app/routes/profil.routes")(app);
 require("./app/routes/pkl.routes")(app);
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
+// routes dari skripsi
+require("./app/routes/skripsi.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

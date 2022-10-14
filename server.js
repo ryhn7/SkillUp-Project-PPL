@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const db = require("./app/models");
-const multer = require("multer");
+const multer = require('multer')
 const Role = db.role;
 const Status = db.status;
 //get mongourl from .env
@@ -68,6 +68,7 @@ app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("file")
 );
 
+
 var corsOptions = {
   origin: "http://localhost:3000",
 };
@@ -114,11 +115,7 @@ require("./app/routes/profil.routes")(app);
 require("./app/routes/pkl.routes")(app);
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
-require("./app/routes/provinsi.routes")(app);
-require("./app/routes/kabupaten.routes")(app);
-require("./app/routes/irs.routes")(app);
-require("./app/routes/khs.routes")(app);
-require("./app/routes/skripsi.routes")(app);
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

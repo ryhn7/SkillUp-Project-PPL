@@ -5,7 +5,6 @@ const User = db.user;
 const Role = db.role;
 const Mahasiswa = db.mahasiswa;
 
-//get mahasiswa id
 getMahasiswaId = (req, res, next) => {
   Mahasiswa.findOne({
     user: req.userId,
@@ -14,7 +13,7 @@ getMahasiswaId = (req, res, next) => {
       res.status(500).send({ message: err });
       return;
     }
-    req.mahasiswaId = mahasiswa._id;
+    req.mahasiswaId = Mahasiswa._id;
     next();
   });
 };
@@ -196,7 +195,5 @@ const authJwt = {
   isDosen,
   isDepartemen,
   isMahasiswa,
-  getMahasiswaId,
-  isMaster,
 };
 module.exports = authJwt;

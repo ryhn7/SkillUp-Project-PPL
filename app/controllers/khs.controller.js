@@ -1,7 +1,9 @@
+const { getMahasiswaId } = require("../middlewares/authJwt");
+const { khs } = require("../models");
 const db = require("../models");
 const Khs = db.khs;
 
-exports.submitKHS = (req, res) => {
+const submitKHS = (req, res) => {
     const khs = new Khs({
         semester_aktif: req.body.semester_aktif,
         sks: req.body.sks,
@@ -52,4 +54,32 @@ exports.submitKHS = (req, res) => {
             }
         }
     );
+};
+
+const getKHS = (req, res) => {
+    Khs.find({ mahasiswa: req.mahasiswaId }, (err, khs_mahasiswa) => {
+        if (err) {
+            res.status(500).send({ message: err });
+        } else {
+            const list_obj = [];
+            khs_mahasiswa.forEach((khs) => {
+                const newObj = {
+                    semester_aktif: khs.semester_aktif,
+                    sks: khs.sks,
+                    sks_kumulatif: khs.sks_kumulatif,
+                    ip: khs.ip,
+                    ip_kumulatif: khs.ip_kumulatif,
+                    status_konfirmasi: khs.status_konfirmasi,
+                    file: khs.file,
+                };
+                list_obj.push(newObj);
+            });
+            res.status(200).send(list_obj);
+        }
+    });
+};
+
+module.exports = {
+    submitKHS,
+    getKHS,
 };

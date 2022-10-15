@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 const Skripsi = mongoose.model(
   "Skripsi",
   new mongoose.Schema({
+    status: {
+      type: String,
+      required: [true, "status wajib di isi"],
+      maxlength: [15, "status maksimal 15 karakter"],
+    },
     nilai: {
       type: String,
       required: [true, "nilai wajib di isi"],

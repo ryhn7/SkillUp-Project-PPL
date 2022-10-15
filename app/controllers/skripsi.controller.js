@@ -2,7 +2,6 @@ const db = require("../models");
 const Skripsi = db.skripsi;
 
 exports.submitSkripsi = (req, res) => {
-    console.log(req.body);
     // buat instance skripsi
     const skripsi = new Skripsi({
         status: req.body.status, 
@@ -50,6 +49,8 @@ exports.submitSkripsi = (req, res) => {
             }) 
         }
     })
-    
+}
+
+exports.deleteSkripsi = (req,res) => {
 
 }

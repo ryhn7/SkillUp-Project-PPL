@@ -36,17 +36,6 @@ const fileStorage = multer.diskStorage({
     }else if(urlSplitSecondLast === "pkl"){
       cb(null, "uploads/pkl");
     }
-
-    // cb(null, "uploads");
-
-    // //if file is irs upload in irs folder
-    // if (file.fieldname === "irs") {
-    //   cb(null, "uploads/irs");
-    // }
-    // //if file is krs upload in krs folder
-    // if (file.fieldname === "krs") {
-    //   cb(null, "uploads/krs");
-    // }
   },
   filename: (req, file, cb) => {
     cb(null, new Date().getTime() + "-" + file.originalname);

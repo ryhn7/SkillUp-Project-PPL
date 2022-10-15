@@ -13,11 +13,43 @@ exports.submitKHS = (req, res) => {
         mahasiswa: req.mahasiswaId,
     });
 
-    khs.save((err, khs) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
+    Khs.countDocuments(
+        {
+            mahasiswa: khs.mahasiswa,
+            semester_aktif: khs.semester_aktif,
+        },
+        function (err, count) {
+            if (count === 0) {
+                khs.save((err, khs) => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+                    res.send({ message: "KHS was uploaded successfully!" });
+                });
+            } else {
+                Khs.findOneAndUpdate(
+                    {
+                        mahasiswa: khs.mahasiswa,
+                        semester_aktif: khs.semester_aktif,
+                    },
+                    {
+                        sks: khs.sks,
+                        sks_kumulatif: khs.sks_kumulatif,
+                        ip: khs.ip,
+                        ip_kumulatif: khs.ip_kumulatif,
+                        status_konfirmasi: khs.status_konfirmasi,
+                        file: khs.file,
+                    },
+                    function (err, data) {
+                        if (err) {
+                            res.status(500).send({ message: err });
+                            return;
+                        }
+                        res.send({ message: "KHS was updated successfully!" });
+                    }
+                );
+            }
         }
-        res.send({ message: "KHS was uploaded successfully!" });
-    });
+    );
 };

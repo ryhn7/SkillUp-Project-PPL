@@ -15,4 +15,7 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
     controller.submitKHS
   );
+
+  
+
 };

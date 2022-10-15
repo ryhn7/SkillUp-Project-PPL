@@ -29,7 +29,7 @@ const Skripsi = mongoose.model(
         file : {
             // belum tipe data varbinary sementara string 
             type : String,
-            required: [true, "upload skripsi harus di isi"],
+            // required: [true, "upload skripsi harus di isi"],
         },
         mahasiswa: { 
             type : mongoose.Schema.Types.ObjectId,

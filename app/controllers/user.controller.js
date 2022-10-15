@@ -40,6 +40,7 @@ exports.signup = (req, res) => {
     nim: req.body.nim,
     user: user._id,
     angkatan: req.body.angkatan,
+    kodeWali: req.body.kodeWali,
   });
   
   const skripsi = new Skripsi({
@@ -80,6 +81,7 @@ exports.signup = (req, res) => {
         }
       );
     } else {
+      //if roles is empty then assign mahasiswa role and make mahasiswa
       Role.findOne({ name: "mahasiswa" }, (err, role) => {
         if (err) {
           res.status(500).send({ message: err });
@@ -87,42 +89,28 @@ exports.signup = (req, res) => {
         }
 
         user.roles = [role._id];
-
         user.save((err) => {
           if (err) {
             res.status(500).send({ message: err });
             return;
           }
 
-          //make new mahasiswa
-          mahasiswa.save((err, user) => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
-            if (req.body.status) {
-              Status.find(
-                {
-                  name: { $in: req.body.status },
-                },
-                (err, status) => {
-                  if (err) {
-                    res.status(500).send({ message: err });
-                    return;
-                  }
-
-                  mahasiswa.status = status.map((status) => status._id);
-                  mahasiswa.save((err) => {
-                    if (err) {
-                      res.status(500).send({ message: err });
-                      return;
-                    }
-                  });
+          if (req.body.status) {
+            Status.findOne({ name: req.body.status }, (err, status) => {
+              if (err) {
+                res.status(500).send({ message: err });
+                return;
+              }
+              mahasiswa.status = status._id;
+              mahasiswa.save((err) => {
+                if (err) {
+                  res.status(500).send({ message: err });
+                  return;
                 }
-              );
-            }
-            res.send({ message: "User was registered successfully!" });
-          });
+                res.send({ message: "User was registered successfully!" });
+              });
+            });
+          }
         });
       });
     }
@@ -130,29 +118,25 @@ exports.signup = (req, res) => {
 };
 
 exports.listUser = (req, res) => {
-
-  User.find({}, function (err, users) {
-    var userMap = {};
+  User.find({}, { password: 0 }).populate('roles', 'name').exec(function(err, users){
+    var userMap = [];
 
     users.forEach(function (user) {
-      userMap[user._id] = user;
+      userMap.push(user);
     });
 
     res.send(userMap);
   });
+};
 
+exports.listDataMahasiswa = (req, res) => {
+  Mahasiswa.find({}).populate('status', 'name').exec(function(err, mahasiswa){
+    var mahasiswaMap = [];
 
+    mahasiswa.forEach(function (mahasiswa) {
+      mahasiswaMap.push(mahasiswa);
+    });
 
-
-
-  //   User.find()
-  //     .populate("roles", "-__v")
-  //     .exec((err, users) => {
-  //       if (err) {
-  //         res.status(500).send({ message: err });
-  //         return;
-  //       }
-
-  //       res.status(200).send(users);
-  //     });
+    res.send(mahasiswaMap);
+  });
 };

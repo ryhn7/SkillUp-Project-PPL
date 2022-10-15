@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const multer = require("multer");
 require("dotenv").config();
 // akan masuk otomatis ke index.js
 const db = require("./app/models");
+const multer = require("multer");
 const Role = db.role;
 const Status = db.status;
 //get mongourl from .env
@@ -13,28 +13,21 @@ const SECRET = process.env.SECRET;
 const app = express();
 const session = require("express-session");
 
-
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    // Get url from request
     const url = req.url;
-    // Get the second last part of url
     const urlSplit = url.split("/");
-    const urlSplitLength = urlSplit.length;
-    const urlSplitSecondLast = urlSplit[urlSplitLength - 2];
+    const jenisFolder = urlSplit[urlSplit.length - 2];
 
-    // Check if url is for irs
-    if (urlSplitSecondLast === "irs") {
+    // cek jenis folder
+    if (jenisFolder === "irs") {
       cb(null, "uploads/irs");
-    }
-
-    // Check if url is for skripsi
-    else if (urlSplitSecondLast === "skripsi") {
-      cb(null, "uploads/skripsi");
-    } else if (urlSplitSecondLast === "khs") {
+    } else if (jenisFolder === "khs") {
       cb(null, "uploads/khs");
-    }else if(urlSplitSecondLast === "pkl"){
+    } else if (jenisFolder === "pkl") {
       cb(null, "uploads/pkl");
+    } else if (jenisFolder === "skripsi") {
+      cb(null, "uploads/skripsi");
     }
   },
   filename: (req, file, cb) => {
@@ -54,7 +47,7 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
-//use multer
+
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("file")
 );
@@ -65,7 +58,7 @@ var corsOptions = {
 
 app.use(
   session({
-    secret: SECRET, 
+    secret: SECRET,
     resave: false,
     saveUninitialized: true,
   })
@@ -100,9 +93,12 @@ app.get("/", (req, res) => {
 });
 
 // routes
+//req pkl
+require("./app/routes/profil.routes")(app);
+require("./app/routes/pkl.routes")(app);
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
-// routes dari skripsi
+require("./app/routes/khs.routes")(app);
 require("./app/routes/skripsi.routes")(app);
 
 // set port, listen for requests
@@ -138,7 +134,7 @@ function initial() {
         name: "dosen",
       }).save((err) => {
         if (err) {
-          console.log("error", err);  
+          console.log("error", err);
         }
 
         console.log("added 'dosen' to roles collection");
@@ -227,5 +223,7 @@ function initial() {
         console.log("added 'Meninggal Dunia' to status collection");
       });
     }
+    console.log("added 'admin' to roles collection");
   });
-}
+};
+

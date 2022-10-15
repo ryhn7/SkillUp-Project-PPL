@@ -49,4 +49,10 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.listUser
   );
+
+  app.get(
+    "/list-mahasiswa",
+    [authJwt.verifyToken, authJwt.isMaster],
+    controller.listDataMahasiswa
+  );
 };

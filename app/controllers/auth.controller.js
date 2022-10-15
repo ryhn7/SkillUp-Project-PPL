@@ -67,7 +67,7 @@ exports.signin = (req, res) => {
         var token = await new jose.SignJWT({
           id: user.id,
           role: user.roles.name,
-          name: mahasiswa.name,
+          name: mahasiswa.name, 
         })
           .setProtectedHeader({ alg: "HS256", typ: "JWT" })
           .setIssuedAt()

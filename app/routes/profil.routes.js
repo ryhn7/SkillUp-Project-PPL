@@ -11,7 +11,7 @@ module.exports = function (app) {
   });
 
   app.get(
-    "/profil",
+    "/profil", 
     [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
     controller.getProfil
   );
@@ -20,5 +20,5 @@ module.exports = function (app) {
     "/profil",
     [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
     controller.updateProfil
-  );
+  ); 
 };

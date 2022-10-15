@@ -18,7 +18,7 @@ const Skripsi = mongoose.model(
             type : Date,
             required: [true, "tanggal harus di isi"],
         },
-        lama_studi : {
+        semester : {
             type : Number,
             required: [true, "lama studi harus di isi"],
         },

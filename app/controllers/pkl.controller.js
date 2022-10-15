@@ -1,4 +1,4 @@
-const { mahasiswa } = require('../models');
+const { mahasiswa, pkl } = require('../models');
 const db = require('../models');
 const { findByIdAndUpdate } = require('../models/user.model');
 const pklRoutes = require('../routes/pkl.routes');
@@ -41,4 +41,20 @@ exports.submitPKL = (req, res) => {
         }
     });
 
+}
+
+exports.getPKL = (req, res) => {
+    PKL.findOne({mahasiswa: req.mahasiswaId}, (err, data) => {
+        if(err){
+            res.status(500).send({ message: err });
+            return
+        }
+        res.status(200).send({
+            status: data.status,
+            nilai: data.nilai,
+            semester: data.semester,
+            status_konfirmasi: data.status_konfirmasi,
+            file: data.upload_pkl,
+        })
+    })
 }

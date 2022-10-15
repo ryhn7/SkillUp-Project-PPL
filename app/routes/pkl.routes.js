@@ -16,4 +16,10 @@ module.exports = function (app) {
         [authJwt.verifyToken, authJwt.getMahasiswaId, authJwt.isMahasiswa],
         controller.submitPKL
     )
+
+    app.get(
+        "/pkl",
+        [authJwt.verifyToken, authJwt.getMahasiswaId, authJwt.isMahasiswa],
+        controller.getPKL
+    )
 }

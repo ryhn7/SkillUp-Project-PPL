@@ -21,4 +21,10 @@ module.exports = function (app) {
         [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
         controller.getKHS
     );
+
+    app.get(
+        "/all-khs",
+        [authJwt.verifyToken, authJwt.isDepartemen],
+        controller.getAllIP
+    );
 };

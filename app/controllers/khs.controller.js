@@ -57,12 +57,12 @@ const submitKHS = (req, res) => {
 };
 
 const getKHS = (req, res) => {
-    Khs.find({ mahasiswa: req.mahasiswaId }, (err, khs_mahasiswa) => {
+    Khs.find({ mahasiswa: req.mahasiswaId }, (err, data) => {
         if (err) {
             res.status(500).send({ message: err });
         } else {
             const list_obj = [];
-            khs_mahasiswa.forEach((khs) => {
+            data.forEach((khs) => {
                 const newObj = {
                     semester_aktif: khs.semester_aktif,
                     sks: khs.sks,
@@ -79,7 +79,18 @@ const getKHS = (req, res) => {
     });
 };
 
+const getAllIP = (req, res) => {
+    Khs.find({}, (err, data) => {
+        if (err) {
+            res.status(500).send({ message: err });
+        } else {
+            res.status(200).send(data);
+        }
+    });
+};
+
 module.exports = {
     submitKHS,
     getKHS,
+    getAllIP,
 };

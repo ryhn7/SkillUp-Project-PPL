@@ -22,4 +22,10 @@ module.exports = function (app) {
         [authJwt.verifyToken, authJwt.getMahasiswaId, authJwt.isMahasiswa],
         controller.getPKL
     )
+
+    app.get(
+        "/all-pkl",
+        [authJwt.verifyToken,  authJwt.isDepartemen],
+        controller.getRekapPKL
+    )
 }

@@ -19,15 +19,6 @@ exports.signin = (req, res) => {
                 return;
             }
 
-            var token = await new jose.SignJWT({
-                id: user.id,
-                role: user.roles.name,
-                name: mahasiswa.name,
-            })
-                .setProtectedHeader({ alg: "HS256", typ: "JWT" })
-                .setIssuedAt()
-                .setExpirationTime("1h")
-                .sign(new TextEncoder().encode(SECRET));
             if (!user) {
                 return res.status(404).send({ message: "User Not found." });
             }

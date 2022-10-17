@@ -4,6 +4,7 @@ const Role = db.role;
 const Mahasiswa = db.mahasiswa;
 const Status = db.status;
 const Skripsi = db.skripsi;
+const Dosen = db.dosen;
 
 var bcrypt = require("bcryptjs");
 
@@ -138,5 +139,76 @@ exports.listDataMahasiswa = (req, res) => {
     });
 
     res.send(mahasiswaMap);
+  });
+};
+
+exports.signUpDosen = (req, res) => {
+  const user = new User({
+    username: req.body.nip,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.name.toLowerCase().split(" ")[0], 8),
+  });
+
+  const dosen = new Dosen({
+    name: req.body.name,
+    email: req.body.email,
+    nip: req.body.nip,
+    user: user._id,
+    kodeWali: req.body.kodeWali,
+  });
+
+
+  user.save((err, user) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+
+    if (req.body.roles) {
+      Role.find(
+        {
+          name: { $in: req.body.roles },
+        },
+        (err, roles) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+
+          user.roles = roles.map((role) => role._id);
+          user.save((err) => {
+            if (err) {
+              res.status(500).send({ message: err });
+              return;
+            }
+
+            res.send({ message: "Dosen was registered successfully!" });
+          });
+        }
+      );
+    } else {
+      //if roles is empty then assign mahasiswa role and make mahasiswa
+      Role.findOne({ name: "dosen" }, (err, role) => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+
+        user.roles = [role._id];
+        user.save((err) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+          dosen.save((err) => {
+            if (err) {
+              res.status(500).send({ message: err });
+              return;
+            }
+            res.send({ message: "Dosen was registered successfully!" });
+          });
+        });
+      });
+    }
   });
 };

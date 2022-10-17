@@ -15,6 +15,7 @@ db.irs = require("./irs.model");
 db.pkl = require("./pkl.model");
 db.khs = require("./khs.model");
 db.skripsi = require("./skripsi.model");
+db.dosen = require("./dosen.model");
 
 
 db.ROLES = ["admin", "dosen", "mahasiswa", "departemen"];

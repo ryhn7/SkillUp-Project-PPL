@@ -55,4 +55,15 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isMaster],
     controller.listDataMahasiswa
   );
+
+  app.post(
+    "/generate-dosen",
+    [
+      verifySignUp.checkDuplicateUsernameOrEmail,
+      verifySignUp.checkRolesExisted,
+      authJwt.verifyToken,
+      authJwt.isAdmin,
+    ],
+    controller.signUpDosen
+  );
 };

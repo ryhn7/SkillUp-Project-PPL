@@ -1,7 +1,8 @@
-const { getMahasiswaId } = require("../middlewares/authJwt");
+const { createRemoteJWKSet } = require("jose");
 const { khs } = require("../models");
 const db = require("../models");
 const Khs = db.khs;
+const Mahasiswa = db.mahasiswa;
 
 const submitKHS = (req, res) => {
     const khs = new Khs({
@@ -57,12 +58,12 @@ const submitKHS = (req, res) => {
 };
 
 const getKHS = (req, res) => {
-    Khs.find({ mahasiswa: req.mahasiswaId }, (err, khs_mahasiswa) => {
+    Khs.find({ mahasiswa: req.mahasiswaId }, (err, data) => {
         if (err) {
             res.status(500).send({ message: err });
         } else {
-            const list_obj = [];
-            khs_mahasiswa.forEach((khs) => {
+            let list_obj = [];
+            data.forEach((khs) => {
                 const newObj = {
                     semester_aktif: khs.semester_aktif,
                     sks: khs.sks,
@@ -79,7 +80,40 @@ const getKHS = (req, res) => {
     });
 };
 
+const getAllKHS = async (req, res) => {
+    let array_mahasiswa = await Mahasiswa.find({});
+    let array_khs = await Khs.find({});
+
+    let result = [];
+    for (let i = 0; i < array_mahasiswa.length; i++) {
+        let khs_mahasiswa = [];
+        for (let j = 0; j < array_khs.length; j++) {
+            
+            // cek tiap khs yang punya nilai mahasiswa == mahasiswa.id 
+            if (array_mahasiswa[i]._id.equals(array_khs[j].mahasiswa)) {
+                let obj_khs = {
+                    semester: array_khs[j].semester_aktif,
+                    ip: array_khs[j].ip,
+                    ipk: array_khs[j].ip_kumulatif,
+                };
+
+                khs_mahasiswa.push(obj_khs);
+            }
+        }
+        let obj_mahasiswa = {
+            nama: array_mahasiswa[i].name,
+            nim: array_mahasiswa[i].nim,
+            khs: khs_mahasiswa,
+        };
+
+        result.push(obj_mahasiswa);
+    }
+
+    res.status(200).send(result);
+};
+
 module.exports = {
     submitKHS,
     getKHS,
+    getAllKHS,
 };

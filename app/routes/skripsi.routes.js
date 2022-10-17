@@ -11,7 +11,7 @@ module.exports = function (app) {
     next();
   });
 
-  app.post( 
+  app.post(  
     "/skripsi/submit",
     // midleware jwt
     [
@@ -24,7 +24,7 @@ module.exports = function (app) {
   );
 
   app.get( 
-    "/skripsi/file",
+    "/skripsi",
     // midleware jwt
     [
       authJwt.verifyToken,
@@ -32,7 +32,7 @@ module.exports = function (app) {
       authJwt.getMahasiswaId
     ],
     // controller
-    controller.submitSkripsi
+    controller.getSkripsi
   );
 
 };

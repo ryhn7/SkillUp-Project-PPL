@@ -25,6 +25,6 @@ module.exports = function (app) {
     app.get(
         "/all-khs",
         [authJwt.verifyToken, authJwt.isDepartemen],
-        controller.getAllIP
+        controller.getAllKHS
     );
 };

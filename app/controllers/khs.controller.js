@@ -1,7 +1,8 @@
-const { getMahasiswaId } = require("../middlewares/authJwt");
+const { createRemoteJWKSet } = require("jose");
 const { khs } = require("../models");
 const db = require("../models");
 const Khs = db.khs;
+const Mahasiswa = db.mahasiswa;
 
 const submitKHS = (req, res) => {
     const khs = new Khs({
@@ -61,7 +62,7 @@ const getKHS = (req, res) => {
         if (err) {
             res.status(500).send({ message: err });
         } else {
-            const list_obj = [];
+            let list_obj = [];
             data.forEach((khs) => {
                 const newObj = {
                     semester_aktif: khs.semester_aktif,
@@ -79,18 +80,38 @@ const getKHS = (req, res) => {
     });
 };
 
-const getAllIP = (req, res) => {
-    Khs.find({}, (err, data) => {
-        if (err) {
-            res.status(500).send({ message: err });
-        } else {
-            res.status(200).send(data);
+const getAllKHS = async (req, res) => {
+    let array_mahasiswa = await Mahasiswa.find({});
+    let array_khs = await Khs.find({});
+
+    let result = [];
+    for (let i = 0; i < array_mahasiswa.length; i++) {
+        let khs_mahasiswa = [];
+        for (let j = 0; j < array_khs.length; j++) {
+            if (array_mahasiswa[i]._id.equals(array_khs[j].mahasiswa)) {
+                let obj_khs = {
+                    semester: array_khs[j].semester_aktif,
+                    ip: array_khs[j].ip,
+                    ipk: array_khs[j].ip_kumulatif,
+                };
+
+                khs_mahasiswa.push(obj_khs);
+            }
         }
-    });
+        let obj_mahasiswa = {
+            nama: array_mahasiswa[i].name,
+            nim: array_mahasiswa[i].nim,
+            khs: khs_mahasiswa,
+        };
+
+        result.push(obj_mahasiswa);
+    }
+
+    res.status(200).send(result);
 };
 
 module.exports = {
     submitKHS,
     getKHS,
-    getAllIP,
+    getAllKHS,
 };

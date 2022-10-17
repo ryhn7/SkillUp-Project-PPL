@@ -66,4 +66,10 @@ module.exports = function (app) {
     ],
     controller.signUpDosen
   );
+
+  app.get(
+    "/list-dosen",
+    [authJwt.verifyToken, authJwt.isMaster],
+    controller.listDosen
+  );
 };

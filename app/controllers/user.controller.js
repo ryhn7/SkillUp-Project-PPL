@@ -212,3 +212,15 @@ exports.signUpDosen = (req, res) => {
     }
   });
 };
+
+exports.listDosen = (req, res) => {
+  Dosen.find({}).populate('roles', 'name').exec(function (err, dosen) {
+    var dosenMap = [];
+
+    dosen.forEach(function (dosen) {
+      dosenMap.push(dosen);
+    });
+
+    res.send(dosenMap);
+  });
+};

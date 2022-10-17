@@ -1,44 +1,69 @@
-const { mahasiswa } = require('../models');
-const db = require('../models');
-const { findByIdAndUpdate } = require('../models/user.model');
-const pklRoutes = require('../routes/pkl.routes');
-const PKL = db.pkl
+const db = require("../models");
+const PKL = db.pkl;
+const fs = require("fs");
 
 exports.submitPKL = (req, res) => {
-    const pkl = new PKL({
-        status: req.body.status,
-        nilai: req.body.nilai,
-        semester: req.body.semester,
-        status_konfirmasi: req.body.status_konfirmasi,
-        file: req.file.path,
-        mahasiswa: req.mahasiswaId
-    })
-    PKL.countDocuments({ mahasiswa: pkl.mahasiswa }, function (err, count) {
-        //console.log('there are %d entry using this account before', count);
-        if (count == 0) {
-            pkl.save((err, pkl) => {
-                if (err) {
-                    res.status(500).send({ message: err });
-                    return
-                }
-                res.send({ message: 'PKL was uploaded successfully!' })
-            })
-        } else {
-            PKL.findOneAndUpdate({ mahasiswa: pkl.mahasiswa }, {
-                status: pkl.status,
-                nilai: pkl.nilai,
-                semester: pkl.semester,
-                status_konfirmasi: pkl.status_konfirmasi,
-                file: pkl.upload_pkl,
-            }, function (err, data){
-                if(err){
-                    res.status(500).send({ message: err });
-                    return
-                }
-                res.send({ message: 'PKL was updated successfully!' })
-            })
-            
-        }
-    });
+  const pkl = new PKL({
+    nilai: req.body.nilai,
+    semester: req.body.semester,
+    status_konfirmasi: req.body.status_konfirmasi,
+    status: req.body.status,
+    file: req.file.path,
+    mahasiswa: req.mahasiswaId,
+  });
 
-}
+  PKL.countDocuments(
+    {
+      mahasiswa: pkl.mahasiswa,
+    },
+    function (err, count) {
+      if (count === 0) {
+        pkl.save((err, pkl) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+          res.send({ message: "PKL was uploaded successfully!" });
+        });
+      } else {
+        //delete pkl file then update pkl
+        PKL.findOne(
+          {
+            mahasiswa: pkl.mahasiswa,
+          },
+          function (err, pkl) {
+            if (err) {
+              res.status(500).send({ message: err });
+              return;
+            }
+            fs.unlink(pkl.file, function (err) {
+              if (err) {
+                res.status(500).send({ message: err });
+                return;
+              }
+              PKL.updateOne(
+                { _id: pkl._id },
+                {
+                  $set: {
+                    file: req.file.path,
+                    nilai: req.body.nilai,
+                    status: req.body.status,
+                    semester: req.body.semester,
+                    status_konfirmasi: req.body.status_konfirmasi,
+                  },
+                },
+                function (err, pkl) {
+                  if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                  }
+                  res.send({ message: "PKL was updated successfully!" });
+                }
+              );
+            });
+          }
+        );
+      }
+    }
+  );
+};

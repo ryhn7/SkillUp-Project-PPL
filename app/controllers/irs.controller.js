@@ -10,7 +10,7 @@ exports.submitIRS = (req, res) => {
     sks: req.body.sks,
     file: req.file.path,
     //get from logged mahasiswa objectid
-    konfirmasi: "Belum",
+    konfirmasi: req.body.konfirmasi,
     mahasiswa: req.mahasiswaId,
   });
   IRS.countDocuments(
@@ -49,6 +49,8 @@ exports.submitIRS = (req, res) => {
                 {
                   $set: {
                     file: req.file.path,
+                    sks: req.body.sks,
+                    konfirmasi: req.body.konfirmasi,
                   },
                 },
                 function (err, irs) {

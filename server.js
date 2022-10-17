@@ -223,6 +223,5 @@ function initial() {
                 console.log("added 'Meninggal Dunia' to status collection");
             });
         }
-        console.log("added 'admin' to roles collection");
     });
 }

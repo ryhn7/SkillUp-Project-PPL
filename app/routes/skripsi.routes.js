@@ -35,4 +35,14 @@ module.exports = function (app) {
     controller.getSkripsi
   );
 
+  app.get(
+    "/all-skripsi",
+    [
+      authJwt.verifyToken,
+      authJwt.isDepartemen
+    ],
+    // controller
+    controller.getRekap
+  )
+
 };

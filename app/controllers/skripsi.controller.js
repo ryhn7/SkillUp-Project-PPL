@@ -3,6 +3,7 @@ const {
     authJwt
 } = require("../middlewares");
 const Skripsi = db.skripsi;
+const Mahasiswa = db.mahasiswa;
 //fs
 const fs = require("fs");
 
@@ -15,7 +16,7 @@ exports.submitSkripsi = (req, res) => {
         semester: req.body.semester,
         status_konfirmasi: req.body.status_konfirmasi,
         file: req.file.path,
-        mahasiswa: req.mahasiswaid
+        mahasiswa: req.mahasiswaId
     });
 
     Skripsi.countDocuments({
@@ -65,7 +66,7 @@ exports.submitSkripsi = (req, res) => {
 }
 
 exports.getSkripsi = (req, res) => {
-    Skripsi.findOne({
+    Skripsi.findOne({   
         mahasiswa:  req.mahasiswaid
     }, (err, skripsi) => {
         if (err) {
@@ -83,4 +84,41 @@ exports.getSkripsi = (req, res) => {
             })
         }
     });
+}
+
+exports.getRekap = async (req,res) => {
+   
+    let result = [];
+
+    const queryMhs = Mahasiswa.find({});
+    const resultMhs = await queryMhs.exec();
+    const querySkr = Skripsi.find();
+    const resultSkr = await querySkr.exec();
+
+    // console.log(resultSkr);
+
+    for(let i=0;i<resultMhs.length;i++){
+        let ck = false;
+        for(let j=0;j<resultSkr.length;j++){
+            if(resultMhs[i]._id.equals(resultSkr[j].mahasiswa)){
+                result.push({
+                    "nama" : resultMhs[i].name,
+                    "nim" : resultMhs[i].nim,
+                    "angkatan" : resultMhs[i].angkatan,
+                    "status" : "sudah"
+                })
+                ck = true;
+                break;
+            }  
+        }
+        if(!ck){
+            result.push({
+                "nama" : resultMhs[i].name,
+                "nim" : resultMhs[i].nim,
+                "angkatan" : resultMhs[i].angkatan,
+                "status" : "belum"
+            })
+        }
+    }
+    res.status(200).send(result);
 }

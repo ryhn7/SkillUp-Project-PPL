@@ -88,6 +88,8 @@ const getAllKHS = async (req, res) => {
     for (let i = 0; i < array_mahasiswa.length; i++) {
         let khs_mahasiswa = [];
         for (let j = 0; j < array_khs.length; j++) {
+            
+            // cek tiap khs yang punya nilai mahasiswa == mahasiswa.id 
             if (array_mahasiswa[i]._id.equals(array_khs[j].mahasiswa)) {
                 let obj_khs = {
                     semester: array_khs[j].semester_aktif,

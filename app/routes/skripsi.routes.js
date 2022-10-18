@@ -1,6 +1,5 @@
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/skripsi.controller");
-const { verifySignUp } = require("../middlewares");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {

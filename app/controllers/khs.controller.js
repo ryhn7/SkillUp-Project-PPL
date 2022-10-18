@@ -31,25 +31,44 @@ const submitKHS = (req, res) => {
                     res.send({ message: "KHS was uploaded successfully!" });
                 });
             } else {
-                Khs.findOneAndUpdate(
+                //delete khs file then update khs
+                Khs.findOne(
                     {
                         mahasiswa: khs.mahasiswa,
                         semester_aktif: khs.semester_aktif,
                     },
-                    {
-                        sks: khs.sks,
-                        sks_kumulatif: khs.sks_kumulatif,
-                        ip: khs.ip,
-                        ip_kumulatif: khs.ip_kumulatif,
-                        status_konfirmasi: khs.status_konfirmasi,
-                        file: khs.file,
-                    },
-                    function (err, data) {
+                    function (err, khs) {
                         if (err) {
                             res.status(500).send({ message: err });
                             return;
                         }
-                        res.send({ message: "KHS was updated successfully!" });
+                        fs.unlink(khs.file, function (err) {
+                            if (err) {
+                                res.status(500).send({ message: err });
+                                return;
+                            }
+                            Khs.updateOne(
+                                { _id: khs._id },
+                                {
+                                    $set: {
+                                        file: req.file.path,
+                                        semester_aktif: req.body.semester_aktif,
+                                        sks: req.body.sks,
+                                        sks_kumulatif: req.body.sks_kumulatif,
+                                        ip: req.body.ip,
+                                        ip_kumulatif: req.body.ip_kumulatif,
+                                        status_konfirmasi: req.body.status_konfirmasi,
+                                    },
+                                },
+                                function (err, khs) {
+                                    if (err) {
+                                        res.status(500).send({ message: err });
+                                        return;
+                                    }
+                                    res.send({ message: "KHS was updated successfully!" });
+                                }
+                            );
+                        });
                     }
                 );
             }
@@ -88,7 +107,7 @@ const getAllKHS = async (req, res) => {
     for (let i = 0; i < array_mahasiswa.length; i++) {
         let khs_mahasiswa = [];
         for (let j = 0; j < array_khs.length; j++) {
-            
+
             // cek tiap khs yang punya nilai mahasiswa == mahasiswa.id 
             if (array_mahasiswa[i]._id.equals(array_khs[j].mahasiswa)) {
                 let obj_khs = {

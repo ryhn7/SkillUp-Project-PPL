@@ -13,3 +13,4 @@ To-do:
 - npm i dotenv -> untuk membaca file ".env"
 - npm i mongoose
 - npm i bcrypt  -> untuk hash password
+- npm i --save csvtojson -> untuk parse csv to json

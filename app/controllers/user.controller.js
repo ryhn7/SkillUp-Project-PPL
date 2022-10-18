@@ -1,10 +1,13 @@
 const db = require("../models");
+const csv = require("csvtojson");
 const User = db.user;
 const Role = db.role;
 const Mahasiswa = db.mahasiswa;
 const Status = db.status;
 const Skripsi = db.skripsi;
 const Dosen = db.dosen;
+const fs = require("fs");
+
 
 var bcrypt = require("bcryptjs");
 
@@ -224,3 +227,93 @@ exports.listDosen = (req, res) => {
     res.send(dosenMap);
   });
 };
+
+// create batch generate user for mahasiswa using csv file
+exports.createBatchUser = (req, res) => {
+
+  // create batch user for mahasiwa from csv file using csvtojson
+  const file = req.file.path;
+  csv()
+    .fromFile(file)
+    .then((jsonObj) => {
+      jsonObj.forEach((data) => {
+        const user = new User({
+          username: data.nim,
+          email: data.email,
+          password: bcrypt.hashSync(data.name.toLowerCase().split(" ")[0], 8),
+        });
+
+        const mahasiswa = new Mahasiswa({
+          name: data.name,
+          nim: data.nim,
+          email: data.email,
+          user: user._id,
+          angkatan: data.angkatan,
+          kodeWali: data.kodeWali,
+        });
+
+        user.save((err, user) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+
+          if (req.body.roles) {
+            Role.find(
+              {
+                name: { $in: req.body.roles },
+              },
+              (err, roles) => {
+                if (err) {
+                  res.status(500).send({ message: err });
+                  return;
+                }
+
+                user.roles = roles.map((role) => role._id);
+                user.save((err) => {
+                  if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                  }
+
+                  res.send({
+                    message: "User was registered successfully!",
+                    // data: user
+                  });
+                });
+              }
+            );
+          } else {
+            //if roles is empty then assign mahasiswa role and make mahasiswa
+            Role.findOne({ name: "mahasiswa" }, (err, role) => {
+              if (err) {
+                res.status(500).send({ message: err });
+                return;
+              }
+
+              user.roles = [role._id];
+              user.save((err) => {
+                if (err) {
+                  res.status(500).send({ message: err });
+                  return;
+                }
+                mahasiswa.save((err) => {
+                  if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                  }
+                  res.send({
+                    message: "User was registered successfully!",
+                    // data: mahasiswa
+                  });
+                });
+              });
+            });
+          };
+        });
+        return;
+      });
+      return;
+    });
+};
+

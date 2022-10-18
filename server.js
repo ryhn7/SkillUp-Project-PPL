@@ -28,6 +28,8 @@ const fileStorage = multer.diskStorage({
             cb(null, "uploads/pkl");
         } else if (jenisFolder === "skripsi") {
             cb(null, "uploads/skripsi");
+        } else if (jenisFolder === "user") {
+            cb(null, "uploads/user");
         }
     },
     filename: (req, file, cb) => {
@@ -40,7 +42,7 @@ const fileFilter = (req, file, cb) => {
         file.mimetype === "image/png" ||
         file.mimetype === "image/jpg" ||
         file.mimetype === "image/jpeg" ||
-        file.mimetype === "application/pdf"
+        file.mimetype === "application/pdf" || file.mimetype === "text/csv" || file.mimetype === "application/vnd.ms-excel" || file.mimetype === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ) {
         cb(null, true);
     } else {

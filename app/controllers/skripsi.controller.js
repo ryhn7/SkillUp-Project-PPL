@@ -66,8 +66,8 @@ exports.submitSkripsi = (req, res) => {
 }
 
 exports.getSkripsi = (req, res) => {
-    Skripsi.findOne({   
-        mahasiswa:  req.mahasiswaid
+    Skripsi.findOne({
+        mahasiswa: req.mahasiswaid
     }, (err, skripsi) => {
         if (err) {
             res.status(500).send({
@@ -77,17 +77,17 @@ exports.getSkripsi = (req, res) => {
         } else {
             console.log(skripsi);
             res.status(200).send({
-                "nilai" : skripsi.nilai,
-                "tanggal" : skripsi.tanggal,
-                "semester" : skripsi.semester,
-                "status_konfirmasi" : skripsi.status_konfirmasi
+                "nilai": skripsi.nilai,
+                "tanggal": skripsi.tanggal,
+                "semester": skripsi.semester,
+                "status_konfirmasi": skripsi.status_konfirmasi
             })
         }
     });
 }
 
-exports.getRekap = async (req,res) => {
-   
+exports.getRekap = async (req, res) => {
+
     let result = [];
 
     const queryMhs = Mahasiswa.find({});
@@ -97,26 +97,26 @@ exports.getRekap = async (req,res) => {
 
     // console.log(resultSkr);
 
-    for(let i=0;i<resultMhs.length;i++){
+    for (let i = 0; i < resultMhs.length; i++) {
         let ck = false;
-        for(let j=0;j<resultSkr.length;j++){
-            if(resultMhs[i]._id.equals(resultSkr[j].mahasiswa)){
+        for (let j = 0; j < resultSkr.length; j++) {
+            if (resultMhs[i]._id.equals(resultSkr[j].mahasiswa)) {
                 result.push({
-                    "nama" : resultMhs[i].name,
-                    "nim" : resultMhs[i].nim,
-                    "angkatan" : resultMhs[i].angkatan,
-                    "status" : "sudah"
+                    "nama": resultMhs[i].name,
+                    "nim": resultMhs[i].nim,
+                    "angkatan": resultMhs[i].angkatan,
+                    "status": "sudah"
                 })
                 ck = true;
                 break;
-            }  
+            }
         }
-        if(!ck){
+        if (!ck) {
             result.push({
-                "nama" : resultMhs[i].name,
-                "nim" : resultMhs[i].nim,
-                "angkatan" : resultMhs[i].angkatan,
-                "status" : "belum"
+                "nama": resultMhs[i].name,
+                "nim": resultMhs[i].nim,
+                "angkatan": resultMhs[i].angkatan,
+                "status": "belum"
             })
         }
     }

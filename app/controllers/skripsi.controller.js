@@ -3,128 +3,163 @@ const Skripsi = db.skripsi;
 const Mahasiswa = db.mahasiswa;
 const fs = require("fs");
 
+// exports.submitSkripsi = (req, res) => {
+//     // buat instance skripsi
+//     const skripsi = new Skripsi({
+//         nilai: req.body.nilai,
+//         tanggal: req.body.tanggal,
+//         lama_studi: req.body.lama_studi,
+//         status_konfirmasi: req.body.status_konfirmasi,
+//         file: req.file.path,
+//         mahasiswa: req.mahasiswaId,
+//         status: req.body.status,
+//     });
+
+//     Skripsi.countDocuments(
+//         {
+//             mahasiswa: skripsi.mahasiswa,
+//         },
+//         function (err, count) {
+//             if (count === 0) {
+//                 skripsi.save((err, skripsi) => {
+//                     if (err) {
+//                         res.status(500).send({ message: err });
+//                         return;
+//                     }
+//                     res.send({ message: "Skripsi was uploaded successfully!" });
+//                 });
+//             } else {
+//                 Skripsi.findOne(
+//                     {
+//                         mahasiswa: skripsi.mahasiswa,
+//                     },
+//                     function (err, skripsi) {
+//                         if (err) {
+//                             res.status(500).send({ message: err });
+//                             return;
+//                         }
+//                         fs.unlink(skripsi.file, function (err) {
+//                             if (err) {
+//                                 res.status(500).send({ message: err });
+//                                 return;
+//                             }
+//                             Skripsi.updateOne(
+//                                 { _id: skripsi._id },
+//                                 {
+//                                     $set: {
+//                                         file: req.file.path,
+//                                         nilai: req.body.nilai,
+//                                         status: req.body.status,
+//                                         status_konfirmasi: req.body.status_konfirmasi,
+//                                         lama_studi: req.body.lama_studi,
+//                                         tanggal: req.body.tanggal,
+//                                     },
+//                                 },
+//                                 function (err, skripsi) {
+//                                     if (err) {
+//                                         res.status(500).send({ message: err });
+//                                         return;
+//                                     }
+//                                     res.send({ message: "Skripsi was updated successfully!" });
+//                                 }
+//                             );
+//                         });
+//                     }
+//                 );
+//             }
+//         }
+//     );
+// };
+
 exports.submitSkripsi = (req, res) => {
-  let dataSkripsi = {
-    nilai: req.body.nilai,
-    semester: req.body.semester,
-    status_konfirmasi: "belum",
-    mahasiswa: req.mahasiswaId,
-    tanggal: req.body.tanggal,
-  };
+    // buat instance skripsi
+    const skripsi = new Skripsi({
+        status: req.body.status,
+        nilai: req.body.nilai,
+        tanggal: req.body.tanggal,
+        semester: req.body.semester,
+        status_konfirmasi: req.body.status_konfirmasi,
+        file: req.file.path,
+        mahasiswa: req.mahasiswaId
+        status: req.body.status,
+    });
 
-  if (req.file) {
-    dataSkripsi.file = req.file.path;
-  }
-
-  const skripsi = new Skripsi(dataSkripsi);
-
-  Skripsi.countDocuments(
-    {
-      mahasiswa: skripsi.mahasiswa,
-    },
-    function (err, count) {
-      if (count === 0) {
-        skripsi.save((err, skripsi) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-          res.send({ message: "Skripsi was uploaded successfully!" });
-        });
-      } else {
-        Skripsi.findOne(
-          {
+    Skripsi.countDocuments(
+        {
             mahasiswa: skripsi.mahasiswa,
-          },
-          function (err, skripsi) {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
-
-            // If there is new file, update the file
-            if (req.file) {
-              fs.unlink(skripsi.file, function (err) {
-                if (err) {
-                  res.status(500).send({ message: err });
-                  return;
-                }
-                Skripsi.updateOne(
-                  { _id: skripsi._id },
-                  {
-                    $set: {
-                      file: req.file.path,
-                      nilai: req.body.nilai,
-                      semester: req.body.semester,
-                      tanggal: req.body.tanggal,
-                    },
-                  },
-                  function (err, skripsi) {
+        },
+        function (err, count) {
+            if (count === 0) {
+                skripsi.save((err, skripsi) => {
                     if (err) {
-                      res.status(500).send({ message: err });
-                      return;
+                        res.status(500).send({ message: err });
+                        return;
                     }
-                    res.send({ message: "Skripsi was updated successfully!" });
-                  }
+                    res.send({ message: "Skripsi was uploaded successfully!" });
+                });
+            } else {
+                Skripsi.findOne(
+                    {
+                        mahasiswa: skripsi.mahasiswa,
+                    },
+                    function (err, skripsi) {
+                        if (err) {
+                            res.status(500).send({ message: err });
+                            return;
+                        }
+                        fs.unlink(skripsi.file, function (err) {
+                            if (err) {
+                                res.status(500).send({ message: err });
+                                return;
+                            }
+                            Skripsi.updateOne(
+                                { _id: skripsi._id },
+                                {
+                                    $set: {
+                                        file: req.file.path,
+                                        nilai: req.body.nilai,
+                                        status: req.body.status,
+                                        status_konfirmasi: req.body.status_konfirmasi,
+                                        lama_studi: req.body.lama_studi,
+                                        tanggal: req.body.tanggal,
+                                    },
+                                },
+                                function (err, skripsi) {
+                                    if (err) {
+                                        res.status(500).send({ message: err });
+                                        return;
+                                    }
+                                    res.send({ message: "Skripsi was updated successfully!" });
+                                }
+                            );
+                        });
+                    }
                 );
-              });
             }
-
-            // If there is no new file, update the data without file
-            else {
-              Skripsi.updateOne(
-                { _id: skripsi._id },
-                {
-                  $set: {
-                    nilai: req.body.nilai,
-                    semester: req.body.semester,
-                    tanggal: req.body.tanggal,
-                  },
-                },
-                function (err, skripsi) {
-                  if (err) {
-                    res.status(500).send({ message: err });
-                    return;
-                  }
-                  res.send({ message: "Skripsi was updated successfully!" });
-                }
-              );
-            }
-          }
-        );
-      }
-    }
-  );
+        }
+    );
 };
 
 exports.getSkripsi = (req, res) => {
-  Skripsi.findOne({ mahasiswa: req.mahasiswaId }, (err, skripsi) => {
-    if (err) {
-      res.status(500).send({
-        message: err,
-      });
-      return;
-    }
-    if (skripsi) {
-      let filename = skripsi.file.split("\\").pop().split("/").pop();
-      filename = filename.split("-").slice(1).join("-");
-
-      let tanggal = skripsi.tanggal;
-      // Convert tanggal to string
-      tanggal = tanggal.toString();
-      // Convert tanggal to YYYY-MM-DD
-      tanggal = tanggal.slice(4, 15);
-
-      res.status(200).send({
-        nilai: skripsi.nilai,
-        tanggal: tanggal,
-        semester: skripsi.semester,
-        status_konfirmasi: skripsi.status_konfirmasi,
-        file: filename,
-      });
-    }
-  });
-};
+    Skripsi.findOne({
+        mahasiswa: req.mahasiswaid
+    }, (err, skripsi) => {
+        if (err) {
+            res.status(500).send({
+                message: err
+            });
+            return;
+        } else {
+            console.log(skripsi);
+            res.status(200).send({
+                "nilai": skripsi.nilai,
+                "tanggal": skripsi.tanggal,
+                "semester": skripsi.semester,
+                "status_konfirmasi": skripsi.status_konfirmasi
+            })
+        }
+    });
+}
 
 exports.getRekap = async (req, res) => {
   let result = [];

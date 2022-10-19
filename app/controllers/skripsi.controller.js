@@ -17,7 +17,7 @@ exports.submitSkripsi = (req, res) => {
     semester: req.body.semester,
     status_konfirmasi: "belum",
 
-    file: req.file.path,
+    // file: req.file.path,
     mahasiswa: req.mahasiswaId,
   });
 

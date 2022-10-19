@@ -79,6 +79,8 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+// parse request of content type - multipart/form-data
+
 db.mongoose
   .connect(MONGO_URL, {
     useNewUrlParser: true,

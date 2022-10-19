@@ -1,8 +1,9 @@
 const db = require("../models");
 const IRS = db.irs;
+const Mahasiswa = db.mahasiswa;
 //fs
 const fs = require("fs");
-exports.submitIRS = (req, res) => {
+const submitIRS = (req, res) => {
   //get user id from jwt
 
   const irs = new IRS({
@@ -10,7 +11,7 @@ exports.submitIRS = (req, res) => {
     sks: req.body.sks,
     file: req.file.path,
     //get from logged mahasiswa objectid
-    konfirmasi: req.body.konfirmasi,
+    status_konfirmasi: req.body.status_konfirmasi,
     mahasiswa: req.mahasiswaId,
   });
   IRS.countDocuments(
@@ -50,7 +51,7 @@ exports.submitIRS = (req, res) => {
                   $set: {
                     file: req.file.path,
                     sks: req.body.sks,
-                    konfirmasi: req.body.konfirmasi,
+                    status_konfirmasi: req.body.status_konfirmasi,
                   },
                 },
                 function (err, irs) {
@@ -67,4 +68,63 @@ exports.submitIRS = (req, res) => {
       }
     }
   );
+};
+
+const getIRS = (req, res) => {
+  IRS.find({ mahasiswa: req.mahasiswaId }, (err, data) => {
+    if (err) {
+      res.status(500).send({ message: err });
+    } else {
+      let list_obj = [];
+      data.forEach((irs) => {
+        const newObj = {
+          semester: irs.semester,
+          sks: irs.sks,
+          ip: irs.ip,
+          status_konfirmasi: irs.status_konfirmasi,
+          file: irs.file,
+        };
+        list_obj.push(newObj);
+      });
+      res.status(200).send(list_obj);
+    }
+  });
+};
+
+const getAllIRS = async (req, res) => {
+  let array_mahasiswa = await Mahasiswa.find({});
+  let array_irs = await IRS.find({});
+
+  let result = [];
+  for (let i = 0; i < array_mahasiswa.length; i++) {
+    let irs_mahasiswa = [];
+    for (let j = 0; j < array_irs.length; j++) {
+      // cek tiap irs yang punya nilai mahasiswa == mahasiswa.id
+      if (array_mahasiswa[i]._id.equals(array_irs[j].mahasiswa)) {
+        let obj_irs = {
+          semester: array_irs[j].semester,
+          sks: array_irs[j].sks,
+          file: array_irs[j].file,
+          status_konfirmasi: array_irs[j].status_konfirmasi,
+        };
+
+        irs_mahasiswa.push(obj_irs);
+      }
+    }
+    let obj_mahasiswa = {
+      name: array_mahasiswa[i].name,
+      nim: array_mahasiswa[i].nim,
+      irs: irs_mahasiswa,
+    };
+
+    result.push(obj_mahasiswa);
+  }
+
+  res.status(200).send(result);
+};
+
+module.exports = {
+  submitIRS,
+  getIRS,
+  getAllIRS,
 };

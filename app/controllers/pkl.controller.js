@@ -97,7 +97,7 @@ exports.getRekapPKL = async (req, res) => {
           nama: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
-          status: "sudah",
+          status_konfirmasi: "sudah",
         });
         ck = true;
         break;
@@ -108,7 +108,7 @@ exports.getRekapPKL = async (req, res) => {
         nama: resultMhs[i].name,
         nim: resultMhs[i].nim,
         angkatan: resultMhs[i].angkatan,
-        status: "belum",
+        status_konfirmasi: "belum",
       });
     }
   }

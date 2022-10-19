@@ -11,10 +11,9 @@ exports.submitSkripsi = (req, res) => {
     nilai: req.body.nilai,
     tanggal: req.body.tanggal,
     lama_studi: req.body.lama_studi,
-    status_konfirmasi: req.body.status_konfirmasi,
+    status_konfirmasi: "belum",
     file: req.file.path,
     mahasiswa: req.mahasiswaId,
-    status: req.body.status,
   });
 
   Skripsi.countDocuments(
@@ -51,8 +50,6 @@ exports.submitSkripsi = (req, res) => {
                   $set: {
                     file: req.file.path,
                     nilai: req.body.nilai,
-                    status: req.body.status,
-                    status_konfirmasi: req.body.status_konfirmasi,
                     lama_studi: req.body.lama_studi,
                     tanggal: req.body.tanggal,
                   },
@@ -110,7 +107,7 @@ exports.getRekap = async (req, res) => {
           nama: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
-          status: "sudah",
+          status_konfirmasi: "sudah",
         });
         ck = true;
         break;
@@ -121,7 +118,7 @@ exports.getRekap = async (req, res) => {
         nama: resultMhs[i].name,
         nim: resultMhs[i].nim,
         angkatan: resultMhs[i].angkatan,
-        status: "belum",
+        status_konfirmasi: "belum",
       });
     }
   }

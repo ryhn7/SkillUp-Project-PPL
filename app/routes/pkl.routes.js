@@ -11,7 +11,7 @@ module.exports = function (app) {
   });
 
   app.post(
-    "/pkl/submit",
+    "/pkl",
     [authJwt.verifyToken, authJwt.getMahasiswaId, authJwt.isMahasiswa],
     controller.submitPKL
   );

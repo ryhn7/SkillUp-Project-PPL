@@ -17,7 +17,7 @@ const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     const url = req.url;
     const urlSplit = url.split("/");
-    const jenisFolder = urlSplit[urlSplit.length - 2];
+    const jenisFolder = urlSplit[urlSplit.length - 1];
 
     // cek jenis folder
     if (jenisFolder === "irs") {

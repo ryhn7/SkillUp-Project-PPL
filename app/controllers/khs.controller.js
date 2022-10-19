@@ -81,6 +81,7 @@ const getKHS = (req, res) => {
     } else {
       let list_obj = [];
       data.forEach((khs) => {
+        const filename = khs.file.split("\\").pop().split("/").pop();
         const newObj = {
           semester_aktif: khs.semester_aktif,
           sks: khs.sks,
@@ -88,7 +89,7 @@ const getKHS = (req, res) => {
           ip: khs.ip,
           ip_kumulatif: khs.ip_kumulatif,
           status_konfirmasi: khs.status_konfirmasi,
-          file: khs.file,
+          file: filename,
         };
         list_obj.push(newObj);
       });

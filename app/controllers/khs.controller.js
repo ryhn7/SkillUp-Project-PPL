@@ -79,26 +79,27 @@ const submitKHS = (req, res) => {
 };
 
 const getKHS = (req, res) => {
-    Khs.find({ mahasiswa: req.mahasiswaId }, (err, data) => {
-        if (err) {
-            res.status(500).send({ message: err });
-        } else {
-            let list_obj = [];
-            data.forEach((khs) => {
-                const newObj = {
-                    semester_aktif: khs.semester_aktif,
-                    sks: khs.sks,
-                    sks_kumulatif: khs.sks_kumulatif,
-                    ip: khs.ip,
-                    ip_kumulatif: khs.ip_kumulatif,
-                    status_konfirmasi: khs.status_konfirmasi,
-                    file: khs.file,
-                };
-                list_obj.push(newObj);
-            });
-            res.status(200).send(list_obj);
-        }
-    });
+  Khs.find({ mahasiswa: req.mahasiswaId }, (err, data) => {
+    if (err) {
+      res.status(500).send({ message: err });
+    } else {
+      let list_obj = [];
+      data.forEach((khs) => {
+        const filename = khs.file.split("\\").pop().split("/").pop();
+        const newObj = {
+          semester_aktif: khs.semester_aktif,
+          sks: khs.sks,
+          sks_kumulatif: khs.sks_kumulatif,
+          ip: khs.ip,
+          ip_kumulatif: khs.ip_kumulatif,
+          status_konfirmasi: khs.status_konfirmasi,
+          file: filename,
+        };
+        list_obj.push(newObj);
+      });
+      res.status(200).send(list_obj);
+    }
+  });
 };
 
 const getAllKHS = async (req, res) => {

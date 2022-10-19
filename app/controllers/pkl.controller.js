@@ -71,13 +71,15 @@ exports.getPKL = (req, res) => {
       res.status(500).send({ message: err });
       return;
     }
-    filename = data.file.split("\\").pop().split("/").pop();
-    res.status(200).send({
-      nilai: data.nilai,
-      semester: data.semester,
-      status_konfirmasi: data.status_konfirmasi,
-      file: filename,
-    });
+    if (data) {
+      const filename = data.file.split("\\").pop().split("/").pop();
+      res.status(200).send({
+        nilai: data.nilai,
+        semester: data.semester,
+        status_konfirmasi: data.status_konfirmasi,
+        file: filename,
+      });
+    }
   });
 };
 

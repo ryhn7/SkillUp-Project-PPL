@@ -17,7 +17,7 @@ const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     const url = req.url;
     const urlSplit = url.split("/");
-    const jenisFolder = urlSplit[urlSplit.length - 2];
+    const jenisFolder = urlSplit[urlSplit.length - 1];
 
     // cek jenis folder
     if (jenisFolder === "irs") {
@@ -78,6 +78,8 @@ app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+
+// parse request of content type - multipart/form-data
 
 db.mongoose
   .connect(MONGO_URL, {

@@ -6,13 +6,18 @@ const Mahasiswa = db.mahasiswa;
 const fs = require("fs");
 
 exports.submitSkripsi = (req, res) => {
+  // Get the data from form-data and console log the request data
+  console.log(req.body);
+  console.log(req.file);
+
   // buat instance skripsi
   const skripsi = new Skripsi({
     nilai: req.body.nilai,
     tanggal: req.body.tanggal,
-    lama_studi: req.body.lama_studi,
+    semester: req.body.semester,
     status_konfirmasi: "belum",
-    file: req.file.path,
+
+    // file: req.file.path,
     mahasiswa: req.mahasiswaId,
   });
 
@@ -50,7 +55,7 @@ exports.submitSkripsi = (req, res) => {
                   $set: {
                     file: req.file.path,
                     nilai: req.body.nilai,
-                    lama_studi: req.body.lama_studi,
+                    semester: req.body.semester,
                     tanggal: req.body.tanggal,
                   },
                 },
@@ -78,14 +83,16 @@ exports.getSkripsi = (req, res) => {
       });
       return;
     }
-    filename = skripsi.file.split("\\").pop().split("/").pop();
-    res.status(200).send({
-      nilai: skripsi.nilai,
-      tanggal: skripsi.tanggal,
-      semester: skripsi.semester,
-      status_konfirmasi: skripsi.status_konfirmasi,
-      file: filename,
-    });
+    if (skripsi) {
+      const filename = skripsi.file.split("\\").pop().split("/").pop();
+      res.status(200).send({
+        nilai: skripsi.nilai,
+        tanggal: skripsi.tanggal,
+        semester: skripsi.semester,
+        status_konfirmasi: skripsi.status_konfirmasi,
+        file: filename,
+      });
+    }
   });
 };
 

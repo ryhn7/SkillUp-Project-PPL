@@ -1,5 +1,5 @@
 const { authJwt } = require("../middlewares");
-const controller = require("../controllers/skripsi.controller");
+const controller = require("../controllers/irs.controller");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -9,27 +9,21 @@ module.exports = function (app) {
     );
     next();
   });
-
   app.post(
-    "/skripsi",
-    // midleware jwt
+    "/irs",
     [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
-    // controller
-    controller.submitSkripsi
+    controller.submitIRS
   );
 
   app.get(
-    "/skripsi",
-    // midleware jwt
+    "/irs",
     [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
-    // controller
-    controller.getSkripsi
+    controller.getIRS
   );
 
   app.get(
-    "/all-skripsi",
+    "/all-irs",
     [authJwt.verifyToken, authJwt.isDepartemen],
-    // controller
-    controller.getRekap
+    controller.getAllIRS
   );
 };

@@ -6,10 +6,6 @@ const Mahasiswa = db.mahasiswa;
 const fs = require("fs");
 
 exports.submitSkripsi = (req, res) => {
-  // Get the data from form-data and console log the request data
-  console.log(req.body);
-  console.log(req.file);
-
   // buat instance skripsi
   const skripsi = new Skripsi({
     nilai: req.body.nilai,
@@ -17,7 +13,7 @@ exports.submitSkripsi = (req, res) => {
     semester: req.body.semester,
     status_konfirmasi: "belum",
 
-    // file: req.file.path,
+    file: req.file.path,
     mahasiswa: req.mahasiswaId,
   });
 
@@ -84,7 +80,8 @@ exports.getSkripsi = (req, res) => {
       return;
     }
     if (skripsi) {
-      const filename = skripsi.file.split("\\").pop().split("/").pop();
+      let filename = skripsi.file.split("\\").pop().split("/").pop();
+      filename = filename.split("-").slice(1).join("-");
       res.status(200).send({
         nilai: skripsi.nilai,
         tanggal: skripsi.tanggal,

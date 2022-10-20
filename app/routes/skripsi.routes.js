@@ -32,4 +32,15 @@ module.exports = function (app) {
     // controller
     controller.getRekap
   );
+
+  app.get(
+    "/skripsi/:nim",
+    [
+      authJwt.verifyToken,
+      authJwt.isMahasiswaOrDosen,
+      authJwt.getMahasiswaIdFromNim,
+    ],
+    // controller
+    controller.downloadSkripsi
+  );
 };

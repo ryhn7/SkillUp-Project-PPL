@@ -27,4 +27,14 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isDepartemen],
     controller.getAllKHS
   );
+
+  app.get(
+    "/khs/:nim/:semester",
+    [
+      authJwt.verifyToken,
+      authJwt.isMahasiswaOrDosen,
+      authJwt.getMahasiswaIdFromNim,
+    ],
+    controller.downloadKHS
+  );
 };

@@ -26,4 +26,16 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isDepartemen],
     controller.getAllIRS
   );
+
+  //get /irs/:nim/:semester but only mahasiswa and dosen can access
+
+  app.get(
+    "/irs/:nim/:semester",
+    [
+      authJwt.verifyToken,
+      authJwt.isMahasiswaOrDosen,
+      authJwt.getMahasiswaIdFromNim,
+    ],
+    controller.downloadIRS
+  );
 };

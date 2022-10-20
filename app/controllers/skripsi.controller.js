@@ -128,3 +128,26 @@ exports.getRekap = async (req, res) => {
   }
   res.status(200).send(result);
 };
+
+exports.downloadSkripsi = (req, res) => {
+  Skripsi.findOne(
+    {
+      mahasiswa: req.mahasiswaId,
+    },
+    //if file not found return 404
+    function (err, skripsi) {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!skripsi) {
+        res.status(404).send({ message: "File not found!" });
+        return;
+      }
+      const file = fs.createReadStream(skripsi.file);
+      const filename = "Skripsi";
+      res.setHeader("Content-disposition", "attachment; filename=" + filename);
+      file.pipe(res);
+    }
+  );
+};

@@ -27,4 +27,14 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isDepartemen],
     controller.getRekapPKL
   );
+
+  app.get(
+    "/pkl/:nim",
+    [
+      authJwt.verifyToken,
+      authJwt.isMahasiswaOrDosen,
+      authJwt.getMahasiswaIdFromNim,
+    ],
+    controller.downloadPKL
+  );
 };

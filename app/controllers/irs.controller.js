@@ -123,8 +123,35 @@ const getAllIRS = async (req, res) => {
   res.status(200).send(result);
 };
 
+//download irs file dari database berdasarkan nim mahasiswa dan semester
+
+const downloadIRS = (req, res) => {
+  IRS.findOne(
+    {
+      mahasiswa: req.mahasiswaId,
+      semester: req.params.semester,
+    },
+    //if file not found return 404
+    function (err, irs) {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!irs) {
+        res.status(404).send({ message: "File not found!" });
+        return;
+      }
+      const file = fs.createReadStream(irs.file);
+      const filename = "IRS_" + irs.semester;
+      res.setHeader("Content-disposition", "attachment; filename=" + filename);
+      file.pipe(res);
+    }
+  );
+};
+
 module.exports = {
   submitIRS,
   getIRS,
   getAllIRS,
+  downloadIRS,
 };

@@ -1,6 +1,7 @@
 const db = require("../models");
 const PKL = db.pkl;
 const Mahasiswa = db.mahasiswa;
+const fs = require("fs");
 
 exports.submitPKL = (req, res) => {
   const pkl = new PKL({
@@ -116,4 +117,27 @@ exports.getRekapPKL = async (req, res) => {
   }
 
   res.status(200).send(result);
+};
+
+exports.downloadPKL = (req, res) => {
+  PKL.findOne(
+    {
+      mahasiswa: req.mahasiswaId,
+    },
+    //if file not found return 404
+    function (err, pkl) {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!pkl) {
+        res.status(404).send({ message: "File not found!" });
+        return;
+      }
+      const file = fs.createReadStream(pkl.file);
+      const filename = "PKL";
+      res.setHeader("Content-disposition", "attachment; filename=" + filename);
+      file.pipe(res);
+    }
+  );
 };

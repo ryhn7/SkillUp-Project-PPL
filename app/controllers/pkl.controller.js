@@ -2,7 +2,6 @@ const db = require("../models");
 const fs = require("fs");
 const PKL = db.pkl;
 const Mahasiswa = db.mahasiswa;
-const fs = require("fs");
 
 exports.submitPKL = (req, res) => {
   let dataPkl = {

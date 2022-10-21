@@ -27,7 +27,6 @@ module.exports = function (app) {
         [authJwt.verifyToken, authJwt.isDepartemen],
         controller.getAllKHS
     );
-<<<<<<< HEAD
 
     app.get(
         "/khs/:nim/:semester",
@@ -38,6 +37,4 @@ module.exports = function (app) {
         ],
         controller.downloadKHS
     );
-=======
->>>>>>> e69f2ef (rebase from master)
 };

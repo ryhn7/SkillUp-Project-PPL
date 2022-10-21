@@ -2,7 +2,6 @@ const db = require("../models");
 const fs = require("fs");
 const Khs = db.khs;
 const Mahasiswa = db.mahasiswa;
-const fs = require("fs");
 
 const submitKHS = (req, res) => {
     const khs = new Khs({
@@ -127,6 +126,7 @@ const getAllKHS = async (req, res) => {
             nama: array_mahasiswa[i].name,
             nim: array_mahasiswa[i].nim,
             khs: khs_mahasiswa,
+            wali: array_mahasiswa[i].kodeWali,
         };
 
         result.push(obj_mahasiswa);

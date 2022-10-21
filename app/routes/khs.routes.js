@@ -36,5 +36,11 @@ module.exports = function (app) {
             authJwt.getMahasiswaIdFromNim,
         ],
         controller.downloadKHS
+    ); 
+
+    app.get(
+        "/khs/:kode_wali",
+        [authJwt.verifyToken, authJwt.isDosen],
+        controller.waliKHS
     );
 };

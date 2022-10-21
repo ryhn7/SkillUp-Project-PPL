@@ -88,7 +88,7 @@ exports.signin = (req, res) => {
         })
           .setProtectedHeader({ alg: "HS256", typ: "JWT" })
           .setIssuedAt()
-          .setExpirationTime("1h")
+          .setExpirationTime("12h")
           .sign(new TextEncoder().encode(SECRET));
 
         res.status(200).send({

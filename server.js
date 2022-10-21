@@ -28,8 +28,8 @@ const fileStorage = multer.diskStorage({
       cb(null, "uploads/pkl");
     } else if (jenisFolder === "skripsi") {
       cb(null, "uploads/skripsi");
-    } else if (jenisFolder === "user") {
-      cb(null, "uploads/user");
+    } else if (jenisFolder === "batch-generate") {
+      cb(null, "uploads/accountMhs");
     }
   },
   filename: (req, file, cb) => {

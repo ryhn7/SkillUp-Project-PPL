@@ -236,6 +236,7 @@ exports.createBatchUser = (req, res) => {
   csv()
     .fromFile(file)
     .then((jsonObj) => {
+      // console.log(jsonObj);
       jsonObj.forEach((data) => {
         const user = new User({
           username: data.nim,
@@ -275,11 +276,10 @@ exports.createBatchUser = (req, res) => {
                     res.status(500).send({ message: err });
                     return;
                   }
-
-                  res.send({
-                    message: "User was registered successfully!",
-                    // data: user
-                  });
+                  // res.send({
+                  //   message: "User was registered successfully!",
+                  //   // data: user
+                  // });
                 });
               }
             );
@@ -302,18 +302,16 @@ exports.createBatchUser = (req, res) => {
                     res.status(500).send({ message: err });
                     return;
                   }
-                  res.send({
-                    message: "User was registered successfully!",
-                    // data: mahasiswa
-                  });
                 });
               });
             });
           };
         });
-        return;
       });
-      return;
+      res.status(200).json({
+        message: "Mahasiswa was registered successfully!",
+        data: jsonObj
+      });
     });
 };
 

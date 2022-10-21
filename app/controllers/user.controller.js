@@ -134,7 +134,7 @@ exports.listUser = (req, res) => {
 };
 
 exports.listDataMahasiswa = (req, res) => {
-  Mahasiswa.find({}).populate('status', 'name').exec(function (err, mahasiswa) {
+  Mahasiswa.find({}).populate('status kodeWali', 'name').exec(function (err, mahasiswa) {
     var mahasiswaMap = [];
 
     mahasiswa.forEach(function (mahasiswa) {
@@ -157,7 +157,6 @@ exports.signUpDosen = (req, res) => {
     email: req.body.email,
     nip: req.body.nip,
     user: user._id,
-    kodeWali: req.body.kodeWali,
   });
 
 

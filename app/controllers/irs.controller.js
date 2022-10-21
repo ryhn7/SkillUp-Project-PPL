@@ -3,7 +3,8 @@ const IRS = db.irs;
 const Mahasiswa = db.mahasiswa;
 //fs
 const fs = require("fs");
-exports.submitIRS = (req, res) => {
+
+const submitIRS = (req, res) => {
     //get user id from jwt
 
     const irs = new IRS({

@@ -4,16 +4,21 @@ const Mahasiswa = db.mahasiswa;
 const fs = require("fs");
 
 const submitKHS = (req, res) => {
-  const khs = new Khs({
+  let dataKhs = {
     semester_aktif: req.body.semester_aktif,
     sks: req.body.sks,
     sks_kumulatif: req.body.sks_kumulatif,
     ip: req.body.ip,
     ip_kumulatif: req.body.ip_kumulatif,
-    status_konfirmasi: req.body.status_konfirmasi,
-    file: req.file.path,
+    status_konfirmasi: "belum",
     mahasiswa: req.mahasiswaId,
-  });
+  };
+
+  if (req.file) {
+    dataKhs.file = req.file.path;
+  }
+
+  const khs = new Khs(dataKhs);
 
   Khs.countDocuments(
     {
@@ -41,22 +46,46 @@ const submitKHS = (req, res) => {
               res.status(500).send({ message: err });
               return;
             }
-            fs.unlink(khs.file, function (err) {
-              if (err) {
-                res.status(500).send({ message: err });
-                return;
-              }
+            // If there is new file, update file
+            if (req.file) {
+              fs.unlink(khs.file, function (err) {
+                if (err) {
+                  res.status(500).send({ message: err });
+                  return;
+                }
+                Khs.updateOne(
+                  { _id: khs._id },
+                  {
+                    $set: {
+                      file: req.file.path,
+                      semester_aktif: req.body.semester_aktif,
+                      sks: req.body.sks,
+                      sks_kumulatif: req.body.sks_kumulatif,
+                      ip: req.body.ip,
+                      ip_kumulatif: req.body.ip_kumulatif,
+                    },
+                  },
+                  function (err, khs) {
+                    if (err) {
+                      res.status(500).send({ message: err });
+                      return;
+                    }
+                    res.send({
+                      message: "KHS was updated successfully!",
+                    });
+                  }
+                );
+              });
+            } else {
               Khs.updateOne(
                 { _id: khs._id },
                 {
                   $set: {
-                    file: req.file.path,
                     semester_aktif: req.body.semester_aktif,
                     sks: req.body.sks,
                     sks_kumulatif: req.body.sks_kumulatif,
                     ip: req.body.ip,
                     ip_kumulatif: req.body.ip_kumulatif,
-                    status_konfirmasi: req.body.status_konfirmasi,
                   },
                 },
                 function (err, khs) {
@@ -64,12 +93,10 @@ const submitKHS = (req, res) => {
                     res.status(500).send({ message: err });
                     return;
                   }
-                  res.send({
-                    message: "KHS was updated successfully!",
-                  });
+                  res.send({ message: "KHS was updated successfully!" });
                 }
               );
-            });
+            }
           }
         );
       }
@@ -84,7 +111,8 @@ const getKHS = (req, res) => {
     } else {
       let list_obj = [];
       data.forEach((khs) => {
-        const filename = khs.file.split("\\").pop().split("/").pop();
+        let filename = khs.file.split("\\").pop().split("/").pop();
+        filename = filename.split("-").slice(1).join("-");
         const newObj = {
           semester_aktif: khs.semester_aktif,
           sks: khs.sks,

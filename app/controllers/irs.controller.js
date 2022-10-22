@@ -1,19 +1,22 @@
 const db = require("../models");
 const IRS = db.irs;
 const Mahasiswa = db.mahasiswa;
-//fs
 const fs = require("fs");
-const submitIRS = (req, res) => {
-  //get user id from jwt
 
-  const irs = new IRS({
+const submitIRS = (req, res) => {
+  let dataIrs = {
     semester: req.body.semester,
     sks: req.body.sks,
-    file: req.file.path,
-    //get from logged mahasiswa objectid
-    status_konfirmasi: req.body.status_konfirmasi,
+    status_konfirmasi: "belum",
     mahasiswa: req.mahasiswaId,
-  });
+  };
+
+  if (req.file) {
+    dataIrs.file = req.file.path;
+  }
+
+  const irs = new IRS(dataIrs);
+
   IRS.countDocuments(
     {
       mahasiswa: irs.mahasiswa,
@@ -40,18 +43,36 @@ const submitIRS = (req, res) => {
               res.status(500).send({ message: err });
               return;
             }
-            fs.unlink(irs.file, function (err) {
-              if (err) {
-                res.status(500).send({ message: err });
-                return;
-              }
+            // If there is new file, update file
+            if (req.file) {
+              fs.unlink(irs.file, function (err) {
+                if (err) {
+                  res.status(500).send({ message: err });
+                  return;
+                }
+                IRS.updateOne(
+                  { _id: irs._id },
+                  {
+                    $set: {
+                      file: req.file.path,
+                      sks: req.body.sks,
+                    },
+                  },
+                  function (err, irs) {
+                    if (err) {
+                      res.status(500).send({ message: err });
+                      return;
+                    }
+                    res.send({ message: "IRS was updated successfully!" });
+                  }
+                );
+              });
+            } else {
               IRS.updateOne(
                 { _id: irs._id },
                 {
                   $set: {
-                    file: req.file.path,
                     sks: req.body.sks,
-                    status_konfirmasi: req.body.status_konfirmasi,
                   },
                 },
                 function (err, irs) {
@@ -62,7 +83,7 @@ const submitIRS = (req, res) => {
                   res.send({ message: "IRS was updated successfully!" });
                 }
               );
-            });
+            }
           }
         );
       }
@@ -77,12 +98,13 @@ const getIRS = (req, res) => {
     } else {
       let list_obj = [];
       data.forEach((irs) => {
+        let filename = irs.file.split("\\").pop().split("/").pop();
+        filename = filename.split("-").slice(1).join("-");
         const newObj = {
           semester: irs.semester,
           sks: irs.sks,
-          ip: irs.ip,
           status_konfirmasi: irs.status_konfirmasi,
-          file: irs.file,
+          file: filename,
         };
         list_obj.push(newObj);
       });

@@ -2,13 +2,10 @@ const db = require("../models");
 const fs = require("fs");
 const PKL = db.pkl;
 const Mahasiswa = db.mahasiswa;
+const Dosen = db.dosen;
 
 exports.submitPKL = (req, res) => {
-<<<<<<< HEAD
-  const pkl = new PKL({ 
-=======
   let dataPkl = {
->>>>>>> 46be01459290abd9c852d7065dd9136628b24e20
     nilai: req.body.nilai,
     semester: req.body.semester,
     status_konfirmasi: "belum",
@@ -119,6 +116,42 @@ exports.getRekapPKL = async (req, res) => {
   let result = [];
 
   const queryMhs = Mahasiswa.find({});
+  const resultMhs = await queryMhs.exec();
+  const queryPKL = PKL.find();
+  const resultPKL = await queryPKL.exec();
+
+  for (let i = 0; i < resultMhs.length; i++) {
+    let ck = false;
+    for (let j = 0; j < resultPKL.length; j++) {
+      if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
+        result.push({
+          name: resultMhs[i].name,
+          nim: resultMhs[i].nim,
+          angkatan: resultMhs[i].angkatan,
+          status_konfirmasi: "sudah",
+        });
+        ck = true;
+        break;
+      }
+    }
+    if (!ck) {
+      result.push({
+        name: resultMhs[i].name,
+        nim: resultMhs[i].nim,
+        angkatan: resultMhs[i].angkatan,
+        status_konfirmasi: "belum",
+      });
+    }
+  }
+
+  res.status(200).send(result);
+};
+
+exports.getWaliPKL = async (req, res) => {
+  let result = [];
+
+  const dosen = await Dosen.findOne({ user: req.userId });
+  const queryMhs = Mahasiswa.find({kodeWali: dosen._id});
   const resultMhs = await queryMhs.exec();
   const queryPKL = PKL.find();
   const resultPKL = await queryPKL.exec();

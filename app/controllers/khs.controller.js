@@ -1,6 +1,7 @@
 const db = require("../models");
 const fs = require("fs");
 const { khs } = require("../models");
+const e = require("cors");
 const Khs = db.khs;
 const Mahasiswa = db.mahasiswa;
 const Dosen = db.dosen;
@@ -196,8 +197,26 @@ const waliKHS = async (req, res) => {
     res.status(200).send(result);
 };
 
-const changeStat = (req, res) => {
-    
+const verifyKHS = async (req, res) => {
+    const mhs = await Mahasiswa.findOne({ nim: req.params.nim });
+    const dosen = await Dosen.findOne({ user: req.userId });
+
+    if (!dosen._id.equals(mhs.kodeWali)) {
+        res.status(403).send(`Anda bukan dosen wali dari ${mhs.nama}`);
+        return;
+    }
+
+    Khs.findOneAndUpdate(
+        { mahasiswa: mhs._id, semester_aktif: req.params.semester },
+        { status_konfirmasi: req.body.status },
+        (err, data) => {
+            if (err) {
+                res.status(500).send({ message: err });
+                return;
+            }
+            res.status(200).send(data);
+        }
+    );
 };
 
 module.exports = {
@@ -206,4 +225,5 @@ module.exports = {
     getAllKHS,
     downloadKHS,
     waliKHS,
+    verifyKHS,
 };

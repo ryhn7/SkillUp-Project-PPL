@@ -39,14 +39,14 @@ module.exports = function (app) {
     );
 
     app.get(
-        "/khs-dosen",
+        "/verifikasi/khs",
         [authJwt.verifyToken, authJwt.isDosen],
         controller.waliKHS
     );
 
     app.put(
-        "/khs-dosen/:nim_mhs",
+        "/verifikasi/khs/:nim/:semester",
         [authJwt.verifyToken, authJwt.isDosen],
-        controller.waliKHS
+        controller.verifyKHS
     );
 };

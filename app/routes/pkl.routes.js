@@ -11,7 +11,7 @@ module.exports = function (app) {
   });
 
   app.post(
-    "/pkl/submit",
+    "/pkl",
     [authJwt.verifyToken, authJwt.getMahasiswaId, authJwt.isMahasiswa],
     controller.submitPKL
   );
@@ -26,5 +26,15 @@ module.exports = function (app) {
     "/all-pkl",
     [authJwt.verifyToken, authJwt.isDepartemen],
     controller.getRekapPKL
+  );
+
+  app.get(
+    "/pkl/:nim",
+    [
+      authJwt.verifyToken,
+      authJwt.isMahasiswaOrDosen,
+      authJwt.getMahasiswaIdFromNim,
+    ],
+    controller.downloadPKL
   );
 };

@@ -10,38 +10,37 @@ module.exports = function (app) {
     next();
   });
 
-  app.post(  
-    "/skripsi/submit",
+  app.post(
+    "/skripsi",
     // midleware jwt
-    [
-      authJwt.verifyToken,
-      authJwt.isMahasiswa,
-      authJwt.getMahasiswaId
-    ],
+    [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
     // controller
     controller.submitSkripsi
   );
 
-  app.get( 
+  app.get(
     "/skripsi",
     // midleware jwt
-    [
-      authJwt.verifyToken,
-      authJwt.isMahasiswa,
-      authJwt.getMahasiswaId
-    ],
+    [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
     // controller
     controller.getSkripsi
   );
 
   app.get(
     "/all-skripsi",
-    [
-      authJwt.verifyToken,
-      authJwt.isDepartemen
-    ],
+    [authJwt.verifyToken, authJwt.isDepartemen],
     // controller
     controller.getRekap
-  )
+  );
 
+  app.get(
+    "/skripsi/:nim",
+    [
+      authJwt.verifyToken,
+      authJwt.isMahasiswaOrDosen,
+      authJwt.getMahasiswaIdFromNim,
+    ],
+    // controller
+    controller.downloadSkripsi
+  );
 };

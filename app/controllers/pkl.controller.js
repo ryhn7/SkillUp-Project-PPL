@@ -1,15 +1,25 @@
 const db = require("../models");
+const fs = require("fs");
 const PKL = db.pkl;
 const Mahasiswa = db.mahasiswa;
 
 exports.submitPKL = (req, res) => {
+<<<<<<< HEAD
   const pkl = new PKL({ 
+=======
+  let dataPkl = {
+>>>>>>> 46be01459290abd9c852d7065dd9136628b24e20
     nilai: req.body.nilai,
     semester: req.body.semester,
     status_konfirmasi: "belum",
-    file: req.file.path,
     mahasiswa: req.mahasiswaId,
-  });
+  };
+
+  if (req.file) {
+    dataPkl.file = req.file.path;
+  }
+
+  const pkl = new PKL(dataPkl);
 
   PKL.countDocuments(
     {
@@ -25,7 +35,6 @@ exports.submitPKL = (req, res) => {
           res.send({ message: "PKL was uploaded successfully!" });
         });
       } else {
-        //delete pkl file then update pkl
         PKL.findOne(
           {
             mahasiswa: pkl.mahasiswa,
@@ -35,16 +44,38 @@ exports.submitPKL = (req, res) => {
               res.status(500).send({ message: err });
               return;
             }
-            fs.unlink(pkl.file, function (err) {
-              if (err) {
-                res.status(500).send({ message: err });
-                return;
-              }
+            // If there is file in request
+            if (req.file) {
+              fs.unlink(pkl.file, function (err) {
+                if (err) {
+                  res.status(500).send({ message: err });
+                  return;
+                }
+                PKL.updateOne(
+                  { _id: pkl._id },
+                  {
+                    $set: {
+                      file: req.file.path,
+                      nilai: req.body.nilai,
+                      semester: req.body.semester,
+                    },
+                  },
+                  function (err, pkl) {
+                    if (err) {
+                      res.status(500).send({ message: err });
+                      return;
+                    }
+                    res.send({ message: "PKL was updated successfully!" });
+                  }
+                );
+              });
+
+              // If there is no file in request
+            } else {
               PKL.updateOne(
                 { _id: pkl._id },
                 {
                   $set: {
-                    file: req.file.path,
                     nilai: req.body.nilai,
                     semester: req.body.semester,
                   },
@@ -57,7 +88,7 @@ exports.submitPKL = (req, res) => {
                   res.send({ message: "PKL was updated successfully!" });
                 }
               );
-            });
+            }
           }
         );
       }
@@ -71,13 +102,16 @@ exports.getPKL = (req, res) => {
       res.status(500).send({ message: err });
       return;
     }
-    filename = data.file.split("\\").pop().split("/").pop();
-    res.status(200).send({
-      nilai: data.nilai,
-      semester: data.semester,
-      status_konfirmasi: data.status_konfirmasi,
-      file: filename,
-    });
+    if (data) {
+      let filename = data.file.split("\\").pop().split("/").pop();
+      filename = filename.split("-").slice(1).join("-");
+      res.status(200).send({
+        nilai: data.nilai,
+        semester: data.semester,
+        status_konfirmasi: data.status_konfirmasi,
+        file: filename,
+      });
+    }
   });
 };
 
@@ -114,4 +148,27 @@ exports.getRekapPKL = async (req, res) => {
   }
 
   res.status(200).send(result);
+};
+
+exports.downloadPKL = (req, res) => {
+  PKL.findOne(
+    {
+      mahasiswa: req.mahasiswaId,
+    },
+    //if file not found return 404
+    function (err, pkl) {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!pkl) {
+        res.status(404).send({ message: "File not found!" });
+        return;
+      }
+      const file = fs.createReadStream(pkl.file);
+      const filename = "PKL";
+      res.setHeader("Content-disposition", "attachment; filename=" + filename);
+      file.pipe(res);
+    }
+  );
 };

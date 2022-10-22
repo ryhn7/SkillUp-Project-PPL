@@ -73,7 +73,7 @@ module.exports = function (app) {
     controller.listDosen
   );
   app.post(
-    "/user/batch-generate",
+    "/batch-generate",
     [authJwt.verifyToken, authJwt.isMaster],
     controller.createBatchUser
   );

@@ -9,11 +9,6 @@ const Dosen = mongoose.model(
             required: [true, 'NIP wajib diisi'],
             maxlength: [18, 'NIP maksimal 18 karakter'],
         },
-        kodeWali: {
-            type: String,
-            required: [true, 'Kode Wali wajib diisi'],
-            maxlength: [5, 'Kode Wali maksimal 5 karakter'],
-        },
         name: {
             type: String,
             required: [true, 'Nama wajib diisi'],

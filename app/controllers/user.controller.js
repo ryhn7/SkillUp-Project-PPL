@@ -134,7 +134,7 @@ exports.listUser = (req, res) => {
 };
 
 exports.listDataMahasiswa = (req, res) => {
-  Mahasiswa.find({}).populate('status', 'name').exec(function (err, mahasiswa) {
+  Mahasiswa.find({}).populate('status kodeWali', 'name').exec(function (err, mahasiswa) {
     var mahasiswaMap = [];
 
     mahasiswa.forEach(function (mahasiswa) {
@@ -157,7 +157,6 @@ exports.signUpDosen = (req, res) => {
     email: req.body.email,
     nip: req.body.nip,
     user: user._id,
-    kodeWali: req.body.kodeWali,
   });
 
 
@@ -236,6 +235,7 @@ exports.createBatchUser = (req, res) => {
   csv()
     .fromFile(file)
     .then((jsonObj) => {
+      // console.log(jsonObj);
       jsonObj.forEach((data) => {
         const user = new User({
           username: data.nim,
@@ -275,11 +275,10 @@ exports.createBatchUser = (req, res) => {
                     res.status(500).send({ message: err });
                     return;
                   }
-
-                  res.send({
-                    message: "User was registered successfully!",
-                    // data: user
-                  });
+                  // res.send({
+                  //   message: "User was registered successfully!",
+                  //   // data: user
+                  // });
                 });
               }
             );
@@ -302,18 +301,16 @@ exports.createBatchUser = (req, res) => {
                     res.status(500).send({ message: err });
                     return;
                   }
-                  res.send({
-                    message: "User was registered successfully!",
-                    // data: mahasiswa
-                  });
                 });
               });
             });
           };
         });
-        return;
       });
-      return;
+      res.status(200).json({
+        message: "Mahasiswa was registered successfully!",
+        data: jsonObj
+      });
     });
 };
 

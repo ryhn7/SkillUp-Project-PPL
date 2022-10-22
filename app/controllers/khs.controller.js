@@ -1,6 +1,7 @@
 const db = require("../models");
 const Khs = db.khs;
 const Mahasiswa = db.mahasiswa;
+const fs = require("fs");
 
 const submitKHS = (req, res) => {
   const khs = new Khs({
@@ -63,7 +64,9 @@ const submitKHS = (req, res) => {
                     res.status(500).send({ message: err });
                     return;
                   }
-                  res.send({ message: "KHS was updated successfully!" });
+                  res.send({
+                    message: "KHS was updated successfully!",
+                  });
                 }
               );
             });
@@ -81,6 +84,7 @@ const getKHS = (req, res) => {
     } else {
       let list_obj = [];
       data.forEach((khs) => {
+        const filename = khs.file.split("\\").pop().split("/").pop();
         const newObj = {
           semester_aktif: khs.semester_aktif,
           sks: khs.sks,
@@ -88,7 +92,7 @@ const getKHS = (req, res) => {
           ip: khs.ip,
           ip_kumulatif: khs.ip_kumulatif,
           status_konfirmasi: khs.status_konfirmasi,
-          file: khs.file,
+          file: filename,
         };
         list_obj.push(newObj);
       });
@@ -128,8 +132,33 @@ const getAllKHS = async (req, res) => {
   res.status(200).send(result);
 };
 
+const downloadKHS = (req, res) => {
+  Khs.findOne(
+    {
+      mahasiswa: req.mahasiswaId,
+      semester_aktif: req.params.semester,
+    },
+    //if file not found return 404
+    function (err, khs) {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!khs) {
+        res.status(404).send({ message: "File not found!" });
+        return;
+      }
+      const file = fs.createReadStream(khs.file);
+      const filename = "KHS_" + khs.semester_aktif;
+      res.setHeader("Content-disposition", "attachment; filename=" + filename);
+      file.pipe(res);
+    }
+  );
+};
+
 module.exports = {
   submitKHS,
   getKHS,
   getAllKHS,
+  downloadKHS,
 };

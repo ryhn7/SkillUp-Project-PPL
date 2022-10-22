@@ -17,7 +17,7 @@ const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     const url = req.url;
     const urlSplit = url.split("/");
-    const jenisFolder = urlSplit[urlSplit.length - 2];
+    const jenisFolder = urlSplit[urlSplit.length - 1];
 
     // cek jenis folder
     if (jenisFolder === "irs") {
@@ -28,8 +28,8 @@ const fileStorage = multer.diskStorage({
       cb(null, "uploads/pkl");
     } else if (jenisFolder === "skripsi") {
       cb(null, "uploads/skripsi");
-    } else if (jenisFolder === "user") {
-      cb(null, "uploads/user");
+    } else if (jenisFolder === "batch-generate") {
+      cb(null, "uploads/accountMhs");
     }
   },
   filename: (req, file, cb) => {
@@ -79,6 +79,8 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+// parse request of content type - multipart/form-data
+
 db.mongoose
   .connect(MONGO_URL, {
     useNewUrlParser: true,
@@ -100,6 +102,7 @@ app.get("/", (req, res) => {
 
 // routes
 //req pkl
+require("./app/routes/irs.routes")(app);
 require("./app/routes/profil.routes")(app);
 require("./app/routes/pkl.routes")(app);
 require("./app/routes/auth.routes")(app);

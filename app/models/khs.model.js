@@ -30,7 +30,7 @@ const KHS = mongoose.model(
         },
         status_konfirmasi: {
             type: String,
-            required: [true, "Status konfirmasi harus diisi"],
+            // required: [true, "Status konfirmasi harus diisi"],
             maxlength: [20, "Status konfirmasi maksimal 20 karakter"],
         },
         file: {

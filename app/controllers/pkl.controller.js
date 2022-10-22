@@ -128,31 +128,6 @@ exports.getRekapPKL = async (req, res) => {
     const queryPKL = PKL.find();
     const resultPKL = await queryPKL.exec();
 
-<<<<<<< HEAD
-    for (let i = 0; i < resultMhs.length; i++) {
-        let ck = false;
-        for (let j = 0; j < resultPKL.length; j++) {
-            if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
-                result.push({
-                    nama: resultMhs[i].name,
-                    nim: resultMhs[i].nim,
-                    angkatan: resultMhs[i].angkatan,
-                    status_konfirmasi: "sudah",
-                });
-                ck = true;
-                break;
-            }
-        }
-        if (!ck) {
-            result.push({
-                nama: resultMhs[i].name,
-                nim: resultMhs[i].nim,
-                angkatan: resultMhs[i].angkatan,
-                status_konfirmasi: "belum",
-            });
-        }
-    }
-=======
   for (let i = 0; i < resultMhs.length; i++) {
     let ck = false;
     for (let j = 0; j < resultPKL.length; j++) {
@@ -212,7 +187,6 @@ exports.getWaliPKL = async (req, res) => {
       });
     }
   }
->>>>>>> 73ddff3aedcb5ced61edd8baa426b58b6c6bbc49
 
     res.status(200).send(result);
 };

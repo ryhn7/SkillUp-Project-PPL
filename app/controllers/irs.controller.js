@@ -4,20 +4,6 @@ const Mahasiswa = db.mahasiswa;
 const fs = require("fs");
 
 const submitIRS = (req, res) => {
-<<<<<<< HEAD
-    //get user id from jwt
-
-    const irs = new IRS({
-        semester: req.body.semester,
-        sks: req.body.sks,
-        file: req.file.path,
-        //get from logged mahasiswa objectid
-        konfirmasi: req.body.konfirmasi,
-        mahasiswa: req.mahasiswaId,
-    });
-    IRS.countDocuments(
-        {
-=======
   let dataIrs = {
     semester: req.body.semester,
     sks: req.body.sks,
@@ -49,7 +35,6 @@ const submitIRS = (req, res) => {
         //delete irs file then update irs
         IRS.findOne(
           {
->>>>>>> 73ddff3aedcb5ced61edd8baa426b58b6c6bbc49
             mahasiswa: irs.mahasiswa,
             semester: irs.semester,
         },
@@ -103,31 +88,6 @@ const submitIRS = (req, res) => {
                     }
                 );
             }
-<<<<<<< HEAD
-        }
-    );
-};
-
-const getIRS = (req, res) => {
-    IRS.find({ mahasiswa: req.mahasiswaId }, (err, data) => {
-        if (err) {
-            res.status(500).send({ message: err });
-        } else {
-            let list_obj = [];
-            data.forEach((irs) => {
-                const newObj = {
-                    semester: irs.semester,
-                    sks: irs.sks,
-                    ip: irs.ip,
-                    status_konfirmasi: irs.status_konfirmasi,
-                    file: irs.file,
-                };
-                list_obj.push(newObj);
-            });
-            res.status(200).send(list_obj);
-        }
-    });
-=======
             // If there is new file, update file
             if (req.file) {
               fs.unlink(irs.file, function (err) {
@@ -196,7 +156,6 @@ const getIRS = (req, res) => {
       res.status(200).send(list_obj);
     }
   });
->>>>>>> 73ddff3aedcb5ced61edd8baa426b58b6c6bbc49
 };
 
 const getAllIRS = async (req, res) => {

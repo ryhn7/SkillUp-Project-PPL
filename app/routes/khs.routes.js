@@ -36,10 +36,16 @@ module.exports = function (app) {
             authJwt.getMahasiswaIdFromNim,
         ],
         controller.downloadKHS
-    ); 
+    );
 
     app.get(
-        "/khs/:kode_wali",
+        "/khs-dosen",
+        [authJwt.verifyToken, authJwt.isDosen],
+        controller.waliKHS
+    );
+
+    app.put(
+        "/khs-dosen/:nim_mhs",
         [authJwt.verifyToken, authJwt.isDosen],
         controller.waliKHS
     );

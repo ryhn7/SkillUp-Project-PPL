@@ -3,6 +3,7 @@ const fs = require("fs");
 const { khs } = require("../models");
 const Khs = db.khs;
 const Mahasiswa = db.mahasiswa;
+const Dosen = db.dosen;
 
 const submitKHS = (req, res) => {
     const khs = new Khs({
@@ -164,7 +165,8 @@ const downloadKHS = (req, res) => {
 };
 
 const waliKHS = async (req, res) => {
-    const list_mhs = await Mahasiswa.find({ kodeWali: req.params.kode_wali });
+    const dosen = await Dosen.findOne({ user: req.userId });
+    const list_mhs = await Mahasiswa.find({ kodeWali: dosen._id });
     const list_khs = await Khs.find({});
 
     let result = [];
@@ -194,6 +196,10 @@ const waliKHS = async (req, res) => {
         result.push(obj_mahasiswa);
     }
     res.status(200).send(result);
+};
+
+const changeStat = (req, res) => {
+    
 };
 
 module.exports = {

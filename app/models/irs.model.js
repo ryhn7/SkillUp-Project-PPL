@@ -17,10 +17,10 @@ const IRS = mongoose.model(
       type: String,
       required: [true, "Upload wajib diisi"],
     },
-    konfirmasi: {
+    status_konfirmasi: {
       type: String,
-      enum: ["Belum", "Sudah"],
-      default: "Belum",
+      enum: ["belum", "sudah"],
+      default: "belum",
     },
     mahasiswa: {
       type: mongoose.Schema.Types.ObjectId,

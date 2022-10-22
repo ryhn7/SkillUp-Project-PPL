@@ -2,6 +2,7 @@ const db = require("../models");
 const fs = require("fs");
 const PKL = db.pkl;
 const Mahasiswa = db.mahasiswa;
+const Dosen = db.dosen;
 
 exports.submitPKL = (req, res) => {
     let dataPkl = {
@@ -127,6 +128,7 @@ exports.getRekapPKL = async (req, res) => {
     const queryPKL = PKL.find();
     const resultPKL = await queryPKL.exec();
 
+<<<<<<< HEAD
     for (let i = 0; i < resultMhs.length; i++) {
         let ck = false;
         for (let j = 0; j < resultPKL.length; j++) {
@@ -150,6 +152,67 @@ exports.getRekapPKL = async (req, res) => {
             });
         }
     }
+=======
+  for (let i = 0; i < resultMhs.length; i++) {
+    let ck = false;
+    for (let j = 0; j < resultPKL.length; j++) {
+      if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
+        result.push({
+          name: resultMhs[i].name,
+          nim: resultMhs[i].nim,
+          angkatan: resultMhs[i].angkatan,
+          status_konfirmasi: "sudah",
+        });
+        ck = true;
+        break;
+      }
+    }
+    if (!ck) {
+      result.push({
+        name: resultMhs[i].name,
+        nim: resultMhs[i].nim,
+        angkatan: resultMhs[i].angkatan,
+        status_konfirmasi: "belum",
+      });
+    }
+  }
+
+  res.status(200).send(result);
+};
+
+exports.getWaliPKL = async (req, res) => {
+  let result = [];
+
+  const dosen = await Dosen.findOne({ user: req.userId });
+  const queryMhs = Mahasiswa.find({kodeWali: dosen._id});
+  const resultMhs = await queryMhs.exec();
+  const queryPKL = PKL.find();
+  const resultPKL = await queryPKL.exec();
+
+  for (let i = 0; i < resultMhs.length; i++) {
+    let ck = false;
+    for (let j = 0; j < resultPKL.length; j++) {
+      if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
+        result.push({
+          name: resultMhs[i].name,
+          nim: resultMhs[i].nim,
+          angkatan: resultMhs[i].angkatan,
+          status_konfirmasi: "sudah",
+        });
+        ck = true;
+        break;
+      }
+    }
+    if (!ck) {
+      result.push({
+        name: resultMhs[i].name,
+        nim: resultMhs[i].nim,
+        angkatan: resultMhs[i].angkatan,
+        status_konfirmasi: "belum",
+      });
+    }
+  }
+>>>>>>> 73ddff3aedcb5ced61edd8baa426b58b6c6bbc49
 
     res.status(200).send(result);
 };

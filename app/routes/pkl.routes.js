@@ -29,6 +29,12 @@ module.exports = function (app) {
   );
 
   app.get(
+    "/verifikasi/pkl",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.getWaliPKL
+  );
+
+  app.get(
     "/pkl/:nim",
     [
       authJwt.verifyToken,

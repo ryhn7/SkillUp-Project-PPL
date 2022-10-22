@@ -31,11 +31,7 @@ module.exports = function (app) {
 
   app.get(
     "/irs/:nim/:semester",
-    [
-      authJwt.verifyToken,
-      authJwt.isMahasiswaOrDosen,
-      authJwt.getMahasiswaIdFromNim,
-    ],
+    [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
     controller.downloadIRS
   );
 };

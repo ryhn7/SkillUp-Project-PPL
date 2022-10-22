@@ -128,7 +128,7 @@ exports.getRekapPKL = async (req, res) => {
           name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
-          status_konfirmasi: "sudah",
+          status_konfirmasi: resultPKL[j].status_konfirmasi,
         });
         ck = true;
         break;
@@ -147,6 +147,27 @@ exports.getRekapPKL = async (req, res) => {
   res.status(200).send(result);
 };
 
+exports.putVerifPKL = async (req, res) => {
+  const dosen = await Dosen.findOne({ user: req.userId });
+  const mahasiswa = await Mahasiswa.findOne({kodeWali: dosen._id, nim: req.params.nim});
+  console.log(mahasiswa._id)
+  PKL.updateOne(
+    { mahasiswa: mahasiswa._id },
+    {
+      $set: {
+        status_konfirmasi: 'sudah'
+      },
+    },
+    function (err, pkl) {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      res.send({ message: "PKL was verified successfully!" });
+    }
+  );
+}
+
 exports.getWaliPKL = async (req, res) => {
   let result = [];
 
@@ -164,7 +185,7 @@ exports.getWaliPKL = async (req, res) => {
           name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
-          status_konfirmasi: "sudah",
+          status_konfirmasi: resultPKL[j].status_konfirmasi,
         });
         ck = true;
         break;

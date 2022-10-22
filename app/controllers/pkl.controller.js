@@ -3,7 +3,7 @@ const PKL = db.pkl;
 const Mahasiswa = db.mahasiswa;
 
 exports.submitPKL = (req, res) => {
-  const pkl = new PKL({
+  const pkl = new PKL({ 
     nilai: req.body.nilai,
     semester: req.body.semester,
     status_konfirmasi: "belum",
@@ -94,7 +94,7 @@ exports.getRekapPKL = async (req, res) => {
     for (let j = 0; j < resultPKL.length; j++) {
       if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
         result.push({
-          nama: resultMhs[i].name,
+          name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
           status_konfirmasi: "sudah",
@@ -105,7 +105,7 @@ exports.getRekapPKL = async (req, res) => {
     }
     if (!ck) {
       result.push({
-        nama: resultMhs[i].name,
+        name: resultMhs[i].name,
         nim: resultMhs[i].nim,
         angkatan: resultMhs[i].angkatan,
         status_konfirmasi: "belum",

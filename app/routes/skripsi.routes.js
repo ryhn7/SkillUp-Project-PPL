@@ -1,4 +1,6 @@
-const { authJwt } = require("../middlewares");
+const {
+  authJwt
+} = require("../middlewares");
 const controller = require("../controllers/skripsi.controller");
 
 module.exports = function (app) {
@@ -42,5 +44,16 @@ module.exports = function (app) {
     ],
     // controller
     controller.downloadSkripsi
+  );
+
+  app.get("verivikasi/skripsi",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.waliSkripsi
+  );
+
+  app.put(
+    "/verifikasi/skripsi/:nim",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.verifSkripsi
   );
 };

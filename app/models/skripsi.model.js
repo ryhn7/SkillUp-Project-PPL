@@ -19,7 +19,8 @@ const Skripsi = mongoose.model(
         },
         status_konfirmasi : {
             type : String,
-            required: [true, "status konfirmasi harus di isi"],
+            required: [true, "status konfirmasi harus di isi"],  
+            
         },
         file : {
             // belum tipe data varbinary sementara string 

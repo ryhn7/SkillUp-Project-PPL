@@ -104,6 +104,7 @@ app.get("/", (req, res) => {
 //req pkl
 require("./app/routes/irs.routes")(app);
 require("./app/routes/profil.routes")(app);
+require("./app/routes/irs.routes")(app);
 require("./app/routes/pkl.routes")(app);
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);

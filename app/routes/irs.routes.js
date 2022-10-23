@@ -8,7 +8,7 @@ module.exports = function (app) {
       "x-access-token, Origin, Content-Type, Accept"
     );
     next();
-  });
+  }); 
   app.post(
     "/irs",
     [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],

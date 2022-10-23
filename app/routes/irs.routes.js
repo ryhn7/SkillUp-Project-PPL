@@ -30,8 +30,20 @@ module.exports = function (app) {
   //get /irs/:nim/:semester but only mahasiswa and dosen can access
 
   app.get(
-    "/irs/:nim/:semester",
+    "/irs/:nim/:semester_aktif",
     [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
     controller.downloadIRS
+  );
+
+  app.get(
+    "/verifikasi/irs",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.waliIRS
+  );
+
+  app.put(
+    "/verifikasi/irs/:nim/:semester_aktif",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.verifikasiIRS
   );
 };

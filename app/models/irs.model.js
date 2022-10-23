@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const IRS = mongoose.model(
   "IRS",
   new mongoose.Schema({
-    semester: {
+    semester_aktif: {
       type: Number,
       required: [true, "Semester aktif wajib diisi"],
       maxlength: [2, "Semester aktif maksimal 2 karakter"],

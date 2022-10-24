@@ -1,5 +1,8 @@
 const db = require("../models");
 const fs = require("fs");
+const { khs } = require("../models");
+const e = require("cors");
+const KHS = require("../models/khs.model");
 const Khs = db.khs;
 const Mahasiswa = db.mahasiswa;
 const Dosen = db.dosen;

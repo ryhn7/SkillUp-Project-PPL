@@ -3,69 +3,69 @@ const controller = require("../controllers/user.controller.js");
 const { verifyGenerate } = require("../middlewares");
 
 module.exports = function (app) {
-  app.use(function (req, res, next) {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
+    app.use(function (req, res, next) {
+        res.header(
+            "Access-Control-Allow-Headers",
+            "x-access-token, Origin, Content-Type, Accept"
+        );
+        next();
+    });
+
+    app.get("/all", controller.allAccess);
+
+    app.get("/mahasiswa", [authJwt.verifyToken], controller.mahasiswaBoard);
+
+    app.get(
+        "/dosen",
+        [authJwt.verifyToken, authJwt.isDosen],
+        controller.dosenBoard
     );
-    next();
-  });
 
-  app.get("/all", controller.allAccess);
+    app.get(
+        "/admin",
+        [authJwt.verifyToken, authJwt.isAdmin],
+        controller.adminBoard
+    );
 
-  app.get("/mahasiswa", [authJwt.verifyToken], controller.mahasiswaBoard);
+    app.get(
+        "/departemen",
+        [authJwt.verifyToken, authJwt.isDepartemen],
+        controller.departemenBoard
+    );
 
-  app.get(
-    "/dosen",
-    [authJwt.verifyToken, authJwt.isDosen],
-    controller.dosenBoard
-  );
+    app.post(
+        "/generate",
+        [
+            verifyGenerate.checkDuplicateUsernameOrEmail,
+            verifyGenerate.checkRolesExisted,
+            authJwt.verifyToken,
+            authJwt.isAdmin,
+        ],
+        controller.signup
+    );
 
-  app.get(
-    "/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
-  );
+    app.get(
+        "/list-user",
+        [authJwt.verifyToken, authJwt.isAdmin],
+        controller.listUser
+    );
 
-  app.get(
-    "/departemen",
-    [authJwt.verifyToken, authJwt.isDepartemen],
-    controller.departemenBoard
-  );
+    app.get(
+        "/list-mahasiswa",
+        [authJwt.verifyToken, authJwt.isMaster],
+        controller.listDataMahasiswa
+    );
 
-  app.post(
-    "/generate",
-    [
-      verifyGenerate.checkDuplicateUsernameOrEmail,
-      verifyGenerate.checkRolesExisted,
-      authJwt.verifyToken,
-      authJwt.isAdmin,
-    ],
-    controller.signup
-  );
-
-  app.get(
-    "/list-user",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.listUser
-  );
-
-  app.get(
-    "/list-mahasiswa",
-    [authJwt.verifyToken, authJwt.isMaster],
-    controller.listDataMahasiswa
-  );
-
-  app.post(
-    "/generate-dosen",
-    [
-      verifyGenerate.checkDuplicateUsernameOrEmail,
-      verifyGenerate.checkRolesExisted,
-      authJwt.verifyToken,
-      authJwt.isAdmin,
-    ],
-    controller.signUpDosen
-  );
+    app.post(
+        "/generate-dosen",
+        [
+            verifyGenerate.checkDuplicateUsernameOrEmail,
+            verifyGenerate.checkRolesExisted,
+            authJwt.verifyToken,
+            authJwt.isAdmin,
+        ],
+        controller.signUpDosen
+    );
 
   app.get(
     "/list-dosen",

@@ -240,6 +240,16 @@ const verifyIRS = async (req, res) => {
     );
 };
 
+const deleteAllIRS = (req, res) => {
+    IRS.deleteMany({}, (err, data) => {
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+        res.status(200).send(data);
+    });
+};
+
 module.exports = {
     verifyIRS,
     waliIRS,

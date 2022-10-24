@@ -7,6 +7,7 @@ const Mahasiswa = db.mahasiswa;
 
 var bcrypt = require("bcryptjs");
 var jose = require("jose");
+const Dosen = require("../models/dosen.model");
 
 exports.signin = (req, res) => {
   User.findOne({
@@ -68,6 +69,32 @@ exports.signin = (req, res) => {
           id: user.id,
           role: user.roles.name,
           name: mahasiswa.name,
+        })
+          .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+          .setIssuedAt()
+          .setExpirationTime("12h")
+          .sign(new TextEncoder().encode(SECRET));
+
+        res.status(200).send({
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          roles: user.roles.name,
+          accessToken: token,
+        });
+      } else if (user.roles.name == "dosen") {
+        const dosen = await Dosen.findOne({ user: user._id }, (err, dosen) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+          return dosen;
+        });
+
+        var token = await new jose.SignJWT({
+          id: user.id,
+          role: user.roles.name,
+          name: dosen.name,
         })
           .setProtectedHeader({ alg: "HS256", typ: "JWT" })
           .setIssuedAt()

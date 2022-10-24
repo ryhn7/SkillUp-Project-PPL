@@ -1,6 +1,7 @@
 const db = require("../models");
 const Skripsi = db.skripsi;
 const Mahasiswa = db.mahasiswa;
+const Dosen = db.dosen;
 const fs = require("fs");
 
 exports.submitSkripsi = (req, res) => {
@@ -151,3 +152,57 @@ exports.downloadSkripsi = (req, res) => {
         }
     );
 };
+
+exports.waliSkripsi = async (req,res) => {
+  const dosen = await Dosen.findOne({user : req.userId});
+  const resultMhs = await Mahasiswa.find({kodeWali: dosen._id});
+  const resultSkr = await Skripsi.find({});
+  for (let i = 0; i < resultMhs.length; i++) {
+    let ck = false;
+    for (let j = 0; j < resultSkr.length; j++) {
+      if (resultMhs[i]._id.equals(resultSkr[j].mahasiswa)) {
+        result.push({
+          nama: resultMhs[i].name,
+          nim: resultMhs[i].nim,
+          angkatan: resultMhs[i].angkatan,
+          status_konfirmasi: "sudah",
+        });
+        ck = true;
+        break;
+      }
+    }
+    if (!ck) {
+      result.push({
+        nama: resultMhs[i].name,
+        nim: resultMhs[i].nim,
+        angkatan: resultMhs[i].angkatan,
+        status_konfirmasi: "belum",
+      });
+    }
+  }
+  res.status(200).send(result);
+
+
+}
+
+exports.verifSkripsi = async (req, res) => {
+  const dosen = await Dosen.findOne({ user: req.userId });
+  const mahasiswa = await Mahasiswa.findOne({kodeWali: dosen._id, nim: req.params.nim});
+  console.log(mahasiswa._id)
+  Skripsi.updateOne(
+    { mahasiswa: mahasiswa._id },
+    {
+      $set: {
+        status_konfirmasi: 'sudah'
+      },
+    },
+    function (err, pkl) {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      res.send({ message: "PKL was verified successfully!" });
+    }
+  );
+}
+

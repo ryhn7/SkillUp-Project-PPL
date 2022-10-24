@@ -228,7 +228,7 @@ const isMahasiswaOrDosen = (req, res, next) => {
     });
 };
 
-//only kodewali can access mahasiswa data
+//only kodewali can access mahasiswa file
 const isKodeWali = (req, res, next) => {
   User.findById(req.userId).exec((err, user) => {
     if (err) {

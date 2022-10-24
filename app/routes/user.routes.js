@@ -4,10 +4,7 @@ const { verifyGenerate } = require("../middlewares");
 
 module.exports = function (app) {
     app.use(function (req, res, next) {
-        res.header(
-            "Access-Control-Allow-Headers",
-            "x-access-token, Origin, Content-Type, Accept"
-        );
+        res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
         next();
     });
 
@@ -15,23 +12,11 @@ module.exports = function (app) {
 
     app.get("/mahasiswa", [authJwt.verifyToken], controller.mahasiswaBoard);
 
-    app.get(
-        "/dosen",
-        [authJwt.verifyToken, authJwt.isDosen],
-        controller.dosenBoard
-    );
+    app.get("/dosen", [authJwt.verifyToken, authJwt.isDosen], controller.dosenBoard);
 
-    app.get(
-        "/admin",
-        [authJwt.verifyToken, authJwt.isAdmin],
-        controller.adminBoard
-    );
+    app.get("/admin", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
 
-    app.get(
-        "/departemen",
-        [authJwt.verifyToken, authJwt.isDepartemen],
-        controller.departemenBoard
-    );
+    app.get("/departemen", [authJwt.verifyToken, authJwt.isDepartemen], controller.departemenBoard);
 
     app.post(
         "/generate",
@@ -44,11 +29,7 @@ module.exports = function (app) {
         controller.signup
     );
 
-    app.get(
-        "/list-user",
-        [authJwt.verifyToken, authJwt.isAdmin],
-        controller.listUser
-    );
+    app.get("/list-user", [authJwt.verifyToken, authJwt.isAdmin], controller.listUser);
 
     app.get(
         "/list-mahasiswa",
@@ -67,36 +48,25 @@ module.exports = function (app) {
         controller.signUpDosen
     );
 
-  app.get(
-    "/list-dosen",
-    [authJwt.verifyToken, authJwt.isMaster],
-    controller.listDosen
-  );
-  app.post(
-    "/batch-generate",
-    [
-      authJwt.verifyToken,
-      authJwt.isMaster,
-      verifyGenerate.checkDuplicateUsernameOrEmail,
-    ],
-    controller.createBatchUser
-  );
+    app.get("/list-dosen", [authJwt.verifyToken, authJwt.isMaster], controller.listDosen);
+    app.post(
+        "/batch-generate",
+        [authJwt.verifyToken, authJwt.isMaster, verifyGenerate.checkDuplicateUsernameOrEmail],
+        controller.createBatchUser
+    );
 
-  app.post(
-    "/batch-dosen",
-    [authJwt.verifyToken,
-    verifyGenerate.checkDuplicateUsernameOrEmail,
-    verifyGenerate.checkRolesExisted,
-    authJwt.isMaster
-    ],
-    controller.createBatchDosen
-  );
+    app.post(
+        "/batch-dosen",
+        [
+            authJwt.verifyToken,
+            verifyGenerate.checkDuplicateUsernameOrEmail,
+            verifyGenerate.checkRolesExisted,
+            authJwt.isMaster,
+        ],
+        controller.createBatchDosen
+    );
 
-app.get(
-  "/rekap/dosen",
-  [authJwt.verifyToken, authJwt.isDosen],
-  controller.getRekapDosen
-);
+    app.get("/rekap/dosen", [authJwt.verifyToken, authJwt.isDosen], controller.getRekapDosen);
 
-app.get("/rekap-mhs", [authJwt.verifyToken, authJwt.isDepartemen], controller.getRekapAllMhs);
+    app.get("/rekap-mhs", [authJwt.verifyToken, authJwt.isDepartemen], controller.getRekapAllMhs);
 };

@@ -106,26 +106,22 @@ exports.signup = (req, res) => {
                     }
 
                     if (req.body.status) {
-                        Status.findOne(
-                            { name: req.body.status },
-                            (err, status) => {
+                        Status.findOne({ name: req.body.status }, (err, status) => {
+                            if (err) {
+                                res.status(500).send({ message: err });
+                                return;
+                            }
+                            mahasiswa.status = status._id;
+                            mahasiswa.save((err) => {
                                 if (err) {
                                     res.status(500).send({ message: err });
                                     return;
                                 }
-                                mahasiswa.status = status._id;
-                                mahasiswa.save((err) => {
-                                    if (err) {
-                                        res.status(500).send({ message: err });
-                                        return;
-                                    }
-                                    res.send({
-                                        message:
-                                            "User was registered successfully!",
-                                    });
+                                res.send({
+                                    message: "User was registered successfully!",
                                 });
-                            }
-                        );
+                            });
+                        });
                     }
                 });
             });
@@ -260,10 +256,7 @@ exports.createBatchUser = (req, res) => {
                 const user = new User({
                     username: data.nim,
                     email: data.email,
-                    password: bcrypt.hashSync(
-                        data.name.toLowerCase().split(" ")[0],
-                        8
-                    ),
+                    password: bcrypt.hashSync(data.name.toLowerCase().split(" ")[0], 8),
                 });
 
                 const mahasiswa = new Mahasiswa({
@@ -337,157 +330,170 @@ exports.createBatchUser = (req, res) => {
         });
 };
 
+exports.createBatchDosen = (req, res) => {
+    // create batch user for mahasiwa from csv file using csvtojson
+    const file = req.file.path;
+    csv()
+        .fromFile(file)
+        .then((jsonObj) => {
+            // console.log(jsonObj);
+            jsonObj.forEach((data) => {
+                const user = new User({
+                    username: data.nip,
+                    email: data.email,
+                    password: bcrypt.hashSync("dosen", 8),
+                });
 
+                const dosen = new Dosen({
+                    name: data.name,
+                    email: data.email,
+                    nip: data.nip,
+                    user: user._id,
+                });
+
+                user.save((err, user) => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+
+                    if (req.body.roles) {
+                        Role.find(
+                            {
+                                name: { $in: req.body.roles },
+                            },
+                            (err, roles) => {
+                                if (err) {
+                                    res.status(500).send({ message: err });
+                                    return;
+                                }
+
+                                user.roles = roles.map((role) => role._id);
+                                user.save((err) => {
+                                    if (err) {
+                                        res.status(500).send({ message: err });
+                                        return;
+                                    }
+                                });
+                            }
+                        );
+                    } else {
+                        Role.findOne({ name: "dosen" }, (err, role) => {
+                            if (err) {
+                                res.status(500).send({ message: err });
+                                return;
+                            }
+
+                            user.roles = [role._id];
+                            user.save((err) => {
+                                if (err) {
+                                    res.status(500).send({ message: err });
+                                    return;
+                                }
+                                dosen.save((err) => {
+                                    if (err) {
+                                        res.status(500).send({ message: err }); // kalau gaada error di table mahasiswa ini aman dijalanin
+                                        console.log(err);
+                                        return;
+                                    }
+                                });
+                            });
+                        });
+                    }
+                });
+            });
+            res.status(200).json({
+                message: "Dosen was registered successfully!",
+                data: jsonObj,
+            });
+        });
+};
 exports.getRekapDosen = async (req, res) => {
-  let result = [];
-  let lulusPKL = 0;
-  let belumPKL = 0;
-  let lulusSkripsi = 0;
-  let belumSkripsi = 0;
+    let result = [];
+    let lulusPKL = 0;
+    let belumPKL = 0;
+    let lulusSkripsi = 0;
+    let belumSkripsi = 0;
 
-  const dosen = await Dosen.findOne({ user: req.userId });
-  const queryMhs = Mahasiswa.find({ kodeWali: dosen._id });
-  const resultMhs = await queryMhs.exec();
-  const queryPKL = PKL.find();
-  const resultPKL = await queryPKL.exec();
-  const querySkripsi = Skripsi.find();
-  const resultSkripsi = await querySkripsi.exec();
-  // proses mencari rekap kelulusan PKL
-  for (let i = 0; i < resultMhs.length; i++) {
-    let ck = false;
-    for (let j = 0; j < resultPKL.length; j++) {
-      if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
-        if (resultPKL[j].status_konfirmasi === "sudah") {
-          lulusPKL++;
-        } else {
-          belumPKL++;
+    const dosen = await Dosen.findOne({ user: req.userId });
+    const queryMhs = Mahasiswa.find({ kodeWali: dosen._id });
+    const resultMhs = await queryMhs.exec();
+    const queryPKL = PKL.find();
+    const resultPKL = await queryPKL.exec();
+    const querySkripsi = Skripsi.find();
+    const resultSkripsi = await querySkripsi.exec();
+    // proses mencari rekap kelulusan PKL
+    for (let i = 0; i < resultMhs.length; i++) {
+        let ck = false;
+        for (let j = 0; j < resultPKL.length; j++) {
+            if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
+                if (resultPKL[j].status_konfirmasi === "sudah") {
+                    lulusPKL++;
+                } else {
+                    belumPKL++;
+                }
+                ck = true;
+                break;
+            }
         }
-        ck = true;
-        break;
-      }
-    }
-    if (!ck) {
-      belumPKL++;
-    }
-  }
-  // proses mencari rekap kelulusan skripsi
-  for (let i = 0; i < resultMhs.length; i++) {
-    let ck = false;
-    for (let j = 0; j < resultSkripsi.length; j++) {
-      if (resultMhs[i]._id.equals(resultSkripsi[j].mahasiswa)) {
-        if (resultSkripsi[j].status_konfirmasi === "sudah") {
-          lulusSkripsi++;
-        } else {
-          belumSkripsi++;
+        if (!ck) {
+            belumPKL++;
         }
-        ck = true;
-        break;
-      }
     }
-    if (!ck) {
-      belumSkripsi++;
+    // proses mencari rekap kelulusan skripsi
+    for (let i = 0; i < resultMhs.length; i++) {
+        let ck = false;
+        for (let j = 0; j < resultSkripsi.length; j++) {
+            if (resultMhs[i]._id.equals(resultSkripsi[j].mahasiswa)) {
+                if (resultSkripsi[j].status_konfirmasi === "sudah") {
+                    lulusSkripsi++;
+                } else {
+                    belumSkripsi++;
+                }
+                ck = true;
+                break;
+            }
+        }
+        if (!ck) {
+            belumSkripsi++;
+        }
     }
-  }
 
-  // proses mencari rekap status mhs sesuai doswal
-  const resultAktif = await Mahasiswa.count({ kodeWali: dosen._id, status: "Aktif" });
-  const resultCuti = await Mahasiswa.count({ kodeWali: dosen._id, status: "Cuti" });
-  const resultMangkir = await Mahasiswa.count({ kodeWali: dosen._id, status: "Mangkir" });
-  const resultDrop = await Mahasiswa.count({ kodeWali: dosen._id, status: "Drop Out" });
-  const resultMengundurkan = await Mahasiswa.count({
-    kodeWali: dosen._id,
-    status: "Mengundurkan Diri",
-  });
-  const resultLulus = await Mahasiswa.count({ kodeWali: dosen._id, status: "Lulus" });
-  const resultMeninggal = await Mahasiswa.count({
-    kodeWali: dosen._id,
-    status: "Meninggal Dunia",
-  });
+    // proses mencari rekap status mhs sesuai doswal
+    const resultAktif = await Mahasiswa.count({ kodeWali: dosen._id, status: "Aktif" });
+    const resultCuti = await Mahasiswa.count({ kodeWali: dosen._id, status: "Cuti" });
+    const resultMangkir = await Mahasiswa.count({ kodeWali: dosen._id, status: "Mangkir" });
+    const resultDrop = await Mahasiswa.count({ kodeWali: dosen._id, status: "Drop Out" });
+    const resultMengundurkan = await Mahasiswa.count({
+        kodeWali: dosen._id,
+        status: "Mengundurkan Diri",
+    });
+    const resultLulus = await Mahasiswa.count({ kodeWali: dosen._id, status: "Lulus" });
+    const resultMeninggal = await Mahasiswa.count({
+        kodeWali: dosen._id,
+        status: "Meninggal Dunia",
+    });
 
-  res.status(200).send({
-    status: {
-      aktif: resultAktif,
-      cuti: resultCuti,
-      mangkir: resultMangkir,
-      do: resultDrop,
-      undur_diri: resultMengundurkan,
-      lulus: resultLulus,
-      meninggal_dunia: resultMeninggal,
-    },
-    pkl: {
-      lulus: lulusPKL,
-      belum: belumPKL,
-    },
-    skripsi: {
-      lulus: lulusSkripsi,
-      belum: belumSkripsi,
-    },
-  });
+    res.status(200).send({
+        status: {
+            aktif: resultAktif,
+            cuti: resultCuti,
+            mangkir: resultMangkir,
+            do: resultDrop,
+            undur_diri: resultMengundurkan,
+            lulus: resultLulus,
+            meninggal_dunia: resultMeninggal,
+        },
+        pkl: {
+            lulus: lulusPKL,
+            belum: belumPKL,
+        },
+        skripsi: {
+            lulus: lulusSkripsi,
+            belum: belumSkripsi,
+        },
+    });
 };
-
-exports.deleteAllMhs = async (req, res) => {
-  const mhs = await Role.findOne({
-    name: "mahasiswa",
-  });
-  // console.log(mhs._id);
-
-  // const list_mhs = await User.find({ roles: mhs._id });
-
-  // res.status(200).send(list_mhs);
-
-  User.deleteMany({ roles: mhs._id }, (err, data) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-    res.status(200).send(data);
-  });
-};
-
-exports.getRekapAllMhs = async (req, res) => {
-  const lulus_skripsi = await Skripsi.count({ status_konfirmasi: "sudah" });
-  const tidak_skripsi = await Skripsi.count({ status_konfirmasi: "belum" });
-  const lulus_pkl = await PKL.count({ status_konfirmasi: "sudah" });
-  const tidak_pkl = await PKL.count({ status_konfirmasi: "belum" });
-
-  const aktif = await Mahasiswa.count({ status: "Aktif" });
-  const cuti = await Mahasiswa.count({ status: "Cuti" });
-  const mangkir = await Mahasiswa.count({ status: "Mangkir" });
-  const drop = await Mahasiswa.count({ status: "Drop Out" });
-  const mengundurkan = await Mahasiswa.count({ status: "Mengundurkan Diri" });
-  const lulus = await Mahasiswa.count({ status: "Lulus" });
-  const meninggal = await Mahasiswa.count({ status: "Meninggal Dunia" });
-
-  const list_mhs = await Mahasiswa.find({});
-  const list_khs = [];
-
-  for (let i = 0; i < list_mhs.length; i++) {
-    khs = await KHS.find({ mahasiswa: list_mhs[i]._id });
-
-    const new_obj = {
-      name: list_mhs[i].name,
-      khs,
-    };
-
-    list_khs.push(new_obj);
-  }
-  console.log(list_khs);
-
-  const obj_rekap = {
-    status: {
-      aktif,
-      cuti,
-      mangkir,
-      do: drop,
-      mengundurkan_diri: mengundurkan,
-      lulus,
-      meninggal,
-    },
-
-    skripsi: {
-      lulus_skripsi,
-      tidak_skripsi,
-    },
 
 exports.deleteAllMhs = async (req, res) => {
     const mhs = await Role.findOne({
@@ -508,5 +514,56 @@ exports.deleteAllMhs = async (req, res) => {
     });
 };
 
-  res.status(200).send(obj_rekap);
+exports.getRekapAllMhs = async (req, res) => {
+    const lulus_skripsi = await Skripsi.count({ status_konfirmasi: "sudah" });
+    const tidak_skripsi = await Skripsi.count({ status_konfirmasi: "belum" });
+    const lulus_pkl = await PKL.count({ status_konfirmasi: "sudah" });
+    const tidak_pkl = await PKL.count({ status_konfirmasi: "belum" });
+
+    const aktif = await Mahasiswa.count({ status: "Aktif" });
+    const cuti = await Mahasiswa.count({ status: "Cuti" });
+    const mangkir = await Mahasiswa.count({ status: "Mangkir" });
+    const drop = await Mahasiswa.count({ status: "Drop Out" });
+    const mengundurkan = await Mahasiswa.count({ status: "Mengundurkan Diri" });
+    const lulus = await Mahasiswa.count({ status: "Lulus" });
+    const meninggal = await Mahasiswa.count({ status: "Meninggal Dunia" });
+
+    const list_mhs = await Mahasiswa.find({});
+    const list_khs = [];
+
+    for (let i = 0; i < list_mhs.length; i++) {
+        khs = await KHS.find({ mahasiswa: list_mhs[i]._id });
+
+        const new_obj = {
+            name: list_mhs[i].name,
+            khs,
+        };
+
+        list_khs.push(new_obj);
+    }
+    console.log(list_khs);
+
+    const obj_rekap = {
+        status: {
+            aktif,
+            cuti,
+            mangkir,
+            do: drop,
+            mengundurkan_diri: mengundurkan,
+            lulus,
+            meninggal,
+        },
+
+        skripsi: {
+            lulus_skripsi,
+            tidak_skripsi,
+        },
+
+        pkl: {
+            lulus_pkl,
+            tidak_pkl,
+        },
+    };
+
+    res.status(200).send(obj_rekap);
 };

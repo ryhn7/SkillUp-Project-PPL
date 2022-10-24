@@ -3,10 +3,7 @@ const controller = require("../controllers/khs.controller");
 
 module.exports = function (app) {
     app.use(function (req, res, next) {
-        res.header(
-            "Access-Control-Allow-Headers",
-            "x-access-token, Origin, Content-Type, Accept"
-        );
+        res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
         next();
     });
 
@@ -22,32 +19,20 @@ module.exports = function (app) {
         controller.getKHS
     );
 
+    app.get("/all-khs", [authJwt.verifyToken, authJwt.isDepartemen], controller.getAllKHS);
+
     app.get(
-        "/all-khs",
-        [authJwt.verifyToken, authJwt.isDepartemen],
-        controller.getAllKHS
+        "/khs/:nim/:semester",
+        [authJwt.verifyToken, authJwt.isMahasiswaOrDosen, authJwt.getMahasiswaIdFromNim],
+        controller.downloadKHS
     );
+    app.get("/verifikasi/khs", [authJwt.verifyToken, authJwt.isDosen], controller.waliKHS);
 
-  app.get(
-    "/khs/:nim/:semester",
-    [
-      authJwt.verifyToken,
-      authJwt.isMahasiswaOrDosen,
-      authJwt.getMahasiswaIdFromNim,
-    ],
-    controller.downloadKHS
-  );
-  app.get(
-    "/verifikasi/khs",
-    [authJwt.verifyToken, authJwt.isDosen],
-    controller.waliKHS
-  );
-
-  app.put(
-    "/verifikasi/khs/:nim/:semester",
-    [authJwt.verifyToken, authJwt.isDosen],
-    controller.verifyKHS
-  );
+    app.put(
+        "/verifikasi/khs/:nim/:semester",
+        [authJwt.verifyToken, authJwt.isDosen],
+        controller.verifyKHS
+    );
 
     // app.delete(
     //     "/delete/all-khs",

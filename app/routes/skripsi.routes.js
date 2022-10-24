@@ -50,14 +50,15 @@ module.exports = function (app) {
     //     controller.deleteAllSkripsi
     // );
 
-  app.get("verivikasi/skripsi",
-    [authJwt.verifyToken, authJwt.isDosen],
-    controller.waliSkripsi
-  );
+    app.get(
+        "verivikasi/skripsi",
+        [authJwt.verifyToken, authJwt.isDosen],
+        controller.waliSkripsi
+    );
 
-  app.put(
-    "/verifikasi/skripsi/:nim",
-    [authJwt.verifyToken, authJwt.isDosen],
-    controller.verifSkripsi
-  );
+    app.put(
+        "/verifikasi/skripsi/:nim",
+        [authJwt.verifyToken, authJwt.isDosen],
+        controller.verifSkripsi
+    );
 };

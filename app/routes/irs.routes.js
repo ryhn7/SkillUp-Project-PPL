@@ -21,13 +21,13 @@ module.exports = function (app) {
     controller.getIRS
   );
 
-  app.get(
-    "/all-irs",
-    [authJwt.verifyToken, authJwt.isDepartemen],
-    controller.getAllIRS
-  );
+    app.get(
+        "/all-irs",
+        [authJwt.verifyToken, authJwt.isDepartemen],
+        controller.getAllIRS
+    );
 
-  //get /irs/:nim/:semester but only mahasiswa and dosen can access
+    //get /irs/:nim/:semester but only mahasiswa and dosen can access
 
   app.get(
     "/irs/:nim/:semester_aktif",

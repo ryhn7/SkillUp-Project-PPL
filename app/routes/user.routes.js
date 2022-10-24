@@ -12,9 +12,9 @@ module.exports = function (app) {
         next();
     });
 
-    app.get("/all", controller.allAccess);
+      app.get("/all", controller.allAccess);
 
-    app.get("/mahasiswa", [authJwt.verifyToken], controller.mahasiswaBoard);
+      app.get("/mahasiswa", [authJwt.verifyToken], controller.mahasiswaBoard);
 
     app.get("/dosen", [authJwt.verifyToken, authJwt.isDosen], controller.dosenBoard);
 
@@ -72,28 +72,28 @@ module.exports = function (app) {
     controller.signup
   );
 
-  app.get(
-    "/list-user",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.listUser
-  );
+    app.get(
+        "/list-user",
+        [authJwt.verifyToken, authJwt.isAdmin],
+        controller.listUser
+    );
 
-  app.get(
-    "/list-mahasiswa",
-    [authJwt.verifyToken, authJwt.isMaster],
-    controller.listDataMahasiswa
-  );
+    app.get(
+        "/list-mahasiswa",
+        [authJwt.verifyToken, authJwt.isMaster],
+        controller.listDataMahasiswa
+    );
 
-  app.post(
-    "/generate-dosen",
-    [
-      verifyGenerate.checkDuplicateUsernameOrEmail,
-      verifyGenerate.checkRolesExisted,
-      authJwt.verifyToken,
-      authJwt.isAdmin,
-    ],
-    controller.signUpDosen
-  );
+    app.post(
+        "/generate-dosen",
+        [
+            verifyGenerate.checkDuplicateUsernameOrEmail,
+            verifyGenerate.checkRolesExisted,
+            authJwt.verifyToken,
+            authJwt.isAdmin,
+        ],
+        controller.signUpDosen
+    );
 
   app.get(
     "/list-dosen",

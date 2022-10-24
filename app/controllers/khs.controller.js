@@ -60,8 +60,7 @@ const submitKHS = (req, res) => {
                                         sks_kumulatif: req.body.sks_kumulatif,
                                         ip: req.body.ip,
                                         ip_kumulatif: req.body.ip_kumulatif,
-                                        status_konfirmasi:
-                                            req.body.status_konfirmasi,
+                                        status_konfirmasi: req.body.status_konfirmasi,
                                     },
                                 },
                                 function (err, khs) {
@@ -70,8 +69,7 @@ const submitKHS = (req, res) => {
                                         return;
                                     }
                                     res.send({
-                                        message:
-                                            "KHS was updated successfully!",
+                                        message: "KHS was updated successfully!",
                                     });
                                 }
                             );
@@ -127,7 +125,7 @@ const getAllKHS = async (req, res) => {
             }
         }
         let obj_mahasiswa = {
-            nama: array_mahasiswa[i].name,
+            name: array_mahasiswa[i].name,
             nim: array_mahasiswa[i].nim,
             khs: khs_mahasiswa,
             wali: array_mahasiswa[i].kodeWali,
@@ -157,10 +155,7 @@ const downloadKHS = (req, res) => {
             }
             const file = fs.createReadStream(khs.file);
             const filename = "KHS_" + khs.semester_aktif;
-            res.setHeader(
-                "Content-disposition",
-                "attachment; filename=" + filename
-            );
+            res.setHeader("Content-disposition", "attachment; filename=" + filename);
             file.pipe(res);
         }
     );
@@ -189,7 +184,7 @@ const waliKHS = async (req, res) => {
             }
         }
         let obj_mahasiswa = {
-            nama: list_mhs[i].name,
+            name: list_mhs[i].name,
             nim: list_mhs[i].nim,
             angkatan: list_mhs[i].angkatan,
             khs: khs_mahasiswa,
@@ -205,7 +200,7 @@ const verifyKHS = async (req, res) => {
     const dosen = await Dosen.findOne({ user: req.userId });
 
     if (!dosen._id.equals(mhs.kodeWali)) {
-        res.status(403).send(`Anda bukan dosen wali dari ${mhs.nama}`);
+        res.status(403).send(`Anda bukan dosen wali dari ${mhs.name}`);
         return;
     }
 

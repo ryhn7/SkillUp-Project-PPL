@@ -8,10 +8,13 @@ const Status = db.status;
 const Skripsi = db.skripsi;
 const PKL = db.pkl;
 const Dosen = db.dosen;
+const PKL = db.pkl;
+const KHS = db.khs;
 const fs = require("fs");
 
 var bcrypt = require("bcryptjs");
 const { checkRolesExisted } = require("../middlewares/verifyGenerate");
+const pkl = require("../models/pkl.model");
 
 exports.allAccess = (req, res) => {
     res.status(200).send("Public Content.");
@@ -104,26 +107,22 @@ exports.signup = (req, res) => {
                     }
 
                     if (req.body.status) {
-                        Status.findOne(
-                            { name: req.body.status },
-                            (err, status) => {
+                        Status.findOne({ name: req.body.status }, (err, status) => {
+                            if (err) {
+                                res.status(500).send({ message: err });
+                                return;
+                            }
+                            mahasiswa.status = status._id;
+                            mahasiswa.save((err) => {
                                 if (err) {
                                     res.status(500).send({ message: err });
                                     return;
                                 }
-                                mahasiswa.status = status._id;
-                                mahasiswa.save((err) => {
-                                    if (err) {
-                                        res.status(500).send({ message: err });
-                                        return;
-                                    }
-                                    res.send({
-                                        message:
-                                            "User was registered successfully!",
-                                    });
+                                res.send({
+                                    message: "User was registered successfully!",
                                 });
-                            }
-                        );
+                            });
+                        });
                     }
                 });
             });
@@ -258,10 +257,7 @@ exports.createBatchUser = (req, res) => {
                 const user = new User({
                     username: data.nim,
                     email: data.email,
-                    password: bcrypt.hashSync(
-                        data.name.toLowerCase().split(" ")[0],
-                        8
-                    ),
+                    password: bcrypt.hashSync(data.name.toLowerCase().split(" ")[0], 8),
                 });
 
                 const mahasiswa = new Mahasiswa({
@@ -437,4 +433,58 @@ exports.deleteAllMhs = async (req, res) => {
         }
         res.status(200).send(data);
     });
+};
+
+exports.getRekapAllMhs = async (req, res) => {
+    const lulus_skripsi = await Skripsi.count({ status_konfirmasi: "sudah" });
+    const tidak_skripsi = await Skripsi.count({ status_konfirmasi: "belum" });
+    const lulus_pkl = await PKL.count({ status_konfirmasi: "sudah" });
+    const tidak_pkl = await PKL.count({ status_konfirmasi: "belum" });
+
+    const aktif = await Mahasiswa.count({ status: "Aktif" });
+    const cuti = await Mahasiswa.count({ status: "Cuti" });
+    const mangkir = await Mahasiswa.count({ status: "Mangkir" });
+    const drop = await Mahasiswa.count({ status: "Drop Out" });
+    const mengundurkan = await Mahasiswa.count({ status: "Mengundurkan Diri" });
+    const lulus = await Mahasiswa.count({ status: "Lulus" });
+    const meninggal = await Mahasiswa.count({ status: "Meninggal Dunia" });
+
+    const list_mhs = await Mahasiswa.find({});
+    const list_khs = [];
+
+    for (let i = 0; i < list_mhs.length; i++) {
+        khs = await KHS.find({ mahasiswa: list_mhs[i]._id });
+
+        const new_obj = {
+            name: list_mhs[i].name,
+            khs,
+        };
+
+        list_khs.push(new_obj);
+    }
+    console.log(list_khs);
+
+    const obj_rekap = {
+        status: {
+            aktif,
+            cuti,
+            mangkir,
+            do: drop,
+            mengundurkan_diri: mengundurkan,
+            lulus,
+            meninggal,
+        },
+
+        skripsi: {
+            lulus_skripsi,
+            tidak_skripsi,
+        },
+
+        pkl: {
+            lulus_pkl,
+            tidak_pkl,
+        },
+    };
+
+    res.status(200).send(obj_rekap);
 };

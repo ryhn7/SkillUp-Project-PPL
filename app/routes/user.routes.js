@@ -83,4 +83,10 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isDosen],
     controller.getRekapDosen
   )
+
+    app.get(
+        "/rekap-mhs",
+        [authJwt.verifyToken, authJwt.isDepartemen],
+        controller.getRekapAllMhs
+    );
 };

@@ -153,6 +153,16 @@ exports.downloadSkripsi = (req, res) => {
     );
 };
 
+exports.deleteAllSkripsi = (req, res) => {
+    Skripsi.deleteMany({}, (err, data) => {
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+        res.status(200).send(data);
+    });
+};
+
 exports.waliSkripsi = async (req,res) => {
   let result = []
   const dosen = await Dosen.findOne({user : req.userId});

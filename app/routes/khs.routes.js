@@ -49,4 +49,10 @@ module.exports = function (app) {
         [authJwt.verifyToken, authJwt.isDosen],
         controller.verifyKHS
     );
+
+    // app.delete(
+    //     "/delete/all-khs",
+    //     [authJwt.verifyToken, authJwt.isAdmin],
+    //     controller.deleteAllKHS
+    // );
 };

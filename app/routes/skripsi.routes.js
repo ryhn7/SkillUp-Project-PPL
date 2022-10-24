@@ -50,9 +50,9 @@ module.exports = function (app) {
     controller.waliSkripsi
   );
 
-  app.put(
-    "/verifikasi/skripsi/:nim",
-    [authJwt.verifyToken, authJwt.isDosen],
-    controller.verifSkripsi
-  );
+    app.put(
+        "/verifikasi/skripsi/:nim",
+        [authJwt.verifyToken, authJwt.isDosen],
+        controller.verifSkripsi
+    );
 };

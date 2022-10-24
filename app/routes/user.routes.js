@@ -72,11 +72,7 @@ module.exports = function (app) {
     controller.signup
   );
 
-    app.get(
-        "/list-user",
-        [authJwt.verifyToken, authJwt.isAdmin],
-        controller.listUser
-    );
+    app.get("/list-user", [authJwt.verifyToken, authJwt.isAdmin], controller.listUser);
 
     app.get(
         "/list-mahasiswa",
@@ -95,20 +91,12 @@ module.exports = function (app) {
         controller.signUpDosen
     );
 
-  app.get(
-    "/list-dosen",
-    [authJwt.verifyToken, authJwt.isMaster],
-    controller.listDosen
-  );
-  app.post(
-    "/batch-generate",
-    [
-      authJwt.verifyToken,
-      authJwt.isMaster,
-      verifyGenerate.checkDuplicateUsernameOrEmail,
-    ],
-    controller.createBatchUser
-  );
+    app.get("/list-dosen", [authJwt.verifyToken, authJwt.isMaster], controller.listDosen);
+    app.post(
+        "/batch-generate",
+        [authJwt.verifyToken, authJwt.isMaster, verifyGenerate.checkDuplicateUsernameOrEmail],
+        controller.createBatchUser
+    );
 
   app.post(
     "/batch-dosen",

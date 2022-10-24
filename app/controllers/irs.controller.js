@@ -242,4 +242,5 @@ module.exports = {
     getIRS,
     getAllIRS,
     downloadIRS,
+    deleteAllIRS,
 };

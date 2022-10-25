@@ -1,5 +1,5 @@
 const { authJwt } = require("../middlewares");
-const controller = require("../controllers/user.controller");
+const controller = require("../controllers/user.controller.js");
 const { verifyGenerate } = require("../middlewares");
 
 module.exports = function (app) {
@@ -74,7 +74,11 @@ module.exports = function (app) {
   );
   app.post(
     "/batch-generate",
-    [authJwt.verifyToken, authJwt.isMaster],
+    [
+      authJwt.verifyToken,
+      authJwt.isMaster,
+      verifyGenerate.checkDuplicateUsernameOrEmail,
+    ],
     controller.createBatchUser
   );
 };

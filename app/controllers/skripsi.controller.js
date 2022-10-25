@@ -142,7 +142,7 @@ exports.getRekap = async (req, res) => {
     for (let j = 0; j < resultSkr.length; j++) {
       if (resultMhs[i]._id.equals(resultSkr[j].mahasiswa)) {
         result.push({
-          nama: resultMhs[i].name,
+          name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
           status_konfirmasi: "sudah",
@@ -153,7 +153,7 @@ exports.getRekap = async (req, res) => {
     }
     if (!ck) {
       result.push({
-        nama: resultMhs[i].name,
+        name: resultMhs[i].name,
         nim: resultMhs[i].nim,
         angkatan: resultMhs[i].angkatan,
         status_konfirmasi: "belum",
@@ -186,9 +186,9 @@ exports.downloadSkripsi = (req, res) => {
   );
 };
 
-exports.waliSkripsi = async (req,res) => {
-  const dosen = await Dosen.findOne({user : req.userId});
-  const resultMhs = await Mahasiswa.find({kodeWali: dosen._id});
+exports.waliSkripsi = async (req, res) => {
+  const dosen = await Dosen.findOne({ user: req.userId });
+  const resultMhs = await Mahasiswa.find({ kodeWali: dosen._id });
   const resultSkr = await Skripsi.find({});
   for (let i = 0; i < resultMhs.length; i++) {
     let ck = false;
@@ -214,19 +214,20 @@ exports.waliSkripsi = async (req,res) => {
     }
   }
   res.status(200).send(result);
-
-
-}
+};
 
 exports.verifSkripsi = async (req, res) => {
   const dosen = await Dosen.findOne({ user: req.userId });
-  const mahasiswa = await Mahasiswa.findOne({kodeWali: dosen._id, nim: req.params.nim});
-  console.log(mahasiswa._id)
+  const mahasiswa = await Mahasiswa.findOne({
+    kodeWali: dosen._id,
+    nim: req.params.nim,
+  });
+  console.log(mahasiswa._id);
   Skripsi.updateOne(
     { mahasiswa: mahasiswa._id },
     {
       $set: {
-        status_konfirmasi: 'sudah'
+        status_konfirmasi: "sudah",
       },
     },
     function (err, pkl) {
@@ -237,5 +238,4 @@ exports.verifSkripsi = async (req, res) => {
       res.send({ message: "PKL was verified successfully!" });
     }
   );
-}
-
+};

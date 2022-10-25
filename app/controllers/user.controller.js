@@ -8,7 +8,6 @@ const Status = db.status;
 const Skripsi = db.skripsi;
 const PKL = db.pkl;
 const Dosen = db.dosen;
-const PKL = db.pkl;
 const KHS = db.khs;
 const fs = require("fs");
 
@@ -332,89 +331,91 @@ exports.createBatchUser = (req, res) => {
 };
 
 exports.getRekapDosen = async (req, res) => {
-  let result = [];
-  let lulusPKL = 0
-  let belumPKL = 0
-  let lulusSkripsi = 0
-  let belumSkripsi = 0
+    let result = [];
+    let lulusPKL = 0;
+    let belumPKL = 0;
+    let lulusSkripsi = 0;
+    let belumSkripsi = 0;
 
-  const dosen = await  Dosen.findOne({ user: req.userId });
-  const queryMhs = Mahasiswa.find({kodeWali: dosen._id});
-  const resultMhs = await queryMhs.exec();
-  const queryPKL = PKL.find();
-  const resultPKL = await queryPKL.exec();
-  const querySkripsi = Skripsi.find();
-  const resultSkripsi = await querySkripsi.exec();
-  // proses mencari rekap kelulusan PKL
-  for (let i = 0; i < resultMhs.length; i++) {
-    let ck = false;
-    for (let j = 0; j < resultPKL.length; j++) {
-      if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
-        if(resultPKL[j].status_konfirmasi === "sudah"){
-          lulusPKL++
+    const dosen = await Dosen.findOne({ user: req.userId });
+    const queryMhs = Mahasiswa.find({ kodeWali: dosen._id });
+    const resultMhs = await queryMhs.exec();
+    const queryPKL = PKL.find();
+    const resultPKL = await queryPKL.exec();
+    const querySkripsi = Skripsi.find();
+    const resultSkripsi = await querySkripsi.exec();
+    // proses mencari rekap kelulusan PKL
+    for (let i = 0; i < resultMhs.length; i++) {
+        let ck = false;
+        for (let j = 0; j < resultPKL.length; j++) {
+            if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
+                if (resultPKL[j].status_konfirmasi === "sudah") {
+                    lulusPKL++;
+                } else {
+                    belumPKL++;
+                }
+                ck = true;
+                break;
+            }
         }
-        else{
-          belumPKL++
+        if (!ck) {
+            belumPKL++;
         }
-        ck = true;
-        break;
-      }
     }
-    if (!ck) {
-      belumPKL++
-    }
-  }
-  // proses mencari rekap kelulusan skripsi
-  for (let i = 0; i < resultMhs.length; i++) {
-    let ck = false;
-    for (let j = 0; j < resultSkripsi.length; j++) {
-      if (resultMhs[i]._id.equals(resultSkripsi[j].mahasiswa)) {
-        if(resultSkripsi[j].status_konfirmasi === "sudah"){
-          lulusSkripsi++
+    // proses mencari rekap kelulusan skripsi
+    for (let i = 0; i < resultMhs.length; i++) {
+        let ck = false;
+        for (let j = 0; j < resultSkripsi.length; j++) {
+            if (resultMhs[i]._id.equals(resultSkripsi[j].mahasiswa)) {
+                if (resultSkripsi[j].status_konfirmasi === "sudah") {
+                    lulusSkripsi++;
+                } else {
+                    belumSkripsi++;
+                }
+                ck = true;
+                break;
+            }
         }
-        else{
-          belumSkripsi++
+        if (!ck) {
+            belumSkripsi++;
         }
-        ck = true;
-        break;
-      }
     }
-    if (!ck) {
-      belumSkripsi++
-    }
-  }
 
-  // proses mencari rekap status mhs sesuai doswal
-  const resultAktif = await Mahasiswa.count({kodeWali: dosen._id, status: "Aktif"})
-  const resultCuti = await Mahasiswa.count({kodeWali: dosen._id, status: "Cuti"})
-  const resultMangkir = await Mahasiswa.count({kodeWali: dosen._id, status: "Mangkir"})
-  const resultDrop = await Mahasiswa.count({kodeWali: dosen._id, status: "Drop Out"})
-  const resultMengundurkan = await Mahasiswa.count({kodeWali: dosen._id, status: "Mengundurkan Diri"})
-  const resultLulus = await Mahasiswa.count({kodeWali: dosen._id, status: "Lulus"})
-  const resultMeninggal = await Mahasiswa.count({kodeWali: dosen._id, status: "Meninggal Dunia"})
+    // proses mencari rekap status mhs sesuai doswal
+    const resultAktif = await Mahasiswa.count({ kodeWali: dosen._id, status: "Aktif" });
+    const resultCuti = await Mahasiswa.count({ kodeWali: dosen._id, status: "Cuti" });
+    const resultMangkir = await Mahasiswa.count({ kodeWali: dosen._id, status: "Mangkir" });
+    const resultDrop = await Mahasiswa.count({ kodeWali: dosen._id, status: "Drop Out" });
+    const resultMengundurkan = await Mahasiswa.count({
+        kodeWali: dosen._id,
+        status: "Mengundurkan Diri",
+    });
+    const resultLulus = await Mahasiswa.count({ kodeWali: dosen._id, status: "Lulus" });
+    const resultMeninggal = await Mahasiswa.count({
+        kodeWali: dosen._id,
+        status: "Meninggal Dunia",
+    });
 
-
-  res.status(200).send({
-    status: {
-      aktif: resultAktif,
-      cuti: resultCuti,
-      mangkir: resultMangkir,
-      do: resultDrop,
-      undur_diri: resultMengundurkan,
-      lulus: resultLulus,
-      meninggal_dunia: resultMeninggal,
-    },
-    pkl: {
-      lulus: lulusPKL,
-      belum: belumPKL
-    },
-    skripsi: {
-      lulus: lulusSkripsi,
-      belum: belumSkripsi
-    }
-  })
-
-}
+    res.status(200).send({
+        status: {
+            aktif: resultAktif,
+            cuti: resultCuti,
+            mangkir: resultMangkir,
+            do: resultDrop,
+            undur_diri: resultMengundurkan,
+            lulus: resultLulus,
+            meninggal_dunia: resultMeninggal,
+        },
+        pkl: {
+            lulus: lulusPKL,
+            belum: belumPKL,
+        },
+        skripsi: {
+            lulus: lulusSkripsi,
+            belum: belumSkripsi,
+        },
+    });
+};
 
 exports.deleteAllMhs = async (req, res) => {
     const mhs = await Role.findOne({

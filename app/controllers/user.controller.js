@@ -161,7 +161,7 @@ exports.signUpDosen = (req, res) => {
   const user = new User({
     username: req.body.nip,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.name.toLowerCase().split(" ")[0], 8),
+    password: bcrypt.hashSync("dosen", 8),
   });
 
   const dosen = new Dosen({

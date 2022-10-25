@@ -142,7 +142,7 @@ exports.getRekap = async (req, res) => {
     for (let j = 0; j < resultSkr.length; j++) {
       if (resultMhs[i]._id.equals(resultSkr[j].mahasiswa)) {
         result.push({
-          nama: resultMhs[i].name,
+          name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
           status_konfirmasi: "sudah",
@@ -153,7 +153,7 @@ exports.getRekap = async (req, res) => {
     }
     if (!ck) {
       result.push({
-        nama: resultMhs[i].name,
+        name: resultMhs[i].name,
         nim: resultMhs[i].nim,
         angkatan: resultMhs[i].angkatan,
         status_konfirmasi: "belum",
@@ -187,6 +187,7 @@ exports.downloadSkripsi = (req, res) => {
 };
 
 exports.waliSkripsi = async (req,res) => {
+  let result = []
   const dosen = await Dosen.findOne({user : req.userId});
   const resultMhs = await Mahasiswa.find({kodeWali: dosen._id});
   const resultSkr = await Skripsi.find({});
@@ -195,7 +196,7 @@ exports.waliSkripsi = async (req,res) => {
     for (let j = 0; j < resultSkr.length; j++) {
       if (resultMhs[i]._id.equals(resultSkr[j].mahasiswa)) {
         result.push({
-          nama: resultMhs[i].name,
+          name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
           status_konfirmasi: "sudah",
@@ -206,7 +207,7 @@ exports.waliSkripsi = async (req,res) => {
     }
     if (!ck) {
       result.push({
-        nama: resultMhs[i].name,
+        name: resultMhs[i].name,
         nim: resultMhs[i].nim,
         angkatan: resultMhs[i].angkatan,
         status_konfirmasi: "belum",

@@ -77,4 +77,10 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isMaster],
     controller.createBatchUser
   );
+
+  app.get(
+    "/rekap/dosen",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.getRekapDosen
+  )
 };

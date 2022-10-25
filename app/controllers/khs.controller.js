@@ -2,7 +2,6 @@ const db = require("../models");
 const fs = require("fs");
 const Khs = db.khs;
 const Mahasiswa = db.mahasiswa;
-const fs = require("fs");
 
 const submitKHS = (req, res) => {
   let dataKhs = {

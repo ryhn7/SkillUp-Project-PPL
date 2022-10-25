@@ -41,7 +41,7 @@ module.exports = function (app) {
   );
 
   app.get(
-    "verivikasi/skripsi",
+    "/verifikasi/skripsi",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.waliSkripsi
   );

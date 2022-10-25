@@ -1,6 +1,4 @@
-const {
-  authJwt
-} = require("../middlewares");
+const { authJwt } = require("../middlewares");
 const controller = require("../controllers/skripsi.controller");
 
 module.exports = function (app) {
@@ -37,16 +35,13 @@ module.exports = function (app) {
 
   app.get(
     "/skripsi/:nim",
-    [
-      authJwt.verifyToken,
-      authJwt.isMahasiswaOrDosen,
-      authJwt.getMahasiswaIdFromNim,
-    ],
+    [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
     // controller
     controller.downloadSkripsi
   );
 
-  app.get("verivikasi/skripsi",
+  app.get(
+    "/verifikasi/skripsi",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.waliSkripsi
   );

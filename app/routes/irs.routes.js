@@ -44,6 +44,6 @@ module.exports = function (app) {
   app.put(
     "/verifikasi/irs/:nim/:semester_aktif",
     [authJwt.verifyToken, authJwt.isDosen],
-    controller.verifikasiIRS
+    controller.verifyIRS
   );
 };

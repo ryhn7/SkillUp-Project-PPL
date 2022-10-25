@@ -41,9 +41,9 @@ module.exports = function (app) {
     controller.waliIRS
   );
 
-  // app.put(
-  //   "/verifikasi/irs/:nim/:semester_aktif",
-  //   [authJwt.verifyToken, authJwt.isDosen],
-  //   controller.verifikasiIRS
-  // );
+  app.put(
+    "/verifikasi/irs/:nim/:semester_aktif",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.verifyIRS
+  );
 };

@@ -30,6 +30,8 @@ const fileStorage = multer.diskStorage({
       cb(null, "uploads/skripsi");
     } else if (jenisFolder === "batch-generate") {
       cb(null, "uploads/accountMhs");
+    } else if (jenisFolder === "batch-dosen") {
+      cb(null, "uploads/accountDosen");
     }
   },
   filename: (req, file, cb) => {
@@ -46,7 +48,7 @@ const fileFilter = (req, file, cb) => {
     file.mimetype === "text/csv" ||
     file.mimetype === "application/vnd.ms-excel" ||
     file.mimetype ===
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
   ) {
     cb(null, true);
   } else {

@@ -82,9 +82,21 @@ module.exports = function (app) {
     controller.createBatchUser
   );
 
-  app.get(
-    "/rekap/dosen",
-    [authJwt.verifyToken, authJwt.isDosen],
-    controller.getRekapDosen
-  )
+  app.post(
+    "/batch-dosen",
+    [authJwt.verifyToken,
+    verifyGenerate.checkDuplicateUsernameOrEmail,
+    verifyGenerate.checkRolesExisted,
+    authJwt.isMaster
+    ],
+    controller.createBatchDosen
+  );
+
+app.get(
+  "/rekap/dosen",
+  [authJwt.verifyToken, authJwt.isDosen],
+  controller.getRekapDosen
+);
+
+app.get("/rekap-mhs", [authJwt.verifyToken, authJwt.isDepartemen], controller.getRekapAllMhs);
 };

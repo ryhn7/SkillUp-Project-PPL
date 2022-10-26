@@ -21,7 +21,7 @@ const Mahasiswa = mongoose.model(
     },
     email: {
       type: String,
-      unique: true,
+      // unique: true,
       maxlength: [50, "Email maksimal 50 karakter"],
     },
     alamat: {
@@ -30,7 +30,7 @@ const Mahasiswa = mongoose.model(
     },
     phone: {
       type: String,
-      unique: true,
+      // unique: true,
       maxlength: [12, "No telepon maksimal 12 karakter"],
     },
     kodeWali: {

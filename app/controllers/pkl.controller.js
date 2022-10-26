@@ -125,6 +125,7 @@ exports.getRekapPKL = async (req, res) => {
     for (let j = 0; j < resultPKL.length; j++) {
       if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
         result.push({
+          id: resultPKL[j]._id,
           name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
@@ -137,14 +138,14 @@ exports.getRekapPKL = async (req, res) => {
         break;
       }
     }
-    if (!ck) {
-      result.push({
-        name: resultMhs[i].name,
-        nim: resultMhs[i].nim,
-        angkatan: resultMhs[i].angkatan,
-        status_konfirmasi: "belum",
-      });
-    }
+    // if (!ck) {
+    //   result.push({
+    //     name: resultMhs[i].name,
+    //     nim: resultMhs[i].nim,
+    //     angkatan: resultMhs[i].angkatan,
+    //     status_konfirmasi: "belum",
+    //   });
+    // }
   }
 
   res.status(200).send(result);
@@ -162,23 +163,27 @@ exports.getWaliPKL = async (req, res) => {
     for (let j = 0; j < resultPKL.length; j++) {
       if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
         result.push({
+          id: resultPKL[j]._id,
           name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
-          status_konfirmasi: resultPKL[j].status_konfirmasi
+          nilai: resultPKL[j].nilai,
+          semester: resultPKL[j].nilai,
+          status_konfirmasi: resultPKL[j].status_konfirmasi,
+          file: resultPKL[j].file
         });
         ck = true;
         break;
       }
     }
-    if (!ck) {
-      result.push({
-        name: resultMhs[i].name,
-        nim: resultMhs[i].nim,
-        angkatan: resultMhs[i].angkatan,
-        status_konfirmasi: "belum",
-      });
-    }
+    // if (!ck) {
+    //   result.push({
+    //     name: resultMhs[i].name,
+    //     nim: resultMhs[i].nim,
+    //     angkatan: resultMhs[i].angkatan,
+    //     status_konfirmasi: "belum",
+    //   });
+    // }
   }
 
   res.status(200).send(result);

@@ -10,17 +10,17 @@ module.exports = function (app) {
         next();
     });
 
-  app.post(
-    "/khs",
-    [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
-    controller.submitKHS
-  );
+    app.post(
+        "/khs",
+        [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
+        controller.submitKHS
+    );
 
-  app.get(
-    "/khs",
-    [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
-    controller.getKHS
-  );
+    app.get(
+        "/khs",
+        [authJwt.verifyToken, authJwt.isMahasiswa, authJwt.getMahasiswaId],
+        controller.getKHS
+    );
 
     app.get(
         "/all-khs",
@@ -76,9 +76,13 @@ module.exports = function (app) {
     //     controller.deleteAllKHS
     // );
 
-  app.get(
-    "/khs/:nim/:semester_aktif",
-    [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
-    controller.downloadKHS
-  );
+    app.get(
+        "/khs/:nim/:semester_aktif",
+        [
+            authJwt.verifyToken,
+            authJwt.getMahasiswaIdFromNim,
+            authJwt.isKodeWali,
+        ],
+        controller.downloadKHS
+    );
 };

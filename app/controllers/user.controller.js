@@ -12,9 +12,7 @@ const KHS = db.khs;
 const fs = require("fs");
 
 var bcrypt = require("bcryptjs");
-const {
-  checkRolesExisted
-} = require("../middlewares/verifyGenerate");
+const { checkRolesExisted } = require("../middlewares/verifyGenerate");
 const pkl = require("../models/pkl.model");
 
 exports.allAccess = (req, res) => {
@@ -108,22 +106,26 @@ exports.signup = (req, res) => {
                     }
 
                     if (req.body.status) {
-                        Status.findOne({ name: req.body.status }, (err, status) => {
-                            if (err) {
-                                res.status(500).send({ message: err });
-                                return;
-                            }
-                            mahasiswa.status = status._id;
-                            mahasiswa.save((err) => {
+                        Status.findOne(
+                            { name: req.body.status },
+                            (err, status) => {
                                 if (err) {
                                     res.status(500).send({ message: err });
                                     return;
                                 }
-                                res.send({
-                                    message: "User was registered successfully!",
+                                mahasiswa.status = status._id;
+                                mahasiswa.save((err) => {
+                                    if (err) {
+                                        res.status(500).send({ message: err });
+                                        return;
+                                    }
+                                    res.send({
+                                        message:
+                                            "User was registered successfully!",
+                                    });
                                 });
-                            });
-                        });
+                            }
+                        );
                     }
                 });
             });
@@ -258,7 +260,10 @@ exports.createBatchUser = (req, res) => {
                 const user = new User({
                     username: data.nim,
                     email: data.email,
-                    password: bcrypt.hashSync(data.name.toLowerCase().split(" ")[0], 8),
+                    password: bcrypt.hashSync(
+                        data.name.toLowerCase().split(" ")[0],
+                        8
+                    ),
                 });
 
                 const mahasiswa = new Mahasiswa({
@@ -462,15 +467,30 @@ exports.getRekapDosen = async (req, res) => {
     }
 
     // proses mencari rekap status mhs sesuai doswal
-    const resultAktif = await Mahasiswa.count({ kodeWali: dosen._id, status: "Aktif" });
-    const resultCuti = await Mahasiswa.count({ kodeWali: dosen._id, status: "Cuti" });
-    const resultMangkir = await Mahasiswa.count({ kodeWali: dosen._id, status: "Mangkir" });
-    const resultDrop = await Mahasiswa.count({ kodeWali: dosen._id, status: "Drop Out" });
+    const resultAktif = await Mahasiswa.count({
+        kodeWali: dosen._id,
+        status: "Aktif",
+    });
+    const resultCuti = await Mahasiswa.count({
+        kodeWali: dosen._id,
+        status: "Cuti",
+    });
+    const resultMangkir = await Mahasiswa.count({
+        kodeWali: dosen._id,
+        status: "Mangkir",
+    });
+    const resultDrop = await Mahasiswa.count({
+        kodeWali: dosen._id,
+        status: "Drop Out",
+    });
     const resultMengundurkan = await Mahasiswa.count({
         kodeWali: dosen._id,
         status: "Mengundurkan Diri",
     });
-    const resultLulus = await Mahasiswa.count({ kodeWali: dosen._id, status: "Lulus" });
+    const resultLulus = await Mahasiswa.count({
+        kodeWali: dosen._id,
+        status: "Lulus",
+    });
     const resultMeninggal = await Mahasiswa.count({
         kodeWali: dosen._id,
         status: "Meninggal Dunia",
@@ -571,24 +591,24 @@ exports.getRekapAllMhs = async (req, res) => {
 };
 
 exports.getMahasiswaDosen = async (req, res) => {
-  const dosen = await Dosen.findOne({
-    user: req.userId
-  });
-  const mahasiswa = await Mahasiswa.find({
-    kodeWali: dosen._id
-  });
-  let listMahasiswa = [];
-  mahasiswa.forEach(mhs => {
-    listMahasiswa.push(mhs)
-  })
-  res.status(200).send(listMahasiswa);
-}
+    const dosen = await Dosen.findOne({
+        user: req.userId,
+    });
+    const mahasiswa = await Mahasiswa.find({
+        kodeWali: dosen._id,
+    });
+    let listMahasiswa = [];
+    mahasiswa.forEach((mhs) => {
+        listMahasiswa.push(mhs);
+    });
+    res.status(200).send(listMahasiswa);
+};
 
 exports.listDataMahasiswa = async (req, res) => {
-  const mahasiswa = await Mahasiswa.find({});
-  let listAllMahasiswa = [];
-  mahasiswa.forEach(mhs => {
-    listAllMahasiswa.push(mhs);
-  })
-  res.status(200).send(listAllMahasiswa)
+    const mahasiswa = await Mahasiswa.find({});
+    let listAllMahasiswa = [];
+    mahasiswa.forEach((mhs) => {
+        listAllMahasiswa.push(mhs);
+    });
+    res.status(200).send(listAllMahasiswa);
 };

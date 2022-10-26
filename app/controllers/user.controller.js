@@ -564,9 +564,9 @@ exports.getRekapAllMhs = async (req, res) => {
       cuti,
       mangkir,
       do: drop,
-      mengundurkan_diri: mengundurkan,
+      undur_diri: mengundurkan,
       lulus,
-      meninggal,
+      meninggal_dunia: meninggal,
     },
 
     skripsi: {

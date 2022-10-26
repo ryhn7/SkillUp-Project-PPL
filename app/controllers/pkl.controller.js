@@ -128,7 +128,10 @@ exports.getRekapPKL = async (req, res) => {
           name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
-          status_konfirmasi: resultPKL[j].status_konfirmasi
+          nilai: resultPKL[j].nilai,
+          semester: resultPKL[j].nilai,
+          status_konfirmasi: resultPKL[j].status_konfirmasi,
+          file: resultPKL[j].file
         });
         ck = true;
         break;

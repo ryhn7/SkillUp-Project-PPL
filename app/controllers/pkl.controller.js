@@ -59,15 +59,10 @@ exports.submitPKL = (req, res) => {
                                     },
                                     function (err, pkl) {
                                         if (err) {
-                                            res.status(500).send({
-                                                message: err,
-                                            });
+                                            res.status(500).send({ message: err });
                                             return;
                                         }
-                                        res.send({
-                                            message:
-                                                "PKL was updated successfully!",
-                                        });
+                                        res.send({ message: "PKL was updated successfully!" });
                                     }
                                 );
                             });
@@ -87,10 +82,7 @@ exports.submitPKL = (req, res) => {
                                         res.status(500).send({ message: err });
                                         return;
                                     }
-                                    res.send({
-                                        message:
-                                            "PKL was updated successfully!",
-                                    });
+                                    res.send({ message: "PKL was updated successfully!" });
                                 }
                             );
                         }
@@ -128,63 +120,63 @@ exports.getRekapPKL = async (req, res) => {
     const queryPKL = PKL.find();
     const resultPKL = await queryPKL.exec();
 
-  for (let i = 0; i < resultMhs.length; i++) {
-    let ck = false;
-    for (let j = 0; j < resultPKL.length; j++) {
-      if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
-        result.push({
-          name: resultMhs[i].name,
-          nim: resultMhs[i].nim,
-          angkatan: resultMhs[i].angkatan,
-          status_konfirmasi: resultPKL[j].status_konfirmasi
-        });
-        ck = true;
-        break;
-      }
+    for (let i = 0; i < resultMhs.length; i++) {
+        let ck = false;
+        for (let j = 0; j < resultPKL.length; j++) {
+            if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
+                result.push({
+                    name: resultMhs[i].name,
+                    nim: resultMhs[i].nim,
+                    angkatan: resultMhs[i].angkatan,
+                    status_konfirmasi: resultPKL[j].status_konfirmasi
+                });
+                ck = true;
+                break;
+            }
+        }
+        if (!ck) {
+            result.push({
+                name: resultMhs[i].name,
+                nim: resultMhs[i].nim,
+                angkatan: resultMhs[i].angkatan,
+                status_konfirmasi: "belum",
+            });
+        }
     }
-    if (!ck) {
-      result.push({
-        name: resultMhs[i].name,
-        nim: resultMhs[i].nim,
-        angkatan: resultMhs[i].angkatan,
-        status_konfirmasi: "belum",
-      });
-    }
-  }
 
-  res.status(200).send(result);
+    res.status(200).send(result);
 };
 
 exports.getWaliPKL = async (req, res) => {
-  let result = [];
-  const dosen = await Dosen.findOne({ user: req.userId });
-  const queryMhs = Mahasiswa.find({kodeWali: dosen._id});
-  const resultMhs = await queryMhs.exec();
-  const queryPKL = PKL.find();
-  const resultPKL = await queryPKL.exec();
-  for (let i = 0; i < resultMhs.length; i++) {
-    let ck = false;
-    for (let j = 0; j < resultPKL.length; j++) {
-      if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
-        result.push({
-          name: resultMhs[i].name,
-          nim: resultMhs[i].nim,
-          angkatan: resultMhs[i].angkatan,
-          status_konfirmasi: resultPKL[j].status_konfirmasi
-        });
-        ck = true;
-        break;
-      }
+    let result = [];
+    const dosen = await Dosen.findOne({ user: req.userId });
+    const queryMhs = Mahasiswa.find({ kodeWali: dosen._id });
+    const resultMhs = await queryMhs.exec();
+    const queryPKL = PKL.find();
+    const resultPKL = await queryPKL.exec();
+    for (let i = 0; i < resultMhs.length; i++) {
+        let ck = false;
+        for (let j = 0; j < resultPKL.length; j++) {
+            if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
+                result.push({
+                    name: resultMhs[i].name,
+                    nim: resultMhs[i].nim,
+                    angkatan: resultMhs[i].angkatan,
+                    status_konfirmasi: resultPKL[j].status_konfirmasi
+                });
+                ck = true;
+                break;
+            }
+        }
+        if (!ck) {
+            result.push({
+                name: resultMhs[i].name,
+                nim: resultMhs[i].nim,
+                angkatan: resultMhs[i].angkatan,
+                status_konfirmasi: "belum",
+            });
+        }
     }
-    if (!ck) {
-      result.push({
-        name: resultMhs[i].name,
-        nim: resultMhs[i].nim,
-        angkatan: resultMhs[i].angkatan,
-        status_konfirmasi: "belum",
-      });
-    }
-  }
 
     res.status(200).send(result);
 };
@@ -206,41 +198,29 @@ exports.downloadPKL = (req, res) => {
             }
             const file = fs.createReadStream(pkl.file);
             const filename = "PKL";
-            res.setHeader(
-                "Content-disposition",
-                "attachment; filename=" + filename
-            );
+            res.setHeader("Content-disposition", "attachment; filename=" + filename);
             file.pipe(res);
         }
     );
 };
 
-exports.deleteAllPKL = (req, res) => {
-    PKL.deleteMany({}, (err, data) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
-        res.status(200).send(data);
-    });
-}
 exports.putVerifPKL = async (req, res) => {
-  const dosen = await Dosen.findOne({ user: req.userId });
-  const mahasiswa = await Mahasiswa.findOne({kodeWali: dosen._id, nim: req.params.nim});
-  console.log(mahasiswa._id)
-  PKL.updateOne(
-    { mahasiswa: mahasiswa._id },
-    {
-      $set: {
-        status_konfirmasi: 'sudah'
-      },
-    },
-    function (err, pkl) {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-      res.send({ message: "PKL was verified successfully!" });
-    }
-  );
+    const dosen = await Dosen.findOne({ user: req.userId });
+    const mahasiswa = await Mahasiswa.findOne({ kodeWali: dosen._id, nim: req.params.nim });
+    console.log(mahasiswa._id)
+    PKL.updateOne(
+        { mahasiswa: mahasiswa._id },
+        {
+            $set: {
+                status_konfirmasi: 'sudah'
+            },
+        },
+        function (err, pkl) {
+            if (err) {
+                res.status(500).send({ message: err });
+                return;
+            }
+            res.send({ message: "PKL was verified successfully!" });
+        }
+    );
 }

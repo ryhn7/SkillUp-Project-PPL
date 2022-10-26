@@ -34,19 +34,15 @@ module.exports = function (app) {
         controller.getWaliPKL
     );
 
-    app.get(
-        "/pkl/:nim",
-        [
-            authJwt.verifyToken,
-            authJwt.isMahasiswaOrDosen,
-            authJwt.getMahasiswaIdFromNim,
-        ],
-        controller.downloadPKL
+    app.put(
+        "/verifikasi/pkl/:nim",
+        [authJwt.verifyToken, authJwt.isDosen],
+        controller.putVerifPKL
     );
 
-    // app.delete(
-    //     "/delete/all-pkl",
-    //     [authJwt.verifyToken, authJwt.isAdmin],
-    //     controller.deleteAllPKL
-    // );
+    app.get(
+        "/pkl/:nim",
+        [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
+        controller.downloadPKL
+    );
 };

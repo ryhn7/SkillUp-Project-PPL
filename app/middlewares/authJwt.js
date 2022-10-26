@@ -51,7 +51,6 @@ verifyToken = (req, res, next) => {
         next();
     });
 };
-
 isAdmin = (req, res, next) => {
     User.findById(req.userId).exec((err, user) => {
         if (err) {
@@ -79,7 +78,6 @@ isAdmin = (req, res, next) => {
         );
     });
 };
-
 isMahasiswa = (req, res, next) => {
     User.findById(req.userId).exec((err, user) => {
         if (err) {
@@ -107,7 +105,6 @@ isMahasiswa = (req, res, next) => {
         );
     });
 };
-
 isDosen = (req, res, next) => {
     User.findById(req.userId).exec((err, user) => {
         if (err) {
@@ -135,7 +132,6 @@ isDosen = (req, res, next) => {
         );
     });
 };
-
 isDepartemen = (req, res, next) => {
     User.findById(req.userId).exec((err, user) => {
         if (err) {
@@ -163,7 +159,6 @@ isDepartemen = (req, res, next) => {
         );
     });
 };
-
 isMaster = (req, res, next) => {
     User.findById(req.userId).exec((err, user) => {
         if (err) {
@@ -180,10 +175,7 @@ isMaster = (req, res, next) => {
                     return;
                 }
                 for (let i = 0; i < roles.length; i++) {
-                    if (
-                        roles[i].name === "departemen" ||
-                        roles[i].name === "admin"
-                    ) {
+                    if (roles[i].name === "departemen" || roles[i].name === "admin") {
                         next();
                         return;
                     }
@@ -211,17 +203,12 @@ const isMahasiswaOrDosen = (req, res, next) => {
                     return;
                 }
                 for (let i = 0; i < roles.length; i++) {
-                    if (
-                        roles[i].name === "mahasiswa" ||
-                        roles[i].name === "dosen"
-                    ) {
+                    if (roles[i].name === "mahasiswa" || roles[i].name === "dosen") {
                         next();
                         return;
                     }
                 }
-                res.status(403).send({
-                    message: "Require Mahasiswa or Dosen Role!",
-                });
+                res.status(403).send({ message: "Require Mahasiswa or Dosen Role!" });
                 return;
             }
         );
@@ -230,62 +217,62 @@ const isMahasiswaOrDosen = (req, res, next) => {
 
 //only kodewali can access mahasiswa file
 const isKodeWali = (req, res, next) => {
-  User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-    Role.find(
-      {
-        _id: { $in: user.roles },
-      },
-      (err, roles) => {
+    User.findById(req.userId).exec((err, user) => {
         if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "mahasiswa") {
-            next();
+            res.status(500).send({ message: err });
             return;
-          } else if (roles[i].name === "dosen") {
-            Dosen.findOne({ user: req.userId }).exec((err, dosen) => {
-              if (err) {
-                res.status(500).send({ message: err });
-                return;
-              }
-              //get mahasiswa id from params
-              Mahasiswa.findById(req.mahasiswaId).exec((err, mahasiswa) => {
-                if (err) {
-                  res.status(500).send({ message: err });
-                  return;
-                }
-                //compare dosen id with mahasiswa kodewali
-                if (dosen.id == mahasiswa.kodeWali) {
-                  next();
-                  return;
-                }
-                res.status(403).send({ message: "You're not dosen wali" });
-                return;
-              });
-            });
-          }
         }
-      }
-    );
-  });
+        Role.find(
+            {
+                _id: { $in: user.roles },
+            },
+            (err, roles) => {
+                if (err) {
+                    res.status(500).send({ message: err });
+                    return;
+                }
+                for (let i = 0; i < roles.length; i++) {
+                    if (roles[i].name === "mahasiswa") {
+                        next();
+                        return;
+                    } else if (roles[i].name === "dosen") {
+                        Dosen.findOne({ user: req.userId }).exec((err, dosen) => {
+                            if (err) {
+                                res.status(500).send({ message: err });
+                                return;
+                            }
+                            //get mahasiswa id from params
+                            Mahasiswa.findById(req.mahasiswaId).exec((err, mahasiswa) => {
+                                if (err) {
+                                    res.status(500).send({ message: err });
+                                    return;
+                                }
+                                //compare dosen id with mahasiswa kodewali
+                                if (dosen.id == mahasiswa.kodeWali) {
+                                    next();
+                                    return;
+                                }
+                                res.status(403).send({ message: "You're not dosen wali" });
+                                return;
+                            });
+                        });
+                    }
+                }
+            }
+        );
+    });
 };
 
 const authJwt = {
-  verifyToken,
-  isAdmin,
-  isDosen,
-  isDepartemen,
-  isMahasiswa,
-  getMahasiswaId,
-  isMaster,
-  isMahasiswaOrDosen,
-  getMahasiswaIdFromNim,
-  isKodeWali,
+    verifyToken,
+    isAdmin,
+    isDosen,
+    isDepartemen,
+    isMahasiswa,
+    getMahasiswaId,
+    isMaster,
+    isMahasiswaOrDosen,
+    getMahasiswaIdFromNim,
+    isKodeWali,
 };
 module.exports = authJwt;

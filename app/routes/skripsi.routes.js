@@ -35,23 +35,13 @@ module.exports = function (app) {
 
     app.get(
         "/skripsi/:nim",
-        [
-            authJwt.verifyToken,
-            authJwt.isMahasiswaOrDosen,
-            authJwt.getMahasiswaIdFromNim,
-        ],
+        [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
         // controller
         controller.downloadSkripsi
     );
 
-    // app.delete(
-    //     "/delete/all-skripsi",
-    //     [authJwt.verifyToken, authJwt.isAdmin],
-    //     controller.deleteAllSkripsi
-    // );
-
     app.get(
-        "verivikasi/skripsi",
+        "/verifikasi/skripsi",
         [authJwt.verifyToken, authJwt.isDosen],
         controller.waliSkripsi
     );

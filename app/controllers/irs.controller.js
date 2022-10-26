@@ -61,15 +61,10 @@ const submitIRS = (req, res) => {
                                     },
                                     function (err, irs) {
                                         if (err) {
-                                            res.status(500).send({
-                                                message: err,
-                                            });
+                                            res.status(500).send({ message: err });
                                             return;
                                         }
-                                        res.send({
-                                            message:
-                                                "IRS was updated successfully!",
-                                        });
+                                        res.send({ message: "IRS was updated successfully!" });
                                     }
                                 );
                             });
@@ -86,10 +81,7 @@ const submitIRS = (req, res) => {
                                         res.status(500).send({ message: err });
                                         return;
                                     }
-                                    res.send({
-                                        message:
-                                            "IRS was updated successfully!",
-                                    });
+                                    res.send({ message: "IRS was updated successfully!" });
                                 }
                             );
                         }
@@ -175,10 +167,7 @@ const downloadIRS = (req, res) => {
             }
             const file = fs.createReadStream(irs.file);
             const filename = "IRS_" + irs.semester_aktif;
-            res.setHeader(
-                "Content-disposition",
-                "attachment; filename=" + filename
-            );
+            res.setHeader("Content-disposition", "attachment; filename=" + filename);
             file.pipe(res);
         }
     );
@@ -240,16 +229,6 @@ const verifyIRS = async (req, res) => {
     );
 };
 
-const deleteAllIRS = (req, res) => {
-    IRS.deleteMany({}, (err, data) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
-        res.status(200).send(data);
-    });
-};
-
 module.exports = {
     verifyIRS,
     waliIRS,
@@ -257,5 +236,4 @@ module.exports = {
     getIRS,
     getAllIRS,
     downloadIRS,
-    deleteAllIRS,
 };

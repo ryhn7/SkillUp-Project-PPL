@@ -165,29 +165,23 @@ const waliKHS = async (req, res) => {
 
   let result = [];
   for (let i = 0; i < list_mhs.length; i++) {
-    let khs_mahasiswa = [];
-
     for (let j = 0; j < list_khs.length; j++) {
       // cek tiap khs yang punya nilai mahasiswa == mahasiswa.id
       if (list_mhs[i]._id.equals(list_khs[j].mahasiswa)) {
         let obj_khs = {
-          semester: list_khs[j].semester_aktif,
+          id_khs: list_khs[j]._id,
+          nama: list_mhs[i].name,
+          semester_aktif: list_khs[j].semester_aktif,
+          sks: list_khs[j].sks,
+          sks_kumulatif: list_khs[j].sks_kumulatif,
           ip: list_khs[j].ip,
           ipk: list_khs[j].ip_kumulatif,
-          status: list_khs[j].status_konfirmasi,
+          status_konfirmasi: list_khs[j].status_konfirmasi,
+          file: list_khs[j].flie,
         };
-
-        khs_mahasiswa.push(obj_khs);
+        result.push(obj_khs);
       }
     }
-    let obj_mahasiswa = {
-      name: list_mhs[i].name,
-      nim: list_mhs[i].nim,
-      angkatan: list_mhs[i].angkatan,
-      khs: khs_mahasiswa,
-    };
-
-    result.push(obj_mahasiswa);
   }
   res.status(200).send(result);
 };

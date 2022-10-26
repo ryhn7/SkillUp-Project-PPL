@@ -37,6 +37,16 @@ module.exports = function (app) {
     ],
     controller.downloadKHS
   );
+
+  app.get(
+    "/khs/:nim/:semester",
+    [
+      authJwt.verifyToken,
+      authJwt.isMahasiswaOrDosen,
+      authJwt.getMahasiswaIdFromNim,
+    ],
+    controller.downloadKHS
+  );
   app.get(
     "/verifikasi/khs",
     [authJwt.verifyToken, authJwt.isDosen],
@@ -47,5 +57,11 @@ module.exports = function (app) {
     "/verifikasi/khs/:nim/:semester",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.verifyKHS
+  );
+
+  app.get(
+    "/khs/:nim/:semester_aktif",
+    [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
+    controller.downloadKHS
   );
 };

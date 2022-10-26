@@ -605,10 +605,23 @@ exports.getMahasiswaDosen = async (req, res) => {
 };
 
 exports.listDataMahasiswa = async (req, res) => {
-    const mahasiswa = await Mahasiswa.find({});
-    let listAllMahasiswa = [];
-    mahasiswa.forEach((mhs) => {
-        listAllMahasiswa.push(mhs);
-    });
-    res.status(200).send(listAllMahasiswa);
+  const mahasiswa = await Mahasiswa.find({});
+  let listAllMahasiswa = [];
+  mahasiswa.forEach(mhs => {
+    listAllMahasiswa.push(mhs);
+  })
+  res.status(200).send(listAllMahasiswa)
 };
+
+exports.getInfoWithNIM = async (req, res) => {
+  const dosen = await Dosen.findOne({
+    user: req.userId
+  });
+  const mahasiswa = await Mahasiswa.findOne({
+    nim: req.params.nim,
+    kodeWali: dosen._id
+  });
+
+  res.status(200).send(mahasiswa);
+
+}

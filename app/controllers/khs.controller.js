@@ -268,7 +268,7 @@ const verifyKHS = async (req, res) => {
         res.status(500).send({ message: err });
         return;
       }
-      res.status(200).send("KHS verified");
+      res.status(200).send({ message: "OK" });
     }
   );
 };

@@ -188,6 +188,39 @@ const waliKHS = async (req, res) => {
   }
   res.status(200).send(result);
 };
+// const waliKHS = async (req, res) => {
+//     const dosen = await Dosen.findOne({ user: req.userId });
+//     const list_mhs = await Mahasiswa.find({ kodeWali: dosen._id });
+//     const list_khs = await Khs.find({});
+
+//     let result = [];
+//     for (let i = 0; i < list_mhs.length; i++) {
+//         let khs_mahasiswa = [];
+
+//         for (let j = 0; j < list_khs.length; j++) {
+//             // cek tiap khs yang punya nilai mahasiswa == mahasiswa.id
+//             if (list_mhs[i]._id.equals(list_khs[j].mahasiswa)) {
+//                 let obj_khs = {
+//                     semester: list_khs[j].semester_aktif,
+//                     ip: list_khs[j].ip,
+//                     ipk: list_khs[j].ip_kumulatif,
+//                     status: list_khs[j].status_konfirmasi,
+//                 };
+
+//                 khs_mahasiswa.push(obj_khs);
+//             }
+//         }
+//         let obj_mahasiswa = {
+//             name: list_mhs[i].name,
+//             nim: list_mhs[i].nim,
+//             angkatan: list_mhs[i].angkatan,
+//             khs: khs_mahasiswa,
+//         };
+
+//         result.push(obj_mahasiswa);
+//     }
+//     res.status(200).send(result);
+// };
 
 const verifyKHS = async (req, res) => {
     const mhs = await Mahasiswa.findOne({ nim: req.params.nim });

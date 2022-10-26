@@ -612,3 +612,19 @@ exports.listDataMahasiswa = async (req, res) => {
     });
     res.status(200).send(listAllMahasiswa);
 };
+
+exports.getinfoWithNIM = async (req, res) => {
+    Mahasiswa.findOne({ nim: req.params.nim }, (err, mhs) => {
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+        const obj_data = {
+            name: mhs.name,
+            nim: mhs.nim,
+            angkatan: mhs.angkatan,
+        };
+
+        res.status(400).send(obj_data);
+    });
+};

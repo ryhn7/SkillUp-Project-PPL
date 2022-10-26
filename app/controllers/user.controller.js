@@ -143,6 +143,11 @@ exports.listUser = (req, res) => {
     });
 };
 
+exports.listDataMahasiswa = (req, res) => {
+  Mahasiswa.find({})
+    .populate("kodeWali", "name")
+    .exec(function (err, mahasiswa) {
+      var mahasiswaMap = [];
 
 
 exports.signUpDosen = (req, res) => {
@@ -319,7 +324,6 @@ exports.createBatchUser = (req, res) => {
 };
 
 exports.createBatchDosen = (req, res) => {
-
   // create batch user for mahasiwa from csv file using csvtojson
   const file = req.file.path;
   csv()
@@ -388,16 +392,15 @@ exports.createBatchDosen = (req, res) => {
                 });
               });
             });
-          };
+          }
         });
       });
       res.status(200).json({
         message: "Dosen was registered successfully!",
-        data: jsonObj
+        data: jsonObj,
       });
     });
 };
-
 
 exports.getRekapDosen = async (req, res) => {
   let result = [];
@@ -451,15 +454,30 @@ exports.getRekapDosen = async (req, res) => {
   }
 
   // proses mencari rekap status mhs sesuai doswal
-  const resultAktif = await Mahasiswa.count({ kodeWali: dosen._id, status: "Aktif" });
-  const resultCuti = await Mahasiswa.count({ kodeWali: dosen._id, status: "Cuti" });
-  const resultMangkir = await Mahasiswa.count({ kodeWali: dosen._id, status: "Mangkir" });
-  const resultDrop = await Mahasiswa.count({ kodeWali: dosen._id, status: "Drop Out" });
+  const resultAktif = await Mahasiswa.count({
+    kodeWali: dosen._id,
+    status: "Aktif",
+  });
+  const resultCuti = await Mahasiswa.count({
+    kodeWali: dosen._id,
+    status: "Cuti",
+  });
+  const resultMangkir = await Mahasiswa.count({
+    kodeWali: dosen._id,
+    status: "Mangkir",
+  });
+  const resultDrop = await Mahasiswa.count({
+    kodeWali: dosen._id,
+    status: "Drop Out",
+  });
   const resultMengundurkan = await Mahasiswa.count({
     kodeWali: dosen._id,
     status: "Mengundurkan Diri",
   });
-  const resultLulus = await Mahasiswa.count({ kodeWali: dosen._id, status: "Lulus" });
+  const resultLulus = await Mahasiswa.count({
+    kodeWali: dosen._id,
+    status: "Lulus",
+  });
   const resultMeninggal = await Mahasiswa.count({
     kodeWali: dosen._id,
     status: "Meninggal Dunia",

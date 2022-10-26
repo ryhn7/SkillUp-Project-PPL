@@ -132,4 +132,10 @@ module.exports = function (app) {
   );
 
   app.get("/rekap-mhs", [authJwt.verifyToken, authJwt.isDepartemen], controller.getRekapAllMhs);
+
+  app.get(
+    "/dosen/mahasiswa/:nim",
+    [authJwt.verifyToken,authJwt.isDosen],
+    controller.getInfoWithNIM
+  );
 };

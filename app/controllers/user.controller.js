@@ -701,3 +701,16 @@ exports.listDataMahasiswa = async (req, res) => {
   })
   res.status(200).send(listAllMahasiswa)
 };
+
+exports.getInfoWithNIM = async (req, res) => {
+  const dosen = await Dosen.findOne({
+    user: req.userId
+  });
+  const mahasiswa = await Mahasiswa.findOne({
+    nim: req.params.nim,
+    kodeWali: dosen._id
+  });
+
+  res.status(200).send(mahasiswa);
+
+}

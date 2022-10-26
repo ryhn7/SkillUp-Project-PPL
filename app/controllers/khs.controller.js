@@ -60,7 +60,8 @@ const submitKHS = (req, res) => {
                                         sks_kumulatif: req.body.sks_kumulatif,
                                         ip: req.body.ip,
                                         ip_kumulatif: req.body.ip_kumulatif,
-                                        status_konfirmasi: req.body.status_konfirmasi,
+                                        status_konfirmasi:
+                                            req.body.status_konfirmasi,
                                     },
                                 },
                                 function (err, khs) {
@@ -69,7 +70,8 @@ const submitKHS = (req, res) => {
                                         return;
                                     }
                                     res.send({
-                                        message: "KHS was updated successfully!",
+                                        message:
+                                            "KHS was updated successfully!",
                                     });
                                 }
                             );
@@ -138,33 +140,92 @@ const getAllKHS = async (req, res) => {
 };
 
 const downloadKHS = (req, res) => {
-  Khs.findOne(
-    {
-      mahasiswa: req.mahasiswaId,
-      semester_aktif: req.params.semester,
-    },
-    //if file not found return 404
-    function (err, khs) {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-      if (!khs) {
-        res.status(404).send({ message: "File not found!" });
-        return;
-      }
-      const file = fs.createReadStream(khs.file);
-      const filename = "KHS_" + khs.semester_aktif;
-      res.setHeader("Content-disposition", "attachment; filename=" + filename);
-      file.pipe(res);
-    }
-  );
+    Khs.findOne(
+        {
+            mahasiswa: req.mahasiswaId,
+            semester_aktif: req.params.semester,
+        },
+        //if file not found return 404
+        function (err, khs) {
+            if (err) {
+                res.status(500).send({ message: err });
+                return;
+            }
+            if (!khs) {
+                res.status(404).send({ message: "File not found!" });
+                return;
+            }
+            const file = fs.createReadStream(khs.file);
+            const filename = "KHS_" + khs.semester_aktif;
+            res.setHeader(
+                "Content-disposition",
+                "attachment; filename=" + filename
+            );
+            file.pipe(res);
+        }
+    );
 };
 
 const waliKHS = async (req, res) => {
   const dosen = await Dosen.findOne({ user: req.userId });
   const list_mhs = await Mahasiswa.find({ kodeWali: dosen._id });
   const list_khs = await Khs.find({});
+
+    let result = [];
+    for (let i = 0; i < list_mhs.length; i++) {
+        for (let j = 0; j < list_khs.length; j++) {
+            // cek tiap khs yang punya nilai mahasiswa == mahasiswa.id
+            if (list_mhs[i]._id.equals(list_khs[j].mahasiswa)) {
+                let obj_khs = {
+                    id_khs: list_khs[j]._id,
+                    nama: list_mhs[i].name,
+                    semester_aktif: list_khs[j].semester_aktif,
+                    sks: list_khs[j].sks,
+                    sks_kumulatif: list_khs[j].sks_kumulatif,
+                    ip: list_khs[j].ip,
+                    ipk: list_khs[j].ip_kumulatif,
+                    status_konfirmasi: list_khs[j].status_konfirmasi,
+                    file: list_khs[j].flie,
+                };
+                result.push(obj_khs);
+            }
+        }
+    }
+    res.status(200).send(result);
+};
+
+const verifiedKHS = async (req, res) => {
+    const dosen = await Dosen.findOne({ user: req.userId });
+    const list_mhs = await Mahasiswa.find({ kodeWali: dosen._id });
+    const list_khs = await Khs.find({ status_konfirmasi: "sudah" });
+
+    let result = [];
+    for (let i = 0; i < list_mhs.length; i++) {
+        for (let j = 0; j < list_khs.length; j++) {
+            // cek tiap khs yang punya nilai mahasiswa == mahasiswa.id
+            if (list_mhs[i]._id.equals(list_khs[j].mahasiswa)) {
+                let obj_khs = {
+                    id_khs: list_khs[j]._id,
+                    nama: list_mhs[i].name,
+                    semester_aktif: list_khs[j].semester_aktif,
+                    sks: list_khs[j].sks,
+                    sks_kumulatif: list_khs[j].sks_kumulatif,
+                    ip: list_khs[j].ip,
+                    ipk: list_khs[j].ip_kumulatif,
+                    status_konfirmasi: list_khs[j].status_konfirmasi,
+                    file: list_khs[j].flie,
+                };
+                result.push(obj_khs);
+            }
+        }
+    }
+    res.status(200).send(result);
+};
+
+const notVerifiedKHS = async (req, res) => {
+    const dosen = await Dosen.findOne({ user: req.userId });
+    const list_mhs = await Mahasiswa.find({ kodeWali: dosen._id });
+    const list_khs = await Khs.find({ status_konfirmasi: "belum" });
 
     let result = [];
     for (let i = 0; i < list_mhs.length; i++) {
@@ -222,11 +283,13 @@ const deleteAllKHS = (req, res) => {
 };
 
 module.exports = {
-  submitKHS,
-  getKHS,
-  getAllKHS,
-  downloadKHS,
-  waliKHS,
-  verifyKHS,
-  deleteAllKHS,
+    submitKHS,
+    getKHS,
+    getAllKHS,
+    downloadKHS,
+    waliKHS,
+    verifyKHS,
+    verifiedKHS,
+    notVerifiedKHS,
+    deleteAllKHS,
 };

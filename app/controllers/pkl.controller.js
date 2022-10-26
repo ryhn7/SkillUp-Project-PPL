@@ -247,21 +247,20 @@ exports.downloadPKL = (req, res) => {
 };
 
 exports.deleteAllPKL = (req, res) => {
-    PKL.deleteMany({}, (err, data) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
-        res.status(200).send(data);
-    });
-}
+  PKL.deleteMany({}, (err, data) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    res.status(200).send(data);
+  });
+};
 exports.putVerifPKL = async (req, res) => {
   const dosen = await Dosen.findOne({ user: req.userId });
   const mahasiswa = await Mahasiswa.findOne({
     kodeWali: dosen._id,
     nim: req.params.nim,
   });
-  console.log(mahasiswa._id);
   PKL.updateOne(
     { mahasiswa: mahasiswa._id },
     {

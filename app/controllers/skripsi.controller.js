@@ -234,7 +234,10 @@ exports.getVerifikasiSkripsi = async (req, res) => {
   let result = [];
   for (let i = 0; i < resultSkr.length; i++) {
     for (let j = 0; j < resultMhs.length; j++) {
-      if (resultSkr[i].mahasiswa.equals(resultMhs[j]._id)) {
+      if (
+        resultSkr[i].mahasiswa.equals(resultMhs[j]._id) &&
+        resultSkr[i].status_konfirmasi === "belum"
+      ) {
         let tanggal = new Date(resultSkr[i].tanggal);
         tanggal = tanggal.toLocaleDateString("id-ID");
         result.push({
@@ -260,20 +263,24 @@ exports.verifSkripsi = async (req, res) => {
     kodeWali: dosen._id,
     nim: req.params.nim,
   });
-  console.log(mahasiswa._id);
-  Skripsi.updateOne(
-    { mahasiswa: mahasiswa._id },
+  // Find skripsi with mahasiswa id and update
+  Skripsi.findOneAndUpdate(
     {
-      $set: {
-        status_konfirmasi: "sudah",
-      },
+      mahasiswa: mahasiswa._id,
     },
-    function (err, pkl) {
+    {
+      status_konfirmasi: "sudah",
+    },
+    (err, skripsi) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
       }
-      res.send({ message: "PKL was verified successfully!" });
+      if (!skripsi) {
+        res.status(404).send({ message: "Skripsi not found" });
+        return;
+      }
+      res.status(200).send({ message: "OK" });
     }
   );
 };

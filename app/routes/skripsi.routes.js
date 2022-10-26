@@ -56,7 +56,7 @@ module.exports = function (app) {
     controller.getVerifikasiSkripsi
   );
 
-  app.put(
+  app.post(
     "/verifikasi/skripsi/:nim",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.verifSkripsi

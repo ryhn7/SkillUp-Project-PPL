@@ -12,7 +12,9 @@ const KHS = db.khs;
 const fs = require("fs");
 
 var bcrypt = require("bcryptjs");
-const { checkRolesExisted } = require("../middlewares/verifyGenerate");
+const {
+  checkRolesExisted
+} = require("../middlewares/verifyGenerate");
 const pkl = require("../models/pkl.model");
 
 exports.allAccess = (req, res) => {
@@ -62,25 +64,32 @@ exports.signup = (req, res) => {
 
   user.save((err, user) => {
     if (err) {
-      res.status(500).send({ message: err });
+      res.status(500).send({
+        message: err
+      });
       return;
     }
 
     if (req.body.roles) {
-      Role.find(
-        {
-          name: { $in: req.body.roles },
+      Role.find({
+          name: {
+            $in: req.body.roles
+          },
         },
         (err, roles) => {
           if (err) {
-            res.status(500).send({ message: err });
+            res.status(500).send({
+              message: err
+            });
             return;
           }
 
           user.roles = roles.map((role) => role._id);
           user.save((err) => {
             if (err) {
-              res.status(500).send({ message: err });
+              res.status(500).send({
+                message: err
+              });
               return;
             }
 
@@ -92,29 +101,41 @@ exports.signup = (req, res) => {
       );
     } else {
       //if roles is empty then assign mahasiswa role and make mahasiswa
-      Role.findOne({ name: "mahasiswa" }, (err, role) => {
+      Role.findOne({
+        name: "mahasiswa"
+      }, (err, role) => {
         if (err) {
-          res.status(500).send({ message: err });
+          res.status(500).send({
+            message: err
+          });
           return;
         }
 
         user.roles = [role._id];
         user.save((err) => {
           if (err) {
-            res.status(500).send({ message: err });
+            res.status(500).send({
+              message: err
+            });
             return;
           }
 
           if (req.body.status) {
-            Status.findOne({ name: req.body.status }, (err, status) => {
+            Status.findOne({
+              name: req.body.status
+            }, (err, status) => {
               if (err) {
-                res.status(500).send({ message: err });
+                res.status(500).send({
+                  message: err
+                });
                 return;
               }
               mahasiswa.status = status._id;
               mahasiswa.save((err) => {
                 if (err) {
-                  res.status(500).send({ message: err });
+                  res.status(500).send({
+                    message: err
+                  });
                   return;
                 }
                 res.send({
@@ -130,7 +151,9 @@ exports.signup = (req, res) => {
 };
 
 exports.listUser = (req, res) => {
-  User.find({}, { password: 0 })
+  User.find({}, {
+      password: 0
+    })
     .populate("roles", "name")
     .exec(function (err, users) {
       var userMap = [];
@@ -148,14 +171,9 @@ exports.listDataMahasiswa = (req, res) => {
     .populate("kodeWali", "name")
     .exec(function (err, mahasiswa) {
       var mahasiswaMap = [];
+    })
+}
 
-      mahasiswa.forEach(function (mahasiswa) {
-        mahasiswaMap.push(mahasiswa);
-      });
-
-      res.send(mahasiswaMap);
-    });
-};
 
 exports.signUpDosen = (req, res) => {
   const user = new User({
@@ -173,25 +191,32 @@ exports.signUpDosen = (req, res) => {
 
   user.save((err, user) => {
     if (err) {
-      res.status(500).send({ message: err });
+      res.status(500).send({
+        message: err
+      });
       return;
     }
 
     if (req.body.roles) {
-      Role.find(
-        {
-          name: { $in: req.body.roles },
+      Role.find({
+          name: {
+            $in: req.body.roles
+          },
         },
         (err, roles) => {
           if (err) {
-            res.status(500).send({ message: err });
+            res.status(500).send({
+              message: err
+            });
             return;
           }
 
           user.roles = roles.map((role) => role._id);
           user.save((err) => {
             if (err) {
-              res.status(500).send({ message: err });
+              res.status(500).send({
+                message: err
+              });
               return;
             }
 
@@ -203,21 +228,29 @@ exports.signUpDosen = (req, res) => {
       );
     } else {
       //if roles is empty then assign mahasiswa role and make mahasiswa
-      Role.findOne({ name: "dosen" }, (err, role) => {
+      Role.findOne({
+        name: "dosen"
+      }, (err, role) => {
         if (err) {
-          res.status(500).send({ message: err });
+          res.status(500).send({
+            message: err
+          });
           return;
         }
 
         user.roles = [role._id];
         user.save((err) => {
           if (err) {
-            res.status(500).send({ message: err });
+            res.status(500).send({
+              message: err
+            });
             return;
           }
           dosen.save((err) => {
             if (err) {
-              res.status(500).send({ message: err });
+              res.status(500).send({
+                message: err
+              });
               return;
             }
             res.send({
@@ -270,25 +303,32 @@ exports.createBatchUser = (req, res) => {
 
         user.save((err, user) => {
           if (err) {
-            res.status(500).send({ message: err });
+            res.status(500).send({
+              message: err
+            });
             return;
           }
 
           if (req.body.roles) {
-            Role.find(
-              {
-                name: { $in: req.body.roles },
+            Role.find({
+                name: {
+                  $in: req.body.roles
+                },
               },
               (err, roles) => {
                 if (err) {
-                  res.status(500).send({ message: err });
+                  res.status(500).send({
+                    message: err
+                  });
                   return;
                 }
 
                 user.roles = roles.map((role) => role._id);
                 user.save((err) => {
                   if (err) {
-                    res.status(500).send({ message: err });
+                    res.status(500).send({
+                      message: err
+                    });
                     return;
                   }
                   // res.send({
@@ -300,21 +340,29 @@ exports.createBatchUser = (req, res) => {
             );
           } else {
             //if roles is empty then assign mahasiswa role and make mahasiswa
-            Role.findOne({ name: "mahasiswa" }, (err, role) => {
+            Role.findOne({
+              name: "mahasiswa"
+            }, (err, role) => {
               if (err) {
-                res.status(500).send({ message: err });
+                res.status(500).send({
+                  message: err
+                });
                 return;
               }
 
               user.roles = [role._id];
               user.save((err) => {
                 if (err) {
-                  res.status(500).send({ message: err });
+                  res.status(500).send({
+                    message: err
+                  });
                   return;
                 }
                 mahasiswa.save((err) => {
                   if (err) {
-                    res.status(500).send({ message: err });
+                    res.status(500).send({
+                      message: err
+                    });
                     return;
                   }
                 });
@@ -353,46 +401,61 @@ exports.createBatchDosen = (req, res) => {
 
         user.save((err, user) => {
           if (err) {
-            res.status(500).send({ message: err });
+            res.status(500).send({
+              message: err
+            });
             return;
           }
 
           if (req.body.roles) {
-            Role.find(
-              {
-                name: { $in: req.body.roles },
+            Role.find({
+                name: {
+                  $in: req.body.roles
+                },
               },
               (err, roles) => {
                 if (err) {
-                  res.status(500).send({ message: err });
+                  res.status(500).send({
+                    message: err
+                  });
                   return;
                 }
 
                 user.roles = roles.map((role) => role._id);
                 user.save((err) => {
                   if (err) {
-                    res.status(500).send({ message: err });
+                    res.status(500).send({
+                      message: err
+                    });
                     return;
                   }
                 });
               }
             );
           } else {
-            Role.findOne({ name: "dosen" }, (err, role) => {
+            Role.findOne({
+              name: "dosen"
+            }, (err, role) => {
               if (err) {
-                res.status(500).send({ message: err });
+                res.status(500).send({
+                  message: err
+                });
                 return;
               }
 
               user.roles = [role._id];
               user.save((err) => {
                 if (err) {
-                  res.status(500).send({ message: err });
+                  res.status(500).send({
+                    message: err
+                  });
                   return;
                 }
                 dosen.save((err) => {
                   if (err) {
-                    res.status(500).send({ message: err }); // kalau gaada error di table mahasiswa ini aman dijalanin
+                    res.status(500).send({
+                      message: err
+                    }); // kalau gaada error di table mahasiswa ini aman dijalanin
                     console.log(err);
                     return;
                   }
@@ -416,8 +479,12 @@ exports.getRekapDosen = async (req, res) => {
   let lulusSkripsi = 0;
   let belumSkripsi = 0;
 
-  const dosen = await Dosen.findOne({ user: req.userId });
-  const queryMhs = Mahasiswa.find({ kodeWali: dosen._id });
+  const dosen = await Dosen.findOne({
+    user: req.userId
+  });
+  const queryMhs = Mahasiswa.find({
+    kodeWali: dosen._id
+  });
   const resultMhs = await queryMhs.exec();
   const queryPKL = PKL.find();
   const resultPKL = await queryPKL.exec();
@@ -521,9 +588,13 @@ exports.deleteAllMhs = async (req, res) => {
 
   // res.status(200).send(list_mhs);
 
-  User.deleteMany({ roles: mhs._id }, (err, data) => {
+  User.deleteMany({
+    roles: mhs._id
+  }, (err, data) => {
     if (err) {
-      res.status(500).send({ message: err });
+      res.status(500).send({
+        message: err
+      });
       return;
     }
     res.status(200).send(data);
@@ -531,24 +602,48 @@ exports.deleteAllMhs = async (req, res) => {
 };
 
 exports.getRekapAllMhs = async (req, res) => {
-  const lulus_skripsi = await Skripsi.count({ status_konfirmasi: "sudah" });
-  const tidak_skripsi = await Skripsi.count({ status_konfirmasi: "belum" });
-  const lulus_pkl = await PKL.count({ status_konfirmasi: "sudah" });
-  const tidak_pkl = await PKL.count({ status_konfirmasi: "belum" });
+  const lulus_skripsi = await Skripsi.count({
+    status_konfirmasi: "sudah"
+  });
+  const tidak_skripsi = await Skripsi.count({
+    status_konfirmasi: "belum"
+  });
+  const lulus_pkl = await PKL.count({
+    status_konfirmasi: "sudah"
+  });
+  const tidak_pkl = await PKL.count({
+    status_konfirmasi: "belum"
+  });
 
-  const aktif = await Mahasiswa.count({ status: "Aktif" });
-  const cuti = await Mahasiswa.count({ status: "Cuti" });
-  const mangkir = await Mahasiswa.count({ status: "Mangkir" });
-  const drop = await Mahasiswa.count({ status: "Drop Out" });
-  const mengundurkan = await Mahasiswa.count({ status: "Mengundurkan Diri" });
-  const lulus = await Mahasiswa.count({ status: "Lulus" });
-  const meninggal = await Mahasiswa.count({ status: "Meninggal Dunia" });
+  const aktif = await Mahasiswa.count({
+    status: "Aktif"
+  });
+  const cuti = await Mahasiswa.count({
+    status: "Cuti"
+  });
+  const mangkir = await Mahasiswa.count({
+    status: "Mangkir"
+  });
+  const drop = await Mahasiswa.count({
+    status: "Drop Out"
+  });
+  const mengundurkan = await Mahasiswa.count({
+    status: "Mengundurkan Diri"
+  });
+  const lulus = await Mahasiswa.count({
+    status: "Lulus"
+  });
+  const meninggal = await Mahasiswa.count({
+    status: "Meninggal Dunia"
+  });
 
   const list_mhs = await Mahasiswa.find({});
   const list_khs = [];
 
   for (let i = 0; i < list_mhs.length; i++) {
-    khs = await KHS.find({ mahasiswa: list_mhs[i]._id });
+    khs = await KHS.find({
+      mahasiswa: list_mhs[i]._id
+    });
 
     const new_obj = {
       name: list_mhs[i].name,
@@ -582,4 +677,27 @@ exports.getRekapAllMhs = async (req, res) => {
   };
 
   res.status(200).send(obj_rekap);
+};
+
+exports.getMahasiswaDosen = async (req, res) => {
+  const dosen = await Dosen.findOne({
+    user: req.userId
+  });
+  const mahasiswa = await Mahasiswa.find({
+    kodeWali: dosen._id
+  });
+  let listMahasiswa = [];
+  mahasiswa.forEach(mhs => {
+    listMahasiswa.push(mhs)
+  })
+  res.status(200).send(listMahasiswa);
+}
+
+exports.listDataMahasiswa = async (req, res) => {
+  const mahasiswa = await Mahasiswa.find({});
+  let listAllMahasiswa = [];
+  mahasiswa.forEach(mhs => {
+    listAllMahasiswa.push(mhs);
+  })
+  res.status(200).send(listAllMahasiswa)
 };

@@ -41,7 +41,7 @@ module.exports = function (app) {
   );
 
   app.post(
-    "/verifikasi/skripsi/:nim",
+    "/verifikasi/pkl/:nim",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.VerifPKL
   );

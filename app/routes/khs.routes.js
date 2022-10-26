@@ -42,6 +42,11 @@ module.exports = function (app) {
         [authJwt.verifyToken, authJwt.isDosen],
         controller.verifyKHS
     );
+    app.get(
+        "/khs/:nim/:semester_aktif",
+        [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
+        controller.downloadKHS
+    );
 
     // app.delete(
     //     "/delete/all-khs",

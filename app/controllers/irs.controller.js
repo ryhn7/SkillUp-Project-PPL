@@ -220,7 +220,7 @@ const verifyIRS = async (req, res) => {
         res.status(500).send({ message: err });
         return;
       }
-      res.status(200).send("IRS verified");
+      res.status(200).send({ message: "OK" });
     }
   );
 };

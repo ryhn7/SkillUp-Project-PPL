@@ -130,7 +130,7 @@ exports.getRekapPKL = async (req, res) => {
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
           nilai: resultPKL[j].nilai,
-          semester: resultPKL[j].nilai,
+          semester: resultPKL[j].semester,
           status_konfirmasi: resultPKL[j].status_konfirmasi,
           file: resultPKL[j].file,
         });
@@ -138,14 +138,14 @@ exports.getRekapPKL = async (req, res) => {
         break;
       }
     }
-    // if (!ck) {
-    //   result.push({
-    //     name: resultMhs[i].name,
-    //     nim: resultMhs[i].nim,
-    //     angkatan: resultMhs[i].angkatan,
-    //     status_konfirmasi: "belum",
-    //   });
-    // }
+    if (!ck) {
+      result.push({
+        name: resultMhs[i].name,
+        nim: resultMhs[i].nim,
+        angkatan: resultMhs[i].angkatan,
+        status_konfirmasi: "belum",
+      });
+    }
   }
 
   res.status(200).send(result);
@@ -210,7 +210,7 @@ exports.getBelumPKL = async (req, res) => {
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
           nilai: resultPKL[j].nilai,
-          semester: resultPKL[j].nilai,
+          semester: resultPKL[j].semester,
           status_konfirmasi: resultPKL[j].status_konfirmasi,
           file: resultPKL[j].file,
         });

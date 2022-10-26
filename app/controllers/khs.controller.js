@@ -173,7 +173,9 @@ const waliKHS = async (req, res) => {
       if (list_mhs[i]._id.equals(list_khs[j].mahasiswa)) {
         let obj_khs = {
           id_khs: list_khs[j]._id,
-          nama: list_mhs[i].name,
+          name: list_mhs[i].name,
+          nim: list_mhs[i].nim,
+          angkatan: list_mhs[i].angkatan,
           semester_aktif: list_khs[j].semester_aktif,
           sks: list_khs[j].sks,
           sks_kumulatif: list_khs[j].sks_kumulatif,
@@ -201,7 +203,9 @@ const verifiedKHS = async (req, res) => {
       if (list_mhs[i]._id.equals(list_khs[j].mahasiswa)) {
         let obj_khs = {
           id_khs: list_khs[j]._id,
-          nama: list_mhs[i].name,
+          name: list_mhs[i].name,
+          nim: list_mhs[i].nim,
+          angkatan: list_mhs[i].angkatan,
           semester_aktif: list_khs[j].semester_aktif,
           sks: list_khs[j].sks,
           sks_kumulatif: list_khs[j].sks_kumulatif,
@@ -229,7 +233,9 @@ const notVerifiedKHS = async (req, res) => {
       if (list_mhs[i]._id.equals(list_khs[j].mahasiswa)) {
         let obj_khs = {
           id_khs: list_khs[j]._id,
-          nama: list_mhs[i].name,
+          name: list_mhs[i].name,
+          nim: list_mhs[i].nim,
+          angkatan: list_mhs[i].angkatan,
           semester_aktif: list_khs[j].semester_aktif,
           sks: list_khs[j].sks,
           sks_kumulatif: list_khs[j].sks_kumulatif,

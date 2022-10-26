@@ -35,8 +35,6 @@ module.exports = function (app) {
     );
     app.get("/verifikasi/khs", [authJwt.verifyToken, authJwt.isDosen], controller.waliKHS);
 
-    app.get("/verifikasi/khs", [authJwt.verifyToken, authJwt.isDosen], controller.waliKHS);
-
     app.put(
         "/verifikasi/khs/:nim/:semester",
         [authJwt.verifyToken, authJwt.isDosen],

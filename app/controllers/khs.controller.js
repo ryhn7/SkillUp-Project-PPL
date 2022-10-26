@@ -118,15 +118,15 @@ const getAllKHS = async (req, res) => {
                     ipk: array_khs[j].ip_kumulatif,
                 };
 
-                khs_mahasiswa.push(obj_khs);
-            }
-        }
-        let obj_mahasiswa = {
-            nama: array_mahasiswa[i].name,
-            nim: array_mahasiswa[i].nim,
-            khs: khs_mahasiswa,
-            wali: array_mahasiswa[i].kodeWali,
-        };
+        khs_mahasiswa.push(obj_khs);
+      }
+    }
+    let obj_mahasiswa = {
+      name: array_mahasiswa[i].name,
+      nim: array_mahasiswa[i].nim,
+      khs: khs_mahasiswa,
+      wali: array_mahasiswa[i].kodeWali,
+    };
 
         result.push(obj_mahasiswa);
     }
@@ -162,66 +162,77 @@ const downloadKHS = (req, res) => {
 };
 
 const waliKHS = async (req, res) => {
-    const dosen = await Dosen.findOne({ user: req.userId });
-    const list_mhs = await Mahasiswa.find({ kodeWali: dosen._id });
-    const list_khs = await Khs.find({});
+  const dosen = await Dosen.findOne({ user: req.userId });
+  const list_mhs = await Mahasiswa.find({ kodeWali: dosen._id });
+  const list_khs = await Khs.find({});
 
-    let result = [];
-    for (let i = 0; i < list_mhs.length; i++) {
-        let khs_mahasiswa = [];
+  let result = [];
+  for (let i = 0; i < list_mhs.length; i++) {
+    let khs_mahasiswa = [];
 
-        for (let j = 0; j < list_khs.length; j++) {
-            // cek tiap khs yang punya nilai mahasiswa == mahasiswa.id
-            if (list_mhs[i]._id.equals(list_khs[j].mahasiswa)) {
-                let obj_khs = {
-                    semester: list_khs[j].semester_aktif,
-                    ip: list_khs[j].ip,
-                    ipk: list_khs[j].ip_kumulatif,
-                    status: list_khs[j].status_konfirmasi,
-                };
-
-                khs_mahasiswa.push(obj_khs);
-            }
-        }
-        let obj_mahasiswa = {
-            nama: list_mhs[i].name,
-            nim: list_mhs[i].nim,
-            angkatan: list_mhs[i].angkatan,
-            khs: khs_mahasiswa,
+    for (let j = 0; j < list_khs.length; j++) {
+      // cek tiap khs yang punya nilai mahasiswa == mahasiswa.id
+      if (list_mhs[i]._id.equals(list_khs[j].mahasiswa)) {
+        let obj_khs = {
+          semester: list_khs[j].semester_aktif,
+          ip: list_khs[j].ip,
+          ipk: list_khs[j].ip_kumulatif,
+          status: list_khs[j].status_konfirmasi,
         };
 
-        result.push(obj_mahasiswa);
+        khs_mahasiswa.push(obj_khs);
+      }
     }
-    res.status(200).send(result);
+    let obj_mahasiswa = {
+      name: list_mhs[i].name,
+      nim: list_mhs[i].nim,
+      angkatan: list_mhs[i].angkatan,
+      khs: khs_mahasiswa,
+    };
+
+    result.push(obj_mahasiswa);
+  }
+  res.status(200).send(result);
 };
 
 const verifyKHS = async (req, res) => {
-    const mhs = await Mahasiswa.findOne({ nim: req.params.nim });
-    const dosen = await Dosen.findOne({ user: req.userId });
+  const mhs = await Mahasiswa.findOne({ nim: req.params.nim });
+  const dosen = await Dosen.findOne({ user: req.userId });
 
-    if (!dosen._id.equals(mhs.kodeWali)) {
-        res.status(403).send(`Anda bukan dosen wali dari ${mhs.nama}`);
+  if (!dosen._id.equals(mhs.kodeWali)) {
+    res.status(403).send(`Anda bukan dosen wali dari ${mhs.name}`);
+    return;
+  }
+
+  Khs.findOneAndUpdate(
+    { mahasiswa: mhs._id, semester_aktif: req.params.semester },
+    { status_konfirmasi: req.body.status },
+    (err, data) => {
+      if (err) {
+        res.status(500).send({ message: err });
         return;
+      }
+      res.status(200).send("KHS verified");
     }
+  );
+};
 
-    Khs.findOneAndUpdate(
-        { mahasiswa: mhs._id, semester_aktif: req.params.semester },
-        { status_konfirmasi: req.body.status },
-        (err, data) => {
-            if (err) {
-                res.status(500).send({ message: err });
-                return;
-            }
-            res.status(200).send(data);
-        }
-    );
+const deleteAllKHS = (req, res) => {
+  Khs.deleteMany({}, (err, data) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    res.status(200).send(data);
+  });
 };
 
 module.exports = {
-    submitKHS,
-    getKHS,
-    getAllKHS,
-    downloadKHS,
-    waliKHS,
-    verifyKHS,
+  submitKHS,
+  getKHS,
+  getAllKHS,
+  downloadKHS,
+  waliKHS,
+  verifyKHS,
+  deleteAllKHS,
 };

@@ -28,25 +28,24 @@ module.exports = function (app) {
         controller.getAllKHS
     );
 
-    app.get(
-        "/khs/:nim/:semester",
-        [
-            authJwt.verifyToken,
-            authJwt.isMahasiswaOrDosen,
-            authJwt.getMahasiswaIdFromNim,
-        ],
-        controller.downloadKHS
-    );
+  app.get(
+    "/khs/:nim/:semester",
+    [
+      authJwt.verifyToken,
+      authJwt.isMahasiswaOrDosen,
+      authJwt.getMahasiswaIdFromNim,
+    ],
+    controller.downloadKHS
+  );
+  app.get(
+    "/verifikasi/khs",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.waliKHS
+  );
 
-    app.get(
-        "/verifikasi/khs",
-        [authJwt.verifyToken, authJwt.isDosen],
-        controller.waliKHS
-    );
-
-    app.put(
-        "/verifikasi/khs/:nim/:semester",
-        [authJwt.verifyToken, authJwt.isDosen],
-        controller.verifyKHS
-    );
+  app.put(
+    "/verifikasi/khs/:nim/:semester",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.verifyKHS
+  );
 };

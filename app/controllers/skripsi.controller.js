@@ -142,7 +142,7 @@ exports.getRekap = async (req, res) => {
     for (let j = 0; j < resultSkr.length; j++) {
       if (resultMhs[i]._id.equals(resultSkr[j].mahasiswa)) {
         result.push({
-          nama: resultMhs[i].name,
+          name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
           status_konfirmasi: "sudah",
@@ -153,7 +153,7 @@ exports.getRekap = async (req, res) => {
     }
     if (!ck) {
       result.push({
-        nama: resultMhs[i].name,
+        name: resultMhs[i].name,
         nim: resultMhs[i].nim,
         angkatan: resultMhs[i].angkatan,
         status_konfirmasi: "belum",
@@ -186,16 +186,17 @@ exports.downloadSkripsi = (req, res) => {
   );
 };
 
-exports.waliSkripsi = async (req,res) => {
-  const dosen = await Dosen.findOne({user : req.userId});
-  const resultMhs = await Mahasiswa.find({kodeWali: dosen._id});
+exports.waliSkripsi = async (req, res) => {
+  let result = []
+  const dosen = await Dosen.findOne({ user: req.userId });
+  const resultMhs = await Mahasiswa.find({ kodeWali: dosen._id });
   const resultSkr = await Skripsi.find({});
   for (let i = 0; i < resultMhs.length; i++) {
     let ck = false;
     for (let j = 0; j < resultSkr.length; j++) {
       if (resultMhs[i]._id.equals(resultSkr[j].mahasiswa)) {
         result.push({
-          nama: resultMhs[i].name,
+          name: resultMhs[i].name,
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
           status_konfirmasi: "sudah",
@@ -206,7 +207,7 @@ exports.waliSkripsi = async (req,res) => {
     }
     if (!ck) {
       result.push({
-        nama: resultMhs[i].name,
+        name: resultMhs[i].name,
         nim: resultMhs[i].nim,
         angkatan: resultMhs[i].angkatan,
         status_konfirmasi: "belum",
@@ -220,7 +221,7 @@ exports.waliSkripsi = async (req,res) => {
 
 exports.verifSkripsi = async (req, res) => {
   const dosen = await Dosen.findOne({ user: req.userId });
-  const mahasiswa = await Mahasiswa.findOne({kodeWali: dosen._id, nim: req.params.nim});
+  const mahasiswa = await Mahasiswa.findOne({ kodeWali: dosen._id, nim: req.params.nim });
   console.log(mahasiswa._id)
   Skripsi.updateOne(
     { mahasiswa: mahasiswa._id },
@@ -238,4 +239,3 @@ exports.verifSkripsi = async (req, res) => {
     }
   );
 }
-

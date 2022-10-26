@@ -176,14 +176,14 @@ exports.getWaliPKL = async (req, res) => {
                 break;
             }
         }
-        // if (!ck) {
-        //   result.push({
-        //     name: resultMhs[i].name,
-        //     nim: resultMhs[i].nim,
-        //     angkatan: resultMhs[i].angkatan,
-        //     status_konfirmasi: "belum",
-        //   });
-        // }
+        if (!ck) {
+          result.push({
+            name: resultMhs[i].name,
+            nim: resultMhs[i].nim,
+            angkatan: resultMhs[i].angkatan,
+            status_konfirmasi: "belum",
+          });
+        }
     }
 
     res.status(200).send(result);

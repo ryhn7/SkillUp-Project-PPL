@@ -19,41 +19,41 @@ const fileStorage = multer.diskStorage({
         const urlSplit = url.split("/");
         const jenisFolder = urlSplit[urlSplit.length - 1];
 
-    // cek jenis folder
-    if (jenisFolder === "irs") {
-      cb(null, "uploads/irs");
-    } else if (jenisFolder === "khs") {
-      cb(null, "uploads/khs");
-    } else if (jenisFolder === "pkl") {
-      cb(null, "uploads/pkl");
-    } else if (jenisFolder === "skripsi") {
-      cb(null, "uploads/skripsi");
-    } else if (jenisFolder === "batch-generate") {
-      cb(null, "uploads/accountMhs");
-    } else if (jenisFolder === "batch-dosen") {
-      cb(null, "uploads/accountDosen");
-    }
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().getTime() + "-" + file.originalname);
-  },
+        // cek jenis folder
+        if (jenisFolder === "irs") {
+            cb(null, "uploads/irs");
+        } else if (jenisFolder === "khs") {
+            cb(null, "uploads/khs");
+        } else if (jenisFolder === "pkl") {
+            cb(null, "uploads/pkl");
+        } else if (jenisFolder === "skripsi") {
+            cb(null, "uploads/skripsi");
+        } else if (jenisFolder === "batch-generate") {
+            cb(null, "uploads/accountMhs");
+        } else if (jenisFolder === "batch-dosen") {
+            cb(null, "uploads/accountDosen");
+        }
+    },
+    filename: (req, file, cb) => {
+        cb(null, new Date().getTime() + "-" + file.originalname);
+    },
 });
 
 const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg" ||
-    file.mimetype === "application/pdf" ||
-    file.mimetype === "text/csv" ||
-    file.mimetype === "application/vnd.ms-excel" ||
-    file.mimetype ===
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
+    if (
+        file.mimetype === "image/png" ||
+        file.mimetype === "image/jpg" ||
+        file.mimetype === "image/jpeg" ||
+        file.mimetype === "application/pdf" ||
+        file.mimetype === "text/csv" ||
+        file.mimetype === "application/vnd.ms-excel" ||
+        file.mimetype ===
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
 };
 
 app.use(
@@ -110,7 +110,6 @@ require("./app/routes/pkl.routes")(app);
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/khs.routes")(app);
-require("./app/routes/irs.routes")(app);
 require("./app/routes/skripsi.routes")(app);
 require("./app/routes/kabupaten.routes")(app);
 require("./app/routes/provinsi.routes")(app);

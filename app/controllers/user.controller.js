@@ -143,19 +143,7 @@ exports.listUser = (req, res) => {
     });
 };
 
-exports.listDataMahasiswa = (req, res) => {
-  Mahasiswa.find({})
-    .populate("status kodeWali", "name")
-    .exec(function (err, mahasiswa) {
-      var mahasiswaMap = [];
 
-      mahasiswa.forEach(function (mahasiswa) {
-        mahasiswaMap.push(mahasiswa);
-      });
-
-      res.send(mahasiswaMap);
-    });
-};
 
 exports.signUpDosen = (req, res) => {
   const user = new User({
@@ -569,4 +557,23 @@ exports.getRekapAllMhs = async (req, res) => {
   };
 
   res.status(200).send(obj_rekap);
+};
+
+exports.getMahasiswaDosen = async (req,res) => {
+  const dosen = await Dosen.findOne({ user: req.userId });
+  const mahasiswa = await Mahasiswa.find({kodeWali : dosen._id});
+  let listMahasiswa = [];
+  mahasiswa.forEach(mhs => {
+    listMahasiswa.push(mhs)
+  })
+  res.status(200).send(listMahasiswa);
+}
+
+exports.listDataMahasiswa = async (req, res) => {
+  const mahasiswa = await Mahasiswa.find({});
+  let listAllMahasiswa = [];
+  mahasiswa.forEach(mhs => {
+    listAllMahasiswa.push(mhs);
+  })
+  res.status(200).send(listAllMahasiswa)
 };

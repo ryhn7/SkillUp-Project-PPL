@@ -1,6 +1,10 @@
-const { authJwt } = require("../middlewares");
+const {
+  authJwt
+} = require("../middlewares");
 const controller = require("../controllers/user.controller.js");
-const { verifyGenerate } = require("../middlewares");
+const {
+  verifyGenerate
+} = require("../middlewares");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -85,18 +89,23 @@ module.exports = function (app) {
   app.post(
     "/batch-dosen",
     [authJwt.verifyToken,
-    verifyGenerate.checkDuplicateUsernameOrEmail,
-    verifyGenerate.checkRolesExisted,
-    authJwt.isMaster
+      verifyGenerate.checkDuplicateUsernameOrEmail,
+      verifyGenerate.checkRolesExisted,
+      authJwt.isMaster
     ],
     controller.createBatchDosen
   );
 
-app.get(
-  "/rekap/dosen",
-  [authJwt.verifyToken, authJwt.isDosen],
-  controller.getRekapDosen
-);
+  app.get(
+    "/rekap/dosen",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.getRekapDosen
+  );
 
-app.get("/rekap-mhs", [authJwt.verifyToken, authJwt.isDepartemen], controller.getRekapAllMhs);
+  app.get("/mahasiswa-dosen",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.getMahasiswaDosen
+  );
+
+  app.get("/rekap-mhs", [authJwt.verifyToken, authJwt.isDepartemen], controller.getRekapAllMhs);
 };

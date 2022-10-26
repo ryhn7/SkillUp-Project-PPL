@@ -176,35 +176,31 @@ const downloadIRS = (req, res) => {
 const waliIRS = async (req, res) => {
   const dosen = await Dosen.findOne({ user: req.userId });
   const list_mhs = await Mahasiswa.find({ kodeWali: dosen._id });
-  const list_irs = await IRS.find({});
-
-  let result = [];
+  // Get all irs from list_mhs that have status_konfirmasi == belum
+  let list_irs = [];
   for (let i = 0; i < list_mhs.length; i++) {
-    let irs_mahasiswa = [];
-
-    for (let j = 0; j < list_irs.length; j++) {
-      // cek tiap irs yang punya nilai mahasiswa == mahasiswa.id
-      if (list_mhs[i]._id.equals(list_irs[j].mahasiswa)) {
-        let obj_irs = {
-          semester_aktif: list_irs[j].semester_aktif,
-          sks: list_irs[j].sks,
-          file: list_irs[j].file,
-          status_konfirmasi: list_irs[j].status_konfirmasi,
-        };
-
-        irs_mahasiswa.push(obj_irs);
-      }
+    let mhs = list_mhs[i];
+    let irs = await IRS.find({
+      mahasiswa: list_mhs[i]._id,
+      status_konfirmasi: "belum",
+    });
+    // Merge mhs data and irs data
+    for (let j = 0; j < irs.length; j++) {
+      let obj = {
+        nim: mhs.nim,
+        name: mhs.name,
+        angkatan: mhs.angkatan,
+        semester_aktif: irs[j].semester_aktif,
+        sks: irs[j].sks,
+        file: irs[j].file,
+        irs_id: irs[j]._id,
+      };
+      list_irs.push(obj);
     }
-    let obj_mahasiswa = {
-      name: list_mhs[i].name,
-      nim: list_mhs[i].nim,
-      angkatan: list_mhs[i].angkatan,
-      irs: irs_mahasiswa,
-    };
-
-    result.push(obj_mahasiswa);
   }
-  res.status(200).send(result);
+
+  // Send the data
+  res.status(200).send(list_irs);
 };
 
 const verifyIRS = async (req, res) => {

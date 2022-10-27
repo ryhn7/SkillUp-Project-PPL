@@ -556,7 +556,6 @@ exports.getRekapAllMhs = async (req, res) => {
 
     list_khs.push(new_obj);
   }
-  console.log(list_khs);
 
   const obj_rekap = {
     status: {

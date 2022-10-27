@@ -35,11 +35,7 @@ module.exports = function (app) {
 
   app.get(
     "/skripsi/:nim",
-    [
-      authJwt.verifyToken,
-      authJwt.isMahasiswaOrDosen,
-      authJwt.getMahasiswaIdFromNim,
-    ],
+    [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
     // controller
     controller.downloadSkripsi
   );

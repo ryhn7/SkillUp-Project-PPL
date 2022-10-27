@@ -30,11 +30,7 @@ module.exports = function (app) {
 
   app.get(
     "/khs/:nim/:semester",
-    [
-      authJwt.verifyToken,
-      authJwt.isMahasiswaOrDosen,
-      authJwt.getMahasiswaIdFromNim,
-    ],
+    [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
     controller.downloadKHS
   );
   app.get(

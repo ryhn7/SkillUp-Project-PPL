@@ -48,11 +48,7 @@ module.exports = function (app) {
 
   app.get(
     "/pkl/:nim",
-    [
-      authJwt.verifyToken,
-      authJwt.isMahasiswaOrDosen,
-      authJwt.getMahasiswaIdFromNim,
-    ],
+    [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
     controller.downloadPKL
   );
 

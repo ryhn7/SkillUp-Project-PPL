@@ -1,15 +1,12 @@
 const db = require("../models");
-const pklcontroller = require("../controllers/pkl.controller");
 const csv = require("csvtojson");
 const User = db.user;
 const Role = db.role;
 const Mahasiswa = db.mahasiswa;
-const Status = db.status;
 const Skripsi = db.skripsi;
 const PKL = db.pkl;
 const Dosen = db.dosen;
 const KHS = db.khs;
-const fs = require("fs");
 
 var bcrypt = require("bcryptjs");
 const { checkRolesExisted } = require("../middlewares/verifyGenerate");
@@ -38,94 +35,48 @@ exports.departemenBoard = (req, res) => {
 exports.signup = (req, res) => {
   const user = new User({
     username: req.body.nim,
-    email: req.body.email,
     password: bcrypt.hashSync(req.body.name.toLowerCase().split(" ")[0], 8),
   });
 
   const mahasiswa = new Mahasiswa({
     name: req.body.name,
-    email: req.body.email,
     nim: req.body.nim,
+    email: req.body.email,
+    status: req.body.status,
     user: user._id,
     angkatan: req.body.angkatan,
     kodeWali: req.body.kodeWali,
+    alamat: req.body.alamat,
+    phone: req.body.phone,
+    kodeKab: req.body.kodeKab,
   });
 
-  const skripsi = new Skripsi({
-    status: req.body.skripsi,
-    nilai: req.body.nilai,
-    tanggal: req.body.tanggal,
-    lama_studi: req.body.lama_studi,
-    status_konfirmasi: req.body.status_konfirmasi,
-    updlaod: req.body.upload_skripsi,
-  });
-
+  // Save User in the database then save Mahasiswa
   user.save((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
-
-    if (req.body.roles) {
-      Role.find(
-        {
-          name: { $in: req.body.roles },
-        },
-        (err, roles) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-
-          user.roles = roles.map((role) => role._id);
-          user.save((err) => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
-
-            res.send({
-              message: "User was registered successfully!",
-            });
-          });
-        }
-      );
-    } else {
-      //if roles is empty then assign mahasiswa role and make mahasiswa
-      Role.findOne({ name: "mahasiswa" }, (err, role) => {
+    Role.findOne({ name: "mahasiswa" }, (err, role) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      user.roles = [role._id];
+      user.save((err) => {
         if (err) {
           res.status(500).send({ message: err });
           return;
         }
-
-        user.roles = [role._id];
-        user.save((err) => {
+        mahasiswa.save((err, mahasiswa) => {
           if (err) {
             res.status(500).send({ message: err });
             return;
           }
-
-          if (req.body.status) {
-            Status.findOne({ name: req.body.status }, (err, status) => {
-              if (err) {
-                res.status(500).send({ message: err });
-                return;
-              }
-              mahasiswa.status = status._id;
-              mahasiswa.save((err) => {
-                if (err) {
-                  res.status(500).send({ message: err });
-                  return;
-                }
-                res.send({
-                  message: "User was registered successfully!",
-                });
-              });
-            });
-          }
+          res.send({ message: "User was registered successfully!" });
         });
       });
-    }
+    });
   });
 };
 

@@ -58,7 +58,14 @@ exports.signup = (req, res) => {
       return;
     }
     Role.findOne({ name: "mahasiswa" }, (err, role) => {
+      //if error then delete user
       if (err) {
+        User.findByIdAndRemove(user._id, (err) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+        });
         res.status(500).send({ message: err });
         return;
       }

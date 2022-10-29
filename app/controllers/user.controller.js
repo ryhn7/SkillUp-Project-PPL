@@ -7,6 +7,7 @@ const Skripsi = db.skripsi;
 const PKL = db.pkl;
 const Dosen = db.dosen;
 const KHS = db.khs;
+const IRS = db.irs;
 
 var bcrypt = require("bcryptjs");
 const { checkRolesExisted } = require("../middlewares/verifyGenerate");
@@ -588,6 +589,10 @@ exports.getDetailMhsWali = async (req, res) => {
     mahasiswa: mahasiswa._id,
     status_konfirmasi: "sudah",
   });
+  const list_irs = await IRS.find({
+    mahasiswa: mahasiswa._id,
+    status_konfirmasi: "sudah",
+  });
   const pkl_mhs = await PKL.findOne({
     mahasiswa: mahasiswa._id,
     status_konfirmasi: "sudah",
@@ -602,6 +607,7 @@ exports.getDetailMhsWali = async (req, res) => {
   let list_ipk = [];
   let list_semester = [];
 
+  // untuk khs
   for (let i = 0; i < 14; i++) {
     if (!list_khs[i]) {
       list_sks.push("-");
@@ -611,8 +617,12 @@ exports.getDetailMhsWali = async (req, res) => {
       list_sks.push(list_khs[i].sks);
       list_ip.push(list_khs[i].ip);
       list_ipk.push(list_khs[i].ip_kumulatif);
-      list_semester.push(list_khs[i].semester_aktif);
     }
+  }
+
+  // untuk irs
+  for (let i = 0; i < list_irs.length; i++) {
+    list_semester.push(list_irs[i].semester_aktif);
   }
 
   const semester = Math.max(...list_semester);

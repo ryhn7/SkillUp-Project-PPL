@@ -130,7 +130,7 @@ exports.getRekapPKL = async (req, res) => {
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
           nilai: resultPKL[j].nilai,
-          semester: resultPKL[j].nilai,
+          semester: resultPKL[j].semester,
           status_konfirmasi: resultPKL[j].status_konfirmasi,
           file: resultPKL[j].file,
         });
@@ -138,14 +138,14 @@ exports.getRekapPKL = async (req, res) => {
         break;
       }
     }
-    // if (!ck) {
-    //   result.push({
-    //     name: resultMhs[i].name,
-    //     nim: resultMhs[i].nim,
-    //     angkatan: resultMhs[i].angkatan,
-    //     status_konfirmasi: "belum",
-    //   });
-    // }
+    if (!ck) {
+      result.push({
+        name: resultMhs[i].name,
+        nim: resultMhs[i].nim,
+        angkatan: resultMhs[i].angkatan,
+        status_konfirmasi: "belum",
+      });
+    }
   }
 
   res.status(200).send(result);
@@ -210,7 +210,7 @@ exports.getBelumPKL = async (req, res) => {
           nim: resultMhs[i].nim,
           angkatan: resultMhs[i].angkatan,
           nilai: resultPKL[j].nilai,
-          semester: resultPKL[j].nilai,
+          semester: resultPKL[j].semester,
           status_konfirmasi: resultPKL[j].status_konfirmasi,
           file: resultPKL[j].file,
         });
@@ -247,34 +247,38 @@ exports.downloadPKL = (req, res) => {
 };
 
 exports.deleteAllPKL = (req, res) => {
-    PKL.deleteMany({}, (err, data) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
-        res.status(200).send(data);
-    });
-}
-exports.putVerifPKL = async (req, res) => {
+  PKL.deleteMany({}, (err, data) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    res.status(200).send(data);
+  });
+};
+exports.VerifPKL = async (req, res) => {
   const dosen = await Dosen.findOne({ user: req.userId });
   const mahasiswa = await Mahasiswa.findOne({
     kodeWali: dosen._id,
     nim: req.params.nim,
   });
-  console.log(mahasiswa._id);
-  PKL.updateOne(
-    { mahasiswa: mahasiswa._id },
+  // Find PKL and update
+  PKL.findOneAndUpdate(
     {
-      $set: {
-        status_konfirmasi: "sudah",
-      },
+      mahasiswa: mahasiswa._id,
     },
-    function (err, pkl) {
+    {
+      status_konfirmasi: "sudah",
+    },
+    (err, pkl) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
       }
-      res.send({ message: "PKL was verified successfully!" });
+      if (!pkl) {
+        res.status(404).send({ message: "PKL not found" });
+        return;
+      }
+      res.status(200).send({ message: "OK" });
     }
   );
 };

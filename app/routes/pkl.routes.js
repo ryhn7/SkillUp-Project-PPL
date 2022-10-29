@@ -31,12 +31,6 @@ module.exports = function (app) {
   app.get(
     "/rekap/pkl",
     [authJwt.verifyToken, authJwt.isDosen],
-    controller.getBelumPKL
-  );
-
-  app.get(
-    "/rekap/pkl",
-    [authJwt.verifyToken, authJwt.isDosen],
     controller.getWaliPKL
   );
 

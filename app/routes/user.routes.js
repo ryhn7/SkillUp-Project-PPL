@@ -122,6 +122,12 @@ module.exports = function (app) {
   app.get("/rekap/departemen", [authJwt.verifyToken, authJwt.isDepartemen], controller.getRekapAllMhs);
 
   app.get(
+    "/departemen/mahasiswa/:nim",
+    [authJwt.verifyToken,authJwt.isDepartemen],
+    controller.getAllInfoWithNIM
+  )
+
+  app.get(
     "/dosen/mahasiswa/:nim",
     [authJwt.verifyToken,authJwt.isDosen],
     controller.getInfoWithNIM

@@ -7,6 +7,7 @@ const Skripsi = db.skripsi;
 const PKL = db.pkl;
 const Dosen = db.dosen;
 const KHS = db.khs;
+const IRS = db.irs;
 
 var bcrypt = require("bcryptjs");
 const { checkRolesExisted } = require("../middlewares/verifyGenerate");
@@ -562,6 +563,97 @@ exports.listDataMahasiswa = async (req, res) => {
   });
   res.status(200).send(listAllMahasiswa);
 };
+
+exports.getAllInfoWithNIM = async (req, res) => {
+  // pendefinisian
+  const mahasiswa = await Mahasiswa.findOne({nim: req.params.nim})
+  const pkl = await PKL.findOne({mahasiswa: mahasiswa._id})
+  const skripsi = await Skripsi.findOne({mahasiswa: mahasiswa._id})
+  const irs = await IRS.find({mahasiswa: mahasiswa._id})
+  const khs = await KHS.find({mahasiswa: mahasiswa._id})
+
+  let nilaiPKL
+  let semester_PKL
+  let nilaiSkripsi 
+  let semester_Skripsi
+
+  // check status PKL
+  if(pkl.status_konfirmasi === "sudah"){
+    nilaiPKL = pkl.nilai
+    semester_PKL = pkl.semester
+  }
+  else{
+    nilaiPKL = "-"
+    semester_PKL = "-"
+  }
+  
+  // check status Skripsi
+  if(skripsi.status_konfirmasi === "sudah"){
+    nilaiSkripsi = pkl.nilai
+    semester_Skripsi = pkl.semester
+  }
+  else{
+    nilaiSkripsi = "-"
+    semester_Skripsi = "-"
+  }
+
+
+  // pendifinisian dan pengecekan array IRS dan KHS
+  let listSKS = []
+  let listSKSK = []
+  let listIP = []
+  let listIPK = []
+  let sem = 0
+  irs.forEach((isian) => {
+    if(isian.status_konfirmasi === "sudah"){
+      listSKS.push(isian.sks)
+    }
+    else{
+      listSKS.push("-")
+    }
+    sem = isian.semester_aktif
+  })
+  khs.forEach((kartu) => {
+    if(kartu.status_konfirmasi === "sudah"){
+      listSKSK.push(kartu.sks_kumulatif)
+      listIP.push(kartu.ip)
+      listIPK.push(kartu.ip_kumulatif)
+    }
+    else{
+      listSKSK.push("-")
+      listIP.push("-")
+      listIPK.push("-")
+    }
+    
+  })
+  let i
+  for(i=0;i<14-irs.length;i++){
+    listSKS.push("-")
+  }
+  for(i=0;i<14-khs.length;i++){
+    listSKSK.push("-")
+    listIP.push("-")
+    listIPK.push("-")
+  }
+
+
+  // pendefinisian hasil
+  const result = {
+    name : mahasiswa.name,
+    nim : mahasiswa.nim,
+    angkatan : mahasiswa.angkatan,
+    semester : sem,
+    sks : listSKS,
+    sks_kumulatif : listSKSK,
+    nilai_pkl : pkl.nilai,
+    nilai_skripsi :skripsi.nilai,
+    semester_PKL : pkl.semester,
+    semester_skripsi : skripsi.semester,
+    ip : listIP,
+    ipk: listIPK
+  }
+  res.status(200).send(result)
+}
 
 exports.getInfoWithNIM = async (req, res) => {
   const dosen = await Dosen.findOne({

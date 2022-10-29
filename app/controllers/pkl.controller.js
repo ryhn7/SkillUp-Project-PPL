@@ -138,14 +138,45 @@ exports.getRekapPKL = async (req, res) => {
         break;
       }
     }
-    // if (!ck) {
-    //   result.push({
-    //     name: resultMhs[i].name,
-    //     nim: resultMhs[i].nim,
-    //     angkatan: resultMhs[i].angkatan,
-    //     status_konfirmasi: "belum",
-    //   });
-    // }
+    if (!ck) {
+      result.push({
+        name: resultMhs[i].name,
+        nim: resultMhs[i].nim,
+        angkatan: resultMhs[i].angkatan,
+        status_konfirmasi: "belum",
+      });
+    }
+  }
+
+  res.status(200).send(result);
+};
+
+exports.getBelumPKL = async (req, res) => {
+  let result = [];
+  const dosen = await Dosen.findOne({ user: req.userId });
+  const queryMhs = Mahasiswa.find({kodeWali: dosen._id});
+  const resultMhs = await queryMhs.exec();
+  const queryPKL = PKL.find();
+  const resultPKL = await queryPKL.exec();
+
+  for (let i = 0; i < resultMhs.length; i++) {
+    let ck = false;
+    for (let j = 0; j < resultPKL.length; j++) {
+      if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa) && resultPKL[j].status_konfirmasi === "belum") {
+        result.push({
+          id: resultPKL[j]._id,
+          name: resultMhs[i].name,
+          nim: resultMhs[i].nim,
+          angkatan: resultMhs[i].angkatan,
+          nilai: resultPKL[j].nilai,
+          semester: resultPKL[j].nilai,
+          status_konfirmasi: resultPKL[j].status_konfirmasi,
+          file: resultPKL[j].file
+        });
+        ck = true;
+        break;
+      }
+    }
   }
 
   res.status(200).send(result);
@@ -176,14 +207,14 @@ exports.getWaliPKL = async (req, res) => {
         break;
       }
     }
-    // if (!ck) {
-    //   result.push({
-    //     name: resultMhs[i].name,
-    //     nim: resultMhs[i].nim,
-    //     angkatan: resultMhs[i].angkatan,
-    //     status_konfirmasi: "belum",
-    //   });
-    // }
+    if (!ck) {
+      result.push({
+        name: resultMhs[i].name,
+        nim: resultMhs[i].nim,
+        angkatan: resultMhs[i].angkatan,
+        status_konfirmasi: "belum",
+      });
+    }
   }
 
   res.status(200).send(result);

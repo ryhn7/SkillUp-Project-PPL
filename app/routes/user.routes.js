@@ -124,6 +124,12 @@ module.exports = function (app) {
   app.get(
     "/dosen/mahasiswa/:nim",
     [authJwt.verifyToken,authJwt.isDosen],
-    controller.getInfoWithNIM
+    controller.getInfoWithNIMDosen
+  );
+
+  app.get(
+    "/departemen/mahasiswa/:nim",
+    [authJwt.verifyToken,authJwt.isDepartemen],
+    controller.getInfoWithNIMDepartemen
   );
 };

@@ -563,7 +563,7 @@ exports.listDataMahasiswa = async (req, res) => {
   res.status(200).send(listAllMahasiswa);
 };
 
-exports.getInfoWithNIM = async (req, res) => {
+exports.getInfoWithNIMDosen = async (req, res) => {
   const dosen = await Dosen.findOne({
     user: req.userId,
   });
@@ -574,3 +574,10 @@ exports.getInfoWithNIM = async (req, res) => {
 
   res.status(200).send(mahasiswa);
 };
+
+exports.getInfoWithNIMDepartemen = async (req,res) => {
+  const mahasiswa = await Mahasiswa.findOne({
+    nim: req.params.nim,
+  });
+  res.status(200).send(mahasiswa);
+}

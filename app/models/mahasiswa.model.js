@@ -46,7 +46,7 @@ const Mahasiswa = mongoose.model(
         "Aktif",
         "Cuti",
         "Mangkir",
-        "DO",
+        "Drop Out",
         "Undur Diri",
         "Lulus",
         "Meninggal Dunia",

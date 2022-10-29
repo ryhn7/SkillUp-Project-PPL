@@ -41,12 +41,18 @@ module.exports = function (app) {
   );
 
   app.get(
-    "/verifikasi/skripsi",
+    "/rekap/skripsi",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.waliSkripsi
   );
 
-  app.put(
+  app.get(
+    "/verifikasi/skripsi",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.getVerifikasiSkripsi
+  );
+
+  app.post(
     "/verifikasi/skripsi/:nim",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.verifSkripsi

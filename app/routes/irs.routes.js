@@ -41,7 +41,7 @@ module.exports = function (app) {
     controller.waliIRS
   );
 
-  app.put(
+  app.post(
     "/verifikasi/irs/:nim/:semester_aktif",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.verifyIRS

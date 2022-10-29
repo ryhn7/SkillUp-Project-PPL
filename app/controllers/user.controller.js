@@ -1,15 +1,12 @@
 const db = require("../models");
-const pklcontroller = require("../controllers/pkl.controller");
 const csv = require("csvtojson");
 const User = db.user;
 const Role = db.role;
 const Mahasiswa = db.mahasiswa;
-const Status = db.status;
 const Skripsi = db.skripsi;
 const PKL = db.pkl;
 const Dosen = db.dosen;
 const KHS = db.khs;
-const fs = require("fs");
 
 var bcrypt = require("bcryptjs");
 const { checkRolesExisted } = require("../middlewares/verifyGenerate");
@@ -38,94 +35,55 @@ exports.departemenBoard = (req, res) => {
 exports.signup = (req, res) => {
   const user = new User({
     username: req.body.nim,
-    email: req.body.email,
     password: bcrypt.hashSync(req.body.name.toLowerCase().split(" ")[0], 8),
   });
 
   const mahasiswa = new Mahasiswa({
     name: req.body.name,
-    email: req.body.email,
     nim: req.body.nim,
+    email: req.body.email,
+    status: req.body.status,
     user: user._id,
     angkatan: req.body.angkatan,
     kodeWali: req.body.kodeWali,
+    alamat: req.body.alamat,
+    phone: req.body.phone,
+    kodeKab: req.body.kodeKab,
   });
 
-  const skripsi = new Skripsi({
-    status: req.body.skripsi,
-    nilai: req.body.nilai,
-    tanggal: req.body.tanggal,
-    lama_studi: req.body.lama_studi,
-    status_konfirmasi: req.body.status_konfirmasi,
-    updlaod: req.body.upload_skripsi,
-  });
-
+  // Save User in the database then save Mahasiswa
   user.save((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
-
-    if (req.body.roles) {
-      Role.find(
-        {
-          name: { $in: req.body.roles },
-        },
-        (err, roles) => {
+    Role.findOne({ name: "mahasiswa" }, (err, role) => {
+      //if error then delete user
+      if (err) {
+        User.findByIdAndRemove(user._id, (err) => {
           if (err) {
             res.status(500).send({ message: err });
             return;
           }
-
-          user.roles = roles.map((role) => role._id);
-          user.save((err) => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
-
-            res.send({
-              message: "User was registered successfully!",
-            });
-          });
-        }
-      );
-    } else {
-      //if roles is empty then assign mahasiswa role and make mahasiswa
-      Role.findOne({ name: "mahasiswa" }, (err, role) => {
+        });
+        res.status(500).send({ message: err });
+        return;
+      }
+      user.roles = [role._id];
+      user.save((err) => {
         if (err) {
           res.status(500).send({ message: err });
           return;
         }
-
-        user.roles = [role._id];
-        user.save((err) => {
+        mahasiswa.save((err, mahasiswa) => {
           if (err) {
             res.status(500).send({ message: err });
             return;
           }
-
-          if (req.body.status) {
-            Status.findOne({ name: req.body.status }, (err, status) => {
-              if (err) {
-                res.status(500).send({ message: err });
-                return;
-              }
-              mahasiswa.status = status._id;
-              mahasiswa.save((err) => {
-                if (err) {
-                  res.status(500).send({ message: err });
-                  return;
-                }
-                res.send({
-                  message: "User was registered successfully!",
-                });
-              });
-            });
-          }
+          res.send({ message: "User was registered successfully!" });
         });
       });
-    }
+    });
   });
 };
 
@@ -161,7 +119,7 @@ exports.signUpDosen = (req, res) => {
   const user = new User({
     username: req.body.nip,
     email: req.body.email,
-    password: bcrypt.hashSync("dosen", 8),
+    password: bcrypt.hashSync(req.body.name.toLowerCase().split(" ")[0], 8),
   });
 
   const dosen = new Dosen({
@@ -331,7 +289,6 @@ exports.createBatchUser = (req, res) => {
 };
 
 exports.createBatchDosen = (req, res) => {
-
   // create batch user for mahasiwa from csv file using csvtojson
   const file = req.file.path;
   csv()
@@ -400,17 +357,15 @@ exports.createBatchDosen = (req, res) => {
                 });
               });
             });
-          };
+          }
         });
       });
       res.status(200).json({
         message: "Dosen was registered successfully!",
-        data: jsonObj
+        data: jsonObj,
       });
     });
 };
-
-
 exports.getRekapDosen = async (req, res) => {
   let result = [];
   let lulusPKL = 0;
@@ -463,15 +418,30 @@ exports.getRekapDosen = async (req, res) => {
   }
 
   // proses mencari rekap status mhs sesuai doswal
-  const resultAktif = await Mahasiswa.count({ kodeWali: dosen._id, status: "Aktif" });
-  const resultCuti = await Mahasiswa.count({ kodeWali: dosen._id, status: "Cuti" });
-  const resultMangkir = await Mahasiswa.count({ kodeWali: dosen._id, status: "Mangkir" });
-  const resultDrop = await Mahasiswa.count({ kodeWali: dosen._id, status: "Drop Out" });
+  const resultAktif = await Mahasiswa.count({
+    kodeWali: dosen._id,
+    status: "Aktif",
+  });
+  const resultCuti = await Mahasiswa.count({
+    kodeWali: dosen._id,
+    status: "Cuti",
+  });
+  const resultMangkir = await Mahasiswa.count({
+    kodeWali: dosen._id,
+    status: "Mangkir",
+  });
+  const resultDrop = await Mahasiswa.count({
+    kodeWali: dosen._id,
+    status: "Drop Out",
+  });
   const resultMengundurkan = await Mahasiswa.count({
     kodeWali: dosen._id,
-    status: "Mengundurkan Diri",
+    status: "Undur Diri",
   });
-  const resultLulus = await Mahasiswa.count({ kodeWali: dosen._id, status: "Lulus" });
+  const resultLulus = await Mahasiswa.count({
+    kodeWali: dosen._id,
+    status: "Lulus",
+  });
   const resultMeninggal = await Mahasiswa.count({
     kodeWali: dosen._id,
     status: "Meninggal Dunia",
@@ -544,7 +514,6 @@ exports.getRekapAllMhs = async (req, res) => {
 
     list_khs.push(new_obj);
   }
-  console.log(list_khs);
 
   const obj_rekap = {
     status: {
@@ -552,9 +521,9 @@ exports.getRekapAllMhs = async (req, res) => {
       cuti,
       mangkir,
       do: drop,
-      mengundurkan_diri: mengundurkan,
+      undur_diri: mengundurkan,
       lulus,
-      meninggal,
+      meninggal_dunia: meninggal,
     },
 
     skripsi: {
@@ -569,4 +538,39 @@ exports.getRekapAllMhs = async (req, res) => {
   };
 
   res.status(200).send(obj_rekap);
+};
+
+exports.getMahasiswaDosen = async (req, res) => {
+  const dosen = await Dosen.findOne({
+    user: req.userId,
+  });
+  const mahasiswa = await Mahasiswa.find({
+    kodeWali: dosen._id,
+  });
+  let listMahasiswa = [];
+  mahasiswa.forEach((mhs) => {
+    listMahasiswa.push(mhs);
+  });
+  res.status(200).send(listMahasiswa);
+};
+
+exports.listDataMahasiswa = async (req, res) => {
+  const mahasiswa = await Mahasiswa.find({});
+  let listAllMahasiswa = [];
+  mahasiswa.forEach((mhs) => {
+    listAllMahasiswa.push(mhs);
+  });
+  res.status(200).send(listAllMahasiswa);
+};
+
+exports.getInfoWithNIM = async (req, res) => {
+  const dosen = await Dosen.findOne({
+    user: req.userId,
+  });
+  const mahasiswa = await Mahasiswa.findOne({
+    nim: req.params.nim,
+    kodeWali: dosen._id,
+  });
+
+  res.status(200).send(mahasiswa);
 };

@@ -30,22 +30,47 @@ module.exports = function (app) {
 
   app.get(
     "/khs/:nim/:semester",
-    [
-      authJwt.verifyToken,
-      authJwt.isMahasiswaOrDosen,
-      authJwt.getMahasiswaIdFromNim,
-    ],
+    [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
     controller.downloadKHS
   );
   app.get(
-    "/verifikasi/khs",
+    "/rekap/khs",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.waliKHS
   );
 
-  app.put(
+  app.get(
+    "/verifikasi/khs",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.notVerifiedKHS
+  );
+
+  app.get(
+    "/verifikasi/khs-sudah",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.verifiedKHS
+  );
+
+  app.post(
     "/verifikasi/khs/:nim/:semester",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.verifyKHS
+  );
+  app.get(
+    "/khs/:nim/:semester_aktif",
+    [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
+    controller.downloadKHS
+  );
+
+  // app.delete(
+  //     "/delete/all-khs",
+  //     [authJwt.verifyToken, authJwt.isAdmin],
+  //     controller.deleteAllKHS
+  // );
+
+  app.get(
+    "/khs/:nim/:semester_aktif",
+    [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
+    controller.downloadKHS
   );
 };

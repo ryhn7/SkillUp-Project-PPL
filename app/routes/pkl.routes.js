@@ -29,7 +29,7 @@ module.exports = function (app) {
   );
 
   app.get(
-    "/verifikasi/pkl",
+    "/rekap/pkl",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.getBelumPKL
   );
@@ -40,10 +40,16 @@ module.exports = function (app) {
     controller.getWaliPKL
   );
 
-  app.put(
+  app.get(
+    "/verifikasi/pkl",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.getBelumPKL
+  );
+
+  app.post(
     "/verifikasi/pkl/:nim",
     [authJwt.verifyToken, authJwt.isDosen],
-    controller.putVerifPKL
+    controller.VerifPKL
   );
 
   app.get(
@@ -51,4 +57,10 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.getMahasiswaIdFromNim, authJwt.isKodeWali],
     controller.downloadPKL
   );
+
+  // app.delete(
+  //     "/delete/all-pkl",
+  //     [authJwt.verifyToken, authJwt.isAdmin],
+  //     controller.deleteAllPKL
+  // );
 };

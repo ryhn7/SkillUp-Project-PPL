@@ -575,18 +575,52 @@ exports.getInfoWithNIM = async (req, res) => {
   res.status(200).send(mahasiswa);
 };
 
-exports.getinfoWithNIM = async (req, res) => {
-    Mahasiswa.findOne({ nim: req.params.nim }, (err, mhs) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
-        const obj_data = {
-            name: mhs.name,
-            nim: mhs.nim,
-            angkatan: mhs.angkatan,
-        };
+exports.getDetailMhsWali = async (req, res) => {
+  const dosen = await Dosen.findOne({ user: req.userId });
+  // pertama ambil data mahasiswanya
+  const mahasiswa = await Mahasiswa.findOne({
+    nim: req.params.nim,
+    kodeWali: dosen._id,
+  });
 
-        res.status(400).send(obj_data);
-    });
+  // ambil khs yang dari mhs tersebut dah sudah di verifikasi
+  const list_khs = await KHS.find({ mahasiswa, status_konfirmasi: "sudah" });
+  const pkl_mhs = await PKL.find({ mahasiswa });
+  const skripsi_mhs = await Skripsi.find({ mahasiswa });
+
+  let list_sks = [];
+  let list_ip = [];
+  let list_ipk = [];
+  let list_semester = [];
+
+  for (let i = 0; i < 14; i++) {
+    if (!list_khs[i]) {
+      list_sks.push("-");
+      list_ip.push("-");
+      list_ipk.push("-");
+    } else {
+      list_sks.push(list_khs[i].sks);
+      list_ip.push(list_khs[i].ip);
+      list_ipk.push(list_khs[i].ip_kumulatif);
+      list_semester.push(list_khs[i].semester_aktif);
+    }
+  }
+
+  const semester = Math.max(...list_semester);
+
+  const obj_detail = {
+    name: mahasiswa.name,
+    nim: mahasiswa.nim,
+    angkatan: mahasiswa.angkatan,
+    semester,
+    sks: list_sks,
+    nilai_pkl: pkl_mhs.nilai,
+    nilai_skripsi: skripsi_mhs.nilai,
+    semester_PKL: pkl_mhs.semester,
+    semester_skripsi: skripsi_mhs.semester,
+    ip: list_ip,
+    ipk: list_ipk,
+  };
+
+  res.status(200).send(obj_detail);
 };

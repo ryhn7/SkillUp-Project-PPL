@@ -156,11 +156,15 @@ module.exports = function (app) {
     controller.getMahasiswaDosen
   );
 
-  app.get("/rekap/departemen", [authJwt.verifyToken, authJwt.isDepartemen], controller.getRekapAllMhs);
+  app.get(
+    "/rekap/departemen",
+    [authJwt.verifyToken, authJwt.isDepartemen],
+    controller.getRekapAllMhs
+  );
 
   app.get(
     "/dosen/mahasiswa/:nim",
-    [authJwt.verifyToken,authJwt.isDosen],
-    controller.getInfoWithNIM
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.getDetailMhsWali
   );
 };

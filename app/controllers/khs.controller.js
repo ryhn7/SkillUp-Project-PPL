@@ -14,7 +14,7 @@ const submitKHS = (req, res) => {
     sks_kumulatif: req.body.sks_kumulatif,
     ip: req.body.ip,
     ip_kumulatif: req.body.ip_kumulatif,
-    status_konfirmasi: req.body.status_konfirmasi,
+    status_konfirmasi: "belum",
     file: req.file.path,
     mahasiswa: req.mahasiswaId,
   });

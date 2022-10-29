@@ -584,9 +584,18 @@ exports.getDetailMhsWali = async (req, res) => {
   });
 
   // ambil khs yang dari mhs tersebut dah sudah di verifikasi
-  const list_khs = await KHS.find({ mahasiswa, status_konfirmasi: "sudah" });
-  const pkl_mhs = await PKL.find({ mahasiswa });
-  const skripsi_mhs = await Skripsi.find({ mahasiswa });
+  const list_khs = await KHS.find({
+    mahasiswa: mahasiswa._id,
+    status_konfirmasi: "sudah",
+  });
+  const pkl_mhs = await PKL.findOne({
+    mahasiswa: mahasiswa._id,
+    status_konfirmasi: "sudah",
+  });
+  const skripsi_mhs = await Skripsi.findOne({
+    mahasiswa: mahasiswa._id,
+    status_konfirmasi: "sudah",
+  });
 
   let list_sks = [];
   let list_ip = [];

@@ -10,9 +10,7 @@ const KHS = db.khs;
 const IRS = db.irs;
 
 var bcrypt = require("bcryptjs");
-const {
-  checkRolesExisted
-} = require("../middlewares/verifyGenerate");
+const { checkRolesExisted } = require("../middlewares/verifyGenerate");
 const pkl = require("../models/pkl.model");
 
 exports.allAccess = (req, res) => {
@@ -58,56 +56,62 @@ exports.signup = (req, res) => {
   user.save((err, user) => {
     if (err) {
       res.status(500).send({
-        message: err
+        message: err,
       });
       return;
     }
-    Role.findOne({
-      name: "mahasiswa"
-    }, (err, role) => {
-      //if error then delete user
-      if (err) {
-        User.findByIdAndRemove(user._id, (err) => {
-          if (err) {
-            res.status(500).send({
-              message: err
-            });
-            return;
-          }
-        });
-        res.status(500).send({
-          message: err
-        });
-        return;
-      }
-      user.roles = [role._id];
-      user.save((err) => {
+    Role.findOne(
+      {
+        name: "mahasiswa",
+      },
+      (err, role) => {
+        //if error then delete user
         if (err) {
+          User.findByIdAndRemove(user._id, (err) => {
+            if (err) {
+              res.status(500).send({
+                message: err,
+              });
+              return;
+            }
+          });
           res.status(500).send({
-            message: err
+            message: err,
           });
           return;
         }
-        mahasiswa.save((err, mahasiswa) => {
+        user.roles = [role._id];
+        user.save((err) => {
           if (err) {
             res.status(500).send({
-              message: err
+              message: err,
             });
             return;
           }
-          res.send({
-            message: "User was registered successfully!"
+          mahasiswa.save((err, mahasiswa) => {
+            if (err) {
+              res.status(500).send({
+                message: err,
+              });
+              return;
+            }
+            res.send({
+              message: "User was registered successfully!",
+            });
           });
         });
-      });
-    });
+      }
+    );
   });
 };
 
 exports.listUser = (req, res) => {
-  User.find({}, {
-      password: 0
-    })
+  User.find(
+    {},
+    {
+      password: 0,
+    }
+  )
     .populate("roles", "name")
     .exec(function (err, users) {
       var userMap = [];
@@ -151,21 +155,22 @@ exports.signUpDosen = (req, res) => {
   user.save((err, user) => {
     if (err) {
       res.status(500).send({
-        message: err
+        message: err,
       });
       return;
     }
 
     if (req.body.roles) {
-      Role.find({
+      Role.find(
+        {
           name: {
-            $in: req.body.roles
+            $in: req.body.roles,
           },
         },
         (err, roles) => {
           if (err) {
             res.status(500).send({
-              message: err
+              message: err,
             });
             return;
           }
@@ -174,7 +179,7 @@ exports.signUpDosen = (req, res) => {
           user.save((err) => {
             if (err) {
               res.status(500).send({
-                message: err
+                message: err,
               });
               return;
             }
@@ -187,37 +192,40 @@ exports.signUpDosen = (req, res) => {
       );
     } else {
       //if roles is empty then assign mahasiswa role and make mahasiswa
-      Role.findOne({
-        name: "dosen"
-      }, (err, role) => {
-        if (err) {
-          res.status(500).send({
-            message: err
-          });
-          return;
-        }
-
-        user.roles = [role._id];
-        user.save((err) => {
+      Role.findOne(
+        {
+          name: "dosen",
+        },
+        (err, role) => {
           if (err) {
             res.status(500).send({
-              message: err
+              message: err,
             });
             return;
           }
-          dosen.save((err) => {
+
+          user.roles = [role._id];
+          user.save((err) => {
             if (err) {
               res.status(500).send({
-                message: err
+                message: err,
               });
               return;
             }
-            res.send({
-              message: "Dosen was registered successfully!",
+            dosen.save((err) => {
+              if (err) {
+                res.status(500).send({
+                  message: err,
+                });
+                return;
+              }
+              res.send({
+                message: "Dosen was registered successfully!",
+              });
             });
           });
-        });
-      });
+        }
+      );
     }
   });
 };
@@ -263,21 +271,22 @@ exports.createBatchUser = (req, res) => {
         user.save((err, user) => {
           if (err) {
             res.status(500).send({
-              message: err
+              message: err,
             });
             return;
           }
 
           if (req.body.roles) {
-            Role.find({
+            Role.find(
+              {
                 name: {
-                  $in: req.body.roles
+                  $in: req.body.roles,
                 },
               },
               (err, roles) => {
                 if (err) {
                   res.status(500).send({
-                    message: err
+                    message: err,
                   });
                   return;
                 }
@@ -286,7 +295,7 @@ exports.createBatchUser = (req, res) => {
                 user.save((err) => {
                   if (err) {
                     res.status(500).send({
-                      message: err
+                      message: err,
                     });
                     return;
                   }
@@ -299,34 +308,37 @@ exports.createBatchUser = (req, res) => {
             );
           } else {
             //if roles is empty then assign mahasiswa role and make mahasiswa
-            Role.findOne({
-              name: "mahasiswa"
-            }, (err, role) => {
-              if (err) {
-                res.status(500).send({
-                  message: err
-                });
-                return;
-              }
-
-              user.roles = [role._id];
-              user.save((err) => {
+            Role.findOne(
+              {
+                name: "mahasiswa",
+              },
+              (err, role) => {
                 if (err) {
                   res.status(500).send({
-                    message: err
+                    message: err,
                   });
                   return;
                 }
-                mahasiswa.save((err) => {
+
+                user.roles = [role._id];
+                user.save((err) => {
                   if (err) {
                     res.status(500).send({
-                      message: err
+                      message: err,
                     });
                     return;
                   }
+                  mahasiswa.save((err) => {
+                    if (err) {
+                      res.status(500).send({
+                        message: err,
+                      });
+                      return;
+                    }
+                  });
                 });
-              });
-            });
+              }
+            );
           }
         });
       });
@@ -361,21 +373,22 @@ exports.createBatchDosen = (req, res) => {
         user.save((err, user) => {
           if (err) {
             res.status(500).send({
-              message: err
+              message: err,
             });
             return;
           }
 
           if (req.body.roles) {
-            Role.find({
+            Role.find(
+              {
                 name: {
-                  $in: req.body.roles
+                  $in: req.body.roles,
                 },
               },
               (err, roles) => {
                 if (err) {
                   res.status(500).send({
-                    message: err
+                    message: err,
                   });
                   return;
                 }
@@ -384,7 +397,7 @@ exports.createBatchDosen = (req, res) => {
                 user.save((err) => {
                   if (err) {
                     res.status(500).send({
-                      message: err
+                      message: err,
                     });
                     return;
                   }
@@ -392,35 +405,38 @@ exports.createBatchDosen = (req, res) => {
               }
             );
           } else {
-            Role.findOne({
-              name: "dosen"
-            }, (err, role) => {
-              if (err) {
-                res.status(500).send({
-                  message: err
-                });
-                return;
-              }
-
-              user.roles = [role._id];
-              user.save((err) => {
+            Role.findOne(
+              {
+                name: "dosen",
+              },
+              (err, role) => {
                 if (err) {
                   res.status(500).send({
-                    message: err
+                    message: err,
                   });
                   return;
                 }
-                dosen.save((err) => {
+
+                user.roles = [role._id];
+                user.save((err) => {
                   if (err) {
                     res.status(500).send({
-                      message: err
-                    }); // kalau gaada error di table mahasiswa ini aman dijalanin
-                    console.log(err);
+                      message: err,
+                    });
                     return;
                   }
+                  dosen.save((err) => {
+                    if (err) {
+                      res.status(500).send({
+                        message: err,
+                      }); // kalau gaada error di table mahasiswa ini aman dijalanin
+                      console.log(err);
+                      return;
+                    }
+                  });
                 });
-              });
-            });
+              }
+            );
           }
         });
       });
@@ -438,10 +454,10 @@ exports.getRekapDosen = async (req, res) => {
   let belumSkripsi = 0;
 
   const dosen = await Dosen.findOne({
-    user: req.userId
+    user: req.userId,
   });
   const queryMhs = Mahasiswa.find({
-    kodeWali: dosen._id
+    kodeWali: dosen._id,
   });
   const resultMhs = await queryMhs.exec();
   const queryPKL = PKL.find();
@@ -546,53 +562,56 @@ exports.deleteAllMhs = async (req, res) => {
 
   // res.status(200).send(list_mhs);
 
-  User.deleteMany({
-    roles: mhs._id
-  }, (err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: err
-      });
-      return;
+  User.deleteMany(
+    {
+      roles: mhs._id,
+    },
+    (err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: err,
+        });
+        return;
+      }
+      res.status(200).send(data);
     }
-    res.status(200).send(data);
-  });
+  );
 };
 
 exports.getRekapAllMhs = async (req, res) => {
   const lulus_skripsi = await Skripsi.count({
-    status_konfirmasi: "sudah"
+    status_konfirmasi: "sudah",
   });
   const tidak_skripsi = await Skripsi.count({
-    status_konfirmasi: "belum"
+    status_konfirmasi: "belum",
   });
   const lulus_pkl = await PKL.count({
-    status_konfirmasi: "sudah"
+    status_konfirmasi: "sudah",
   });
   const tidak_pkl = await PKL.count({
-    status_konfirmasi: "belum"
+    status_konfirmasi: "belum",
   });
 
   const aktif = await Mahasiswa.count({
-    status: "Aktif"
+    status: "Aktif",
   });
   const cuti = await Mahasiswa.count({
-    status: "Cuti"
+    status: "Cuti",
   });
   const mangkir = await Mahasiswa.count({
-    status: "Mangkir"
+    status: "Mangkir",
   });
   const drop = await Mahasiswa.count({
-    status: "Drop Out"
+    status: "Drop Out",
   });
   const mengundurkan = await Mahasiswa.count({
-    status: "Mengundurkan Diri"
+    status: "Mengundurkan Diri",
   });
   const lulus = await Mahasiswa.count({
-    status: "Lulus"
+    status: "Lulus",
   });
   const meninggal = await Mahasiswa.count({
-    status: "Meninggal Dunia"
+    status: "Meninggal Dunia",
   });
 
   const list_mhs = await Mahasiswa.find({});
@@ -600,7 +619,7 @@ exports.getRekapAllMhs = async (req, res) => {
 
   for (let i = 0; i < list_mhs.length; i++) {
     khs = await KHS.find({
-      mahasiswa: list_mhs[i]._id
+      mahasiswa: list_mhs[i]._id,
     });
 
     const new_obj = {
@@ -676,12 +695,12 @@ exports.getInfoWithNIMDepartemen = async (req, res) => {
     nim: req.params.nim,
   });
   res.status(200).send(mahasiswa);
-}
+};
 
 // dosen
 exports.getDetailMhsWali = async (req, res) => {
   const dosen = await Dosen.findOne({
-    user: req.userId
+    user: req.userId,
   });
   // pertama ambil data mahasiswanya
   const mahasiswa = await Mahasiswa.findOne({
@@ -727,7 +746,6 @@ exports.getDetailMhsWali = async (req, res) => {
       }
     }
 
-
     // untuk irs
     if (list_irs && skripsi_mhs) {
       for (let i = 0; i < list_irs.length; i++) {
@@ -747,83 +765,129 @@ exports.getDetailMhsWali = async (req, res) => {
         semester_skripsi: skripsi_mhs.semester,
         ip: list_ip,
         ipk: list_ipk,
-        tanggal: skripsi_mhs.tanggal.toISOString().split('T')[0]
+        tanggal: skripsi_mhs.tanggal.toISOString().split("T")[0],
       };
-
 
       res.status(200).send(obj_detail);
     }
+  }
+};
 
+//change password feature for user with error handling
+exports.changePassword = async (req, res) => {
+  const user = await User.findById(req.userId);
+  const { oldPassword, newPassword } = req.body;
+
+  if (!user) {
+    return res.status(404).send("User Not Found");
   }
 
+  const passwordIsValid = bcrypt.compareSync(oldPassword, user.password);
+
+  if (!passwordIsValid) {
+    return res.status(401).send({
+      message: "Invalid Password!",
+    });
+  }
+
+  user.password = bcrypt.hashSync(newPassword, 8);
+
+  await user.save();
+
+  res.status(200).send({
+    message: "Password was updated successfully!",
+  });
+};
+
+//reset password feature for user from admin with error handling
+exports.resetPassword = async (req, res) => {
+  const user = await User.findById(req.body.id);
+
+  if (!user) {
+    return res.status(404).send("User Not Found");
+  }
+
+  //get user role
+  const role = await Role.findById(user.roles);
+  if (role.name == "dosen") {
+    user.password = bcrypt.hashSync("dosen", 8);
+  } //if user role is mahasiswa then reset password to mahasiswa firstname
+  else if (role.name == "mahasiswa") {
+    const mhs = await Mahasiswa.findOne({ user: user._id });
+    user.password = bcrypt.hashSync(mhs.name.toLowerCase().split(" ")[0], 8);
+  }
+
+  await user.save();
+
+  res.status(200).send({
+    message: "Password was reset successfully!",
+  });
 };
 
 // depratemen
 exports.getAllInfoWithNIM = async (req, res) => {
   // pendefinisian
   const mahasiswa = await Mahasiswa.findOne({
-    nim: req.params.nim
-  })
+    nim: req.params.nim,
+  });
 
   if (mahasiswa) {
-  const pkl = await PKL.findOne({
-    mahasiswa: mahasiswa._id,
-    status_konfirmasi: "sudah"
-  })
-  const skripsi = await Skripsi.findOne({
-    mahasiswa,
-    status_konfirmasi: "sudah"
-  })
-  const irs = await IRS.find({
-    mahasiswa
-  })
-  const khs = await KHS.find({
-    mahasiswa
-  })
+    const pkl = await PKL.findOne({
+      mahasiswa: mahasiswa._id,
+      status_konfirmasi: "sudah",
+    });
+    const skripsi = await Skripsi.findOne({
+      mahasiswa,
+      status_konfirmasi: "sudah",
+    });
+    const irs = await IRS.find({
+      mahasiswa,
+    });
+    const khs = await KHS.find({
+      mahasiswa,
+    });
     // pendifinisian dan pengecekan array IRS dan KHS
-    let listSKS = []
-    let listSKSK = []
-    let listIP = []
-    let listIPK = []
-    let sem = 0
+    let listSKS = [];
+    let listSKSK = [];
+    let listIP = [];
+    let listIPK = [];
+    let sem = 0;
     if (irs) {
       irs.forEach((isian) => {
         if (isian.status_konfirmasi === "sudah") {
-          listSKS.push(isian.sks)
+          listSKS.push(isian.sks);
         } else {
-          listSKS.push("-")
+          listSKS.push("-");
         }
-        sem = isian.semester_aktif
-      })
+        sem = isian.semester_aktif;
+      });
     }
 
     if (khs) {
       khs.forEach((kartu) => {
         if (kartu.status_konfirmasi === "sudah") {
-          listSKSK.push(kartu.sks_kumulatif)
-          listIP.push(kartu.ip)
-          listIPK.push(kartu.ip_kumulatif)
+          listSKSK.push(kartu.sks_kumulatif);
+          listIP.push(kartu.ip);
+          listIPK.push(kartu.ip_kumulatif);
         } else {
-          listSKSK.push("-")
-          listIP.push("-")
-          listIPK.push("-")
+          listSKSK.push("-");
+          listIP.push("-");
+          listIPK.push("-");
         }
-
-      })
+      });
     }
-    let i
+    let i;
     for (i = 0; i < 14 - irs.length; i++) {
-      listSKS.push("-")
+      listSKS.push("-");
     }
     for (i = 0; i < 14 - khs.length; i++) {
-      listSKSK.push("-")
-      listIP.push("-")
-      listIPK.push("-")
+      listSKSK.push("-");
+      listIP.push("-");
+      listIPK.push("-");
     }
 
-
     // pendefinisian hasil
-    if(skripsi){
+    if (skripsi) {
       const result = {
         name: mahasiswa.name,
         nim: mahasiswa.nim,
@@ -837,11 +901,9 @@ exports.getAllInfoWithNIM = async (req, res) => {
         semester_skripsi: skripsi.semester,
         ip: listIP,
         ipk: listIPK,
-        tanggal: skripsi.tanggal.toISOString().split('T')[0]
-      }
-      res.status(200).send(result)
+        tanggal: skripsi.tanggal.toISOString().split("T")[0],
+      };
+      res.status(200).send(result);
     }
-    
   }
-
-}
+};

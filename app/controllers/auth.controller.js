@@ -10,9 +10,21 @@ var jose = require("jose");
 const Dosen = require("../models/dosen.model");
 
 exports.signin = (req, res) => {
-  User.findOne({
-    username: req.body.username,
-  })
+  var email = req.body.email;
+  var username = req.body.username;
+  var data;
+
+  if (email) {
+    data = { email: email };
+  } else if (username) {
+    data = { username: username };
+  } else {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+  User.findOne(data)
     .populate("roles", "-__v")
     .exec(async (err, user) => {
       if (err) {

@@ -9,6 +9,7 @@ const Dosen = db.dosen;
 const KHS = db.khs;
 const IRS = db.irs;
 
+const fs = require("fs");
 var bcrypt = require("bcryptjs");
 const { checkRolesExisted } = require("../middlewares/verifyGenerate");
 const pkl = require("../models/pkl.model");
@@ -42,14 +43,11 @@ exports.signup = (req, res) => {
   const mahasiswa = new Mahasiswa({
     name: req.body.name,
     nim: req.body.nim,
-    email: req.body.email,
     status: req.body.status,
     user: user._id,
     angkatan: req.body.angkatan,
     kodeWali: req.body.kodeWali,
     alamat: req.body.alamat,
-    phone: req.body.phone,
-    kodeKab: req.body.kodeKab,
   });
 
   // Save User in the database then save Mahasiswa
@@ -246,82 +244,59 @@ exports.listDosen = (req, res) => {
 
 // create batch generate user for mahasiswa using csv file
 exports.createBatchUser = (req, res) => {
-  // create batch user for mahasiwa from csv file using csvtojson
-  const file = req.file.path;
-  csv()
-    .fromFile(file)
-    .then((jsonObj) => {
-      // console.log(jsonObj);
-      jsonObj.forEach((data) => {
-        const user = new User({
-          username: data.nim,
-          email: data.email,
-          password: bcrypt.hashSync(data.name.toLowerCase().split(" ")[0], 8),
+  // Find role id with name mahasiswa and save to variable
+  Role.findOne(
+    {
+      name: "mahasiswa",
+    },
+    (err, role) => {
+      if (err) {
+        res.status(500).send({
+          message: err,
         });
-
-        const mahasiswa = new Mahasiswa({
-          name: data.name,
-          nim: data.nim,
-          email: data.email,
-          user: user._id,
-          angkatan: data.angkatan,
-          kodeWali: data.kodeWali,
-        });
-
-        user.save((err, user) => {
-          if (err) {
-            res.status(500).send({
-              message: err,
+        return;
+      }
+      // Read csv file
+      csv()
+        .fromFile(req.file.path)
+        .then((jsonObj) => {
+          // Loop through each row in csv file
+          jsonObj.forEach((row) => {
+            // Create new user
+            const user = new User({
+              username: row.nim,
+              email: row.email,
+              password: bcrypt.hashSync(
+                row.name.toLowerCase().split(" ")[0],
+                8
+              ),
+              roles: role._id,
             });
-            return;
-          }
 
-          if (req.body.roles) {
-            Role.find(
+            // Find dosen with row.dosenWali (nip)
+            Dosen.findOne(
               {
-                name: {
-                  $in: req.body.roles,
-                },
+                nip: row.dosenWali,
               },
-              (err, roles) => {
+              (err, dosen) => {
                 if (err) {
                   res.status(500).send({
                     message: err,
                   });
                   return;
                 }
-
-                user.roles = roles.map((role) => role._id);
-                user.save((err) => {
-                  if (err) {
-                    res.status(500).send({
-                      message: err,
-                    });
-                    return;
-                  }
-                  // res.send({
-                  //   message: "User was registered successfully!",
-                  //   // data: user
-                  // });
+                // Create new mahasiswa
+                const mahasiswa = new Mahasiswa({
+                  name: row.name,
+                  nim: row.nim,
+                  user: user._id,
+                  angkatan: row.angkatan,
+                  status: row.status,
+                  kodeWali: dosen._id,
                 });
-              }
-            );
-          } else {
-            //if roles is empty then assign mahasiswa role and make mahasiswa
-            Role.findOne(
-              {
-                name: "mahasiswa",
-              },
-              (err, role) => {
-                if (err) {
-                  res.status(500).send({
-                    message: err,
-                  });
-                  return;
-                }
 
-                user.roles = [role._id];
-                user.save((err) => {
+                // Save user and mahasiswa
+                user.save((err, user) => {
                   if (err) {
                     res.status(500).send({
                       message: err,
@@ -339,15 +314,120 @@ exports.createBatchUser = (req, res) => {
                 });
               }
             );
-          }
+          });
+          res.send({
+            message: "User was registered successfully!",
+          });
+        })
+        .then(() => {
+          // Delete file
+          fs.unlinkSync(req.file.path);
         });
-      });
-      res.status(200).json({
-        message: "Mahasiswa was registered successfully!",
-        data: jsonObj,
-      });
-    });
+    }
+  );
 };
+
+//   // create batch user for mahasiwa from csv file using csvtojson
+//   const file = req.file.path;
+//   csv()
+//     .fromFile(file)
+//     .then((jsonObj) => {
+//       // console.log(jsonObj);
+//       jsonObj.forEach((data) => {
+//         const user = new User({
+//           username: data.nim,
+//           email: data.email,
+//           password: bcrypt.hashSync(data.name.toLowerCase().split(" ")[0], 8),
+//         });
+
+//         const mahasiswa = new Mahasiswa({
+//           name: data.name,
+//           nim: data.nim,
+//           user: user._id,
+//           angkatan: data.angkatan,
+//           kodeWali: data.kodeWali,
+//         });
+
+//         user.save((err, user) => {
+//           if (err) {
+//             res.status(500).send({
+//               message: err,
+//             });
+//             // return;
+//           }
+
+//           if (req.body.roles) {
+//             Role.find(
+//               {
+//                 name: {
+//                   $in: req.body.roles,
+//                 },
+//               },
+//               (err, roles) => {
+//                 if (err) {
+//                   res.status(500).send({
+//                     message: err,
+//                   });
+//                   return;
+//                 }
+
+//                 user.roles = roles.map((role) => role._id);
+//                 user.save((err) => {
+//                   if (err) {
+//                     res.status(500).send({
+//                       message: err,
+//                     });
+//                     return;
+//                   }
+//                   // res.send({
+//                   //   message: "User was registered successfully!",
+//                   //   // data: user
+//                   // });
+//                 });
+//               }
+//             );
+//           } else {
+//             //if roles is empty then assign mahasiswa role and make mahasiswa
+//             Role.findOne(
+//               {
+//                 name: "mahasiswa",
+//               },
+//               (err, role) => {
+//                 if (err) {
+//                   res.status(500).send({
+//                     message: err,
+//                   });
+//                   return;
+//                 }
+
+//                 user.roles = [role._id];
+//                 user.save((err) => {
+//                   if (err) {
+//                     res.status(500).send({
+//                       message: err,
+//                     });
+//                     return;
+//                   }
+//                   mahasiswa.save((err) => {
+//                     if (err) {
+//                       res.status(500).send({
+//                         message: err,
+//                       });
+//                       return;
+//                     }
+//                   });
+//                 });
+//               }
+//             );
+//           }
+//         });
+//       });
+//       res.status(200).json({
+//         message: "Mahasiswa was registered successfully!",
+//         data: jsonObj,
+//       });
+//     });
+// };
 
 exports.createBatchDosen = (req, res) => {
   // create batch user for mahasiwa from csv file using csvtojson

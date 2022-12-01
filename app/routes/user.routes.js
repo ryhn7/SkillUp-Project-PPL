@@ -151,6 +151,12 @@ module.exports = function (app) {
   );
 
   app.get(
+    "/rekap/count/dosen",
+    [authJwt.verifyToken, authJwt.isDosen],
+    controller.getRekapDosenCount
+  );
+
+  app.get(
     "/mahasiswa-dosen",
     [authJwt.verifyToken, authJwt.isDosen],
     controller.getMahasiswaDosen
@@ -160,6 +166,12 @@ module.exports = function (app) {
     "/rekap/departemen",
     [authJwt.verifyToken, authJwt.isDepartemen],
     controller.getRekapAllMhs
+  );
+
+  app.get(
+    "/rekap/count/departemen",
+    [authJwt.verifyToken, authJwt.isDepartemen],
+    controller.getRekapAllMhsCount
   );
 
   app.get(

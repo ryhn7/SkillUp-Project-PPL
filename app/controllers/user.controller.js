@@ -327,6 +327,104 @@ exports.createBatchUser = (req, res) => {
   );
 };
 
+exports.getRekapAllMhs = async (req, res) => {
+  const curYear = 1900 + new Date().getYear();
+  const list_pkl = await PKL.find({});
+  const list_skripsi = await Skripsi.find({});
+  let list_rekap = [];
+
+  for (let i = 0; i < 5; i++) {
+    const year = curYear - i;
+    let lulus_skripsi = 0;
+    let tidak_skripsi = 0;
+    let lulus_pkl = 0;
+    let tidak_pkl = 0;
+
+    const list_mhs = await Mahasiswa.find({ angkatan: year });
+
+    // cari pkl yang lulus dan tidak lulus
+    for (let j = 0; j < list_mhs.length; j++) {
+      for (let k = 0; k < list_pkl.length; k++) {
+        if (list_mhs[j]._id.equals(list_pkl[k].mahasiswa)) {
+          if (list_pkl[k].status_konfirmasi == "sudah") {
+            lulus_pkl++;
+          } else {
+            tidak_pkl++;
+          }
+        }
+      }
+    }
+
+    // cari skripsi yang lulus dan tidak lulus
+    for (let j = 0; j < list_mhs.length; j++) {
+      for (let k = 0; k < list_skripsi.length; k++) {
+        if (list_mhs[j]._id.equals(list_skripsi[k].mahasiswa)) {
+          if (list_skripsi[k].status_konfirmasi == "sudah") {
+            lulus_skripsi++;
+          } else {
+            tidak_skripsi++;
+          }
+        }
+      }
+    }
+
+    // konstanta untuk status mahasiswa
+    const aktif = await Mahasiswa.count({
+      status: "Aktif",
+      angkatan: year,
+    });
+    const cuti = await Mahasiswa.count({
+      status: "Cuti",
+      angkatan: year,
+    });
+    const mangkir = await Mahasiswa.count({
+      status: "Mangkir",
+      angkatan: year,
+    });
+    const drop = await Mahasiswa.count({
+      status: "Drop Out",
+      angkatan: year,
+    });
+    const mengundurkan = await Mahasiswa.count({
+      status: "Mengundurkan Diri",
+      angkatan: year,
+    });
+    const lulus = await Mahasiswa.count({
+      status: "Lulus",
+      angkatan: year,
+    });
+    const meninggal = await Mahasiswa.count({
+      status: "Meninggal Dunia",
+      angkatan: year,
+    });
+
+    obj_rekap = {
+      [year]: {
+        status: {
+          aktif,
+          cuti,
+          mangkir,
+          do: drop,
+          undur_diri: mengundurkan,
+          lulus,
+          meninggal_dunia: meninggal,
+        },
+        pkl: {
+          lulus: lulus_pkl,
+          belum: tidak_pkl,
+        },
+        skripsi: {
+          lulus: lulus_skripsi,
+          belum: tidak_skripsi,
+        },
+      },
+    };
+
+    list_rekap.push(obj_rekap);
+  }
+  res.status(200).send(list_rekap);
+};
+
 //   // create batch user for mahasiwa from csv file using csvtojson
 //   const file = req.file.path;
 //   csv()
@@ -526,6 +624,261 @@ exports.createBatchDosen = (req, res) => {
       });
     });
 };
+
+
+exports.deleteAllMhs = async (req, res) => {
+  const mhs = await Role.findOne({
+    name: "mahasiswa",
+  });
+  // console.log(mhs._id);
+
+  // const list_mhs = await User.find({ roles: mhs._id });
+
+  // res.status(200).send(list_mhs);
+
+  User.deleteMany(
+    {
+      roles: mhs._id,
+    },
+    (err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: err,
+        });
+        return;
+      }
+      res.status(200).send(data);
+    }
+  );
+};
+
+exports.getRekapAllMhsCount = async (req, res) => {
+  const curYear = 1900 + new Date().getYear();
+  const list_pkl = await PKL.find({});
+  const list_skripsi = await Skripsi.find({});
+  let list_rekap = {};
+
+  for (let i = 0; i < 5; i++) {
+    const year = curYear - i;
+    let lulus_skripsi = 0;
+    let tidak_skripsi = 0;
+    let lulus_pkl = 0;
+    let tidak_pkl = 0;
+
+    const list_mhs = await Mahasiswa.find({ angkatan: year });
+
+    // cari pkl yang lulus dan tidak lulus
+    for (let j = 0; j < list_mhs.length; j++) {
+      for (let k = 0; k < list_pkl.length; k++) {
+        if (list_mhs[j]._id.equals(list_pkl[k].mahasiswa)) {
+          if (list_pkl[k].status_konfirmasi == "sudah") {
+            lulus_pkl++;
+          } else {
+            tidak_pkl++;
+          }
+        }
+      }
+    }
+
+    // cari skripsi yang lulus dan tidak lulus
+    for (let j = 0; j < list_mhs.length; j++) {
+      for (let k = 0; k < list_skripsi.length; k++) {
+        if (list_mhs[j]._id.equals(list_skripsi[k].mahasiswa)) {
+          if (list_skripsi[k].status_konfirmasi == "sudah") {
+            lulus_skripsi++;
+          } else {
+            tidak_skripsi++;
+          }
+        }
+      }
+    }
+
+    // konstanta untuk status mahasiswa
+    const aktif = await Mahasiswa.count({
+      status: "Aktif",
+      angkatan: year,
+    });
+    const cuti = await Mahasiswa.count({
+      status: "Cuti",
+      angkatan: year,
+    });
+    const mangkir = await Mahasiswa.count({
+      status: "Mangkir",
+      angkatan: year,
+    });
+    const drop = await Mahasiswa.count({
+      status: "Drop Out",
+      angkatan: year,
+    });
+    const mengundurkan = await Mahasiswa.count({
+      status: "Mengundurkan Diri",
+      angkatan: year,
+    });
+    const lulus = await Mahasiswa.count({
+      status: "Lulus",
+      angkatan: year,
+    });
+    const meninggal = await Mahasiswa.count({
+      status: "Meninggal Dunia",
+      angkatan: year,
+    });
+
+    list_rekap[year] = {
+      status: {
+        aktif,
+        cuti,
+        mangkir,
+        do: drop,
+        undur_diri: mengundurkan,
+        lulus,
+        meninggal_dunia: meninggal,
+      },
+      pkl: {
+        lulus: lulus_pkl,
+        belum: tidak_pkl,
+      },
+      skripsi: {
+        lulus: lulus_skripsi,
+        belum: tidak_skripsi,
+      },
+    };
+  }
+  res.status(200).send(list_rekap);
+};
+
+exports.getRekapDosenCount = async (req, res) => {
+  const curYear = 1900 + new Date().getYear();
+
+  let result = [];
+  result = [];
+  
+  let lulusPKL = 0;
+  let belumPKL = 0;
+  let lulusSkripsi = 0;
+  let belumSkripsi = 0;
+
+  let list_rekap = {};
+
+  // const tahun = ["2018", "2019", "2020", "2021", "2022"];
+  let dosen, queryMhs, resultMhs, queryPKL, resultPKL, querySkripsi, resultSkripsi,
+  resultAktif, resultCuti, resultDrop, resultLulus, resultMangkir, resultMengundurkan, resultMeninggal;
+  for (let i = 0; i < 5; i++) {
+    const year = curYear - i;
+    lulusPKL = 0;
+    belumPKL = 0;
+    lulusSkripsi = 0;
+    belumSkripsi = 0;
+
+    dosen = await Dosen.findOne({
+      user: req.userId,
+    });
+    queryMhs = Mahasiswa.find({
+      kodeWali: dosen._id,
+      angkatan: year
+    });
+    resultMhs = await queryMhs.exec();
+    queryPKL = PKL.find();
+    resultPKL = await queryPKL.exec();
+    querySkripsi = Skripsi.find();
+    resultSkripsi = await querySkripsi.exec();
+    // proses mencari rekap kelulusan PKL
+    for (let i = 0; i < resultMhs.length; i++) {
+      let ck = false;
+      for (let j = 0; j < resultPKL.length; j++) {
+        if (resultMhs[i]._id.equals(resultPKL[j].mahasiswa)) {
+          if (resultPKL[j].status_konfirmasi === "sudah") {
+            lulusPKL++;
+          } else {
+            belumPKL++;
+          }
+          ck = true;
+          break;
+        }
+      }
+      if (!ck) {
+        belumPKL++;
+      }
+    }
+    // proses mencari rekap kelulusan skripsi
+    for (let i = 0; i < resultMhs.length; i++) {
+      let ck = false;
+      for (let j = 0; j < resultSkripsi.length; j++) {
+        if (resultMhs[i]._id.equals(resultSkripsi[j].mahasiswa)) {
+          if (resultSkripsi[j].status_konfirmasi === "sudah") {
+            lulusSkripsi++;
+          } else {
+            belumSkripsi++;
+          }
+          ck = true;
+          break;
+        }
+      }
+      if (!ck) {
+        belumSkripsi++;
+      }
+    }
+  
+    // proses mencari rekap status mhs sesuai doswal
+    resultAktif = await Mahasiswa.count({
+      kodeWali: dosen._id,
+      status: "Aktif",
+      angkatan: year
+    });
+    resultCuti = await Mahasiswa.count({
+      kodeWali: dosen._id,
+      status: "Cuti",
+      angkatan: year
+    });
+    resultMangkir = await Mahasiswa.count({
+      kodeWali: dosen._id,
+      status: "Mangkir",
+      angkatan: year
+    });
+    resultDrop = await Mahasiswa.count({
+      kodeWali: dosen._id,
+      status: "Drop Out",
+      angkatan: year
+    });
+    resultMengundurkan = await Mahasiswa.count({
+      kodeWali: dosen._id,
+      status: "Undur Diri",
+      angkatan: year
+    });
+    resultLulus = await Mahasiswa.count({
+      kodeWali: dosen._id,
+      status: "Lulus",
+      angkatan: year
+    });
+    resultMeninggal = await Mahasiswa.count({
+      kodeWali: dosen._id,
+      status: "Meninggal Dunia",
+      angkatan: year
+    });
+ 
+      list_rekap[year] = {
+        status: {
+          aktif: resultAktif,
+          cuti: resultCuti,
+          mangkir: resultMangkir,
+          do: resultDrop,
+          undur_diri: resultMengundurkan,
+          lulus: resultLulus,
+          meninggal_dunia: resultMeninggal,
+        },
+        pkl: {
+          lulus: lulusPKL,
+          belum: belumPKL,
+        },
+        skripsi: {
+          lulus: lulusSkripsi,
+          belum: belumSkripsi,
+        },
+      }
+      
+  }  
+  res.status(200).send(list_rekap);
+};
+
 exports.getRekapDosen = async (req, res) => {
   let result = [];
   let lulusPKL = 0;
@@ -630,32 +983,6 @@ exports.getRekapDosen = async (req, res) => {
       belum: belumSkripsi,
     },
   });
-};
-
-exports.deleteAllMhs = async (req, res) => {
-  const mhs = await Role.findOne({
-    name: "mahasiswa",
-  });
-  // console.log(mhs._id);
-
-  // const list_mhs = await User.find({ roles: mhs._id });
-
-  // res.status(200).send(list_mhs);
-
-  User.deleteMany(
-    {
-      roles: mhs._id,
-    },
-    (err, data) => {
-      if (err) {
-        res.status(500).send({
-          message: err,
-        });
-        return;
-      }
-      res.status(200).send(data);
-    }
-  );
 };
 
 exports.getRekapAllMhs = async (req, res) => {

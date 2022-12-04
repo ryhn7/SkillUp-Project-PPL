@@ -11,7 +11,9 @@ const IRS = db.irs;
 
 const fs = require("fs");
 var bcrypt = require("bcryptjs");
-const { checkRolesExisted } = require("../middlewares/verifyGenerate");
+const {
+  checkRolesExisted
+} = require("../middlewares/verifyGenerate");
 const pkl = require("../models/pkl.model");
 
 exports.allAccess = (req, res) => {
@@ -58,8 +60,7 @@ exports.signup = (req, res) => {
       });
       return;
     }
-    Role.findOne(
-      {
+    Role.findOne({
         name: "mahasiswa",
       },
       (err, role) => {
@@ -104,12 +105,9 @@ exports.signup = (req, res) => {
 };
 
 exports.listUser = (req, res) => {
-  User.find(
-    {},
-    {
+  User.find({}, {
       password: 0,
-    }
-  )
+    })
     .populate("roles", "name")
     .exec(function (err, users) {
       var userMap = [];
@@ -159,8 +157,7 @@ exports.signUpDosen = (req, res) => {
     }
 
     if (req.body.roles) {
-      Role.find(
-        {
+      Role.find({
           name: {
             $in: req.body.roles,
           },
@@ -190,8 +187,7 @@ exports.signUpDosen = (req, res) => {
       );
     } else {
       //if roles is empty then assign mahasiswa role and make mahasiswa
-      Role.findOne(
-        {
+      Role.findOne({
           name: "dosen",
         },
         (err, role) => {
@@ -245,8 +241,7 @@ exports.listDosen = (req, res) => {
 // create batch generate user for mahasiswa using csv file
 exports.createBatchUser = (req, res) => {
   // Find role id with name mahasiswa and save to variable
-  Role.findOne(
-    {
+  Role.findOne({
       name: "mahasiswa",
     },
     (err, role) => {
@@ -274,8 +269,7 @@ exports.createBatchUser = (req, res) => {
             });
 
             // Find dosen with row.dosenWali (nip)
-            Dosen.findOne(
-              {
+            Dosen.findOne({
                 nip: row.dosenWali,
               },
               (err, dosen) => {
@@ -340,7 +334,9 @@ exports.getRekapAllMhs = async (req, res) => {
     let lulus_pkl = 0;
     let tidak_pkl = 0;
 
-    const list_mhs = await Mahasiswa.find({ angkatan: year });
+    const list_mhs = await Mahasiswa.find({
+      angkatan: year
+    });
 
     // cari pkl yang lulus dan tidak lulus
     for (let j = 0; j < list_mhs.length; j++) {
@@ -557,8 +553,7 @@ exports.createBatchDosen = (req, res) => {
           }
 
           if (req.body.roles) {
-            Role.find(
-              {
+            Role.find({
                 name: {
                   $in: req.body.roles,
                 },
@@ -583,8 +578,7 @@ exports.createBatchDosen = (req, res) => {
               }
             );
           } else {
-            Role.findOne(
-              {
+            Role.findOne({
                 name: "dosen",
               },
               (err, role) => {
@@ -636,8 +630,7 @@ exports.deleteAllMhs = async (req, res) => {
 
   // res.status(200).send(list_mhs);
 
-  User.deleteMany(
-    {
+  User.deleteMany({
       roles: mhs._id,
     },
     (err, data) => {
@@ -665,7 +658,9 @@ exports.getRekapAllMhsCount = async (req, res) => {
     let lulus_pkl = 0;
     let tidak_pkl = 0;
 
-    const list_mhs = await Mahasiswa.find({ angkatan: year });
+    const list_mhs = await Mahasiswa.find({
+      angkatan: year
+    });
 
     // cari pkl yang lulus dan tidak lulus
     for (let j = 0; j < list_mhs.length; j++) {
@@ -751,7 +746,7 @@ exports.getRekapDosenCount = async (req, res) => {
 
   let result = [];
   result = [];
-  
+
   let lulusPKL = 0;
   let belumPKL = 0;
   let lulusSkripsi = 0;
@@ -761,7 +756,7 @@ exports.getRekapDosenCount = async (req, res) => {
 
   // const tahun = ["2018", "2019", "2020", "2021", "2022"];
   let dosen, queryMhs, resultMhs, queryPKL, resultPKL, querySkripsi, resultSkripsi,
-  resultAktif, resultCuti, resultDrop, resultLulus, resultMangkir, resultMengundurkan, resultMeninggal;
+    resultAktif, resultCuti, resultDrop, resultLulus, resultMangkir, resultMengundurkan, resultMeninggal;
   for (let i = 0; i < 5; i++) {
     const year = curYear - i;
     lulusPKL = 0;
@@ -817,7 +812,7 @@ exports.getRekapDosenCount = async (req, res) => {
         belumSkripsi++;
       }
     }
-  
+
     // proses mencari rekap status mhs sesuai doswal
     resultAktif = await Mahasiswa.count({
       kodeWali: dosen._id,
@@ -854,28 +849,28 @@ exports.getRekapDosenCount = async (req, res) => {
       status: "Meninggal Dunia",
       angkatan: year
     });
- 
-      list_rekap[year] = {
-        status: {
-          aktif: resultAktif,
-          cuti: resultCuti,
-          mangkir: resultMangkir,
-          do: resultDrop,
-          undur_diri: resultMengundurkan,
-          lulus: resultLulus,
-          meninggal_dunia: resultMeninggal,
-        },
-        pkl: {
-          lulus: lulusPKL,
-          belum: belumPKL,
-        },
-        skripsi: {
-          lulus: lulusSkripsi,
-          belum: belumSkripsi,
-        },
-      }
-      
-  }  
+
+    list_rekap[year] = {
+      status: {
+        aktif: resultAktif,
+        cuti: resultCuti,
+        mangkir: resultMangkir,
+        do: resultDrop,
+        undur_diri: resultMengundurkan,
+        lulus: resultLulus,
+        meninggal_dunia: resultMeninggal,
+      },
+      pkl: {
+        lulus: lulusPKL,
+        belum: belumPKL,
+      },
+      skripsi: {
+        lulus: lulusSkripsi,
+        belum: belumSkripsi,
+      },
+    }
+
+  }
   res.status(200).send(list_rekap);
 };
 
@@ -1154,13 +1149,18 @@ exports.getDetailMhsWali = async (req, res) => {
     }
 
     // untuk irs
-    if (list_irs && skripsi_mhs) {
+    let semester;
+    if (list_irs) {
       for (let i = 0; i < list_irs.length; i++) {
         list_semester.push(list_irs[i].semester_aktif);
       }
+      semester = Math.max(...list_semester);
+    }
 
-      const semester = Math.max(...list_semester);
-      const obj_detail = {
+    let obj_detail;
+
+    if (pkl_mhs && skripsi_mhs) {
+      obj_detail = {
         name: mahasiswa.name,
         nim: mahasiswa.nim,
         angkatan: mahasiswa.angkatan,
@@ -1174,16 +1174,33 @@ exports.getDetailMhsWali = async (req, res) => {
         ipk: list_ipk,
         tanggal: skripsi_mhs.tanggal.toISOString().split("T")[0],
       };
-
-      res.status(200).send(obj_detail);
+    }else{
+      obj_detail = {
+        name: mahasiswa.name,
+        nim: mahasiswa.nim,
+        angkatan: mahasiswa.angkatan,
+        semester,
+        sks: list_sks,
+        nilai_pkl: "-",
+        nilai_skripsi: "-",
+        semester_PKL: "-",
+        semester_skripsi: "-",
+        ip: list_ip,
+        ipk: list_ipk,
+        tanggal: "-",
+      };
     }
+    res.status(200).send(obj_detail);
   }
 };
 
 //change password feature for user with error handling
 exports.changePassword = async (req, res) => {
   const user = await User.findById(req.userId);
-  const { oldPassword, newPassword } = req.body;
+  const {
+    oldPassword,
+    newPassword
+  } = req.body;
 
   if (!user) {
     return res.status(404).send("User Not Found");
@@ -1220,7 +1237,9 @@ exports.resetPassword = async (req, res) => {
     user.password = bcrypt.hashSync("dosen", 8);
   } //if user role is mahasiswa then reset password to mahasiswa firstname
   else if (role.name == "mahasiswa") {
-    const mhs = await Mahasiswa.findOne({ user: user._id });
+    const mhs = await Mahasiswa.findOne({
+      user: user._id
+    });
     user.password = bcrypt.hashSync(mhs.name.toLowerCase().split(" ")[0], 8);
   }
 
@@ -1263,12 +1282,7 @@ exports.getAllInfoWithNIM = async (req, res) => {
     let sem = 0;
     if (irs) {
       irs.forEach((isian) => {
-        // if (isian.status_konfirmasi === "sudah") {
-        //   listSKS.push(isian.sks);
-        // } else {
-        //   listSKS.push("-");
-        // }
-        sem = Math.max(isian.semester_aktif,sem);
+        sem = Math.max(isian.semester_aktif, sem);
       });
     }
 
@@ -1298,8 +1312,9 @@ exports.getAllInfoWithNIM = async (req, res) => {
     }
 
     // pendefinisian hasil
-    if (skripsi) {
-      const result = {
+    let result;
+    if (skripsi && pkl) {
+      result = {
         name: mahasiswa.name,
         nim: mahasiswa.nim,
         angkatan: mahasiswa.angkatan,
@@ -1314,7 +1329,23 @@ exports.getAllInfoWithNIM = async (req, res) => {
         ipk: listIPK,
         tanggal: skripsi.tanggal.toISOString().split("T")[0],
       };
-      res.status(200).send(result);
+    } else {
+      result = {
+        name: mahasiswa.name,
+        nim: mahasiswa.nim,
+        angkatan: mahasiswa.angkatan,
+        semester: sem,
+        sks: listSKS,
+        sks_kumulatif: listSKSK,
+        nilai_pkl: "-",
+        nilai_skripsi: "-",
+        semester_PKL: "-",
+        semester_skripsi: "-",
+        ip: listIP,
+        ipk: listIPK,
+        tanggal: "-"
+      };
     }
+    res.status(200).send(result);
   }
 };

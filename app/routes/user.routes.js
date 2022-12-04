@@ -186,11 +186,7 @@ module.exports = function (app) {
     controller.getAllInfoWithNIM
   );
 
-  app.post(
-    "/changepassword",
-    [authJwt.verifyToken, authJwt.isMahasiswaOrDosen],
-    controller.changePassword
-  );
+  app.post("/changepassword", [authJwt.verifyToken], controller.changePassword);
 
   app.post(
     "/resetpassword",

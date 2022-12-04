@@ -11,9 +11,7 @@ const IRS = db.irs;
 
 const fs = require("fs");
 var bcrypt = require("bcryptjs");
-const {
-  checkRolesExisted
-} = require("../middlewares/verifyGenerate");
+const { checkRolesExisted } = require("../middlewares/verifyGenerate");
 const pkl = require("../models/pkl.model");
 
 exports.allAccess = (req, res) => {
@@ -60,7 +58,8 @@ exports.signup = (req, res) => {
       });
       return;
     }
-    Role.findOne({
+    Role.findOne(
+      {
         name: "mahasiswa",
       },
       (err, role) => {
@@ -105,9 +104,12 @@ exports.signup = (req, res) => {
 };
 
 exports.listUser = (req, res) => {
-  User.find({}, {
+  User.find(
+    {},
+    {
       password: 0,
-    })
+    }
+  )
     .populate("roles", "name")
     .exec(function (err, users) {
       var userMap = [];
@@ -157,7 +159,8 @@ exports.signUpDosen = (req, res) => {
     }
 
     if (req.body.roles) {
-      Role.find({
+      Role.find(
+        {
           name: {
             $in: req.body.roles,
           },
@@ -187,7 +190,8 @@ exports.signUpDosen = (req, res) => {
       );
     } else {
       //if roles is empty then assign mahasiswa role and make mahasiswa
-      Role.findOne({
+      Role.findOne(
+        {
           name: "dosen",
         },
         (err, role) => {
@@ -241,7 +245,8 @@ exports.listDosen = (req, res) => {
 // create batch generate user for mahasiswa using csv file
 exports.createBatchUser = (req, res) => {
   // Find role id with name mahasiswa and save to variable
-  Role.findOne({
+  Role.findOne(
+    {
       name: "mahasiswa",
     },
     (err, role) => {
@@ -269,7 +274,8 @@ exports.createBatchUser = (req, res) => {
             });
 
             // Find dosen with row.dosenWali (nip)
-            Dosen.findOne({
+            Dosen.findOne(
+              {
                 nip: row.dosenWali,
               },
               (err, dosen) => {
@@ -335,7 +341,7 @@ exports.getRekapAllMhs = async (req, res) => {
     let tidak_pkl = 0;
 
     const list_mhs = await Mahasiswa.find({
-      angkatan: year
+      angkatan: year,
     });
 
     // cari pkl yang lulus dan tidak lulus
@@ -553,7 +559,8 @@ exports.createBatchDosen = (req, res) => {
           }
 
           if (req.body.roles) {
-            Role.find({
+            Role.find(
+              {
                 name: {
                   $in: req.body.roles,
                 },
@@ -578,7 +585,8 @@ exports.createBatchDosen = (req, res) => {
               }
             );
           } else {
-            Role.findOne({
+            Role.findOne(
+              {
                 name: "dosen",
               },
               (err, role) => {
@@ -619,7 +627,6 @@ exports.createBatchDosen = (req, res) => {
     });
 };
 
-
 exports.deleteAllMhs = async (req, res) => {
   const mhs = await Role.findOne({
     name: "mahasiswa",
@@ -630,7 +637,8 @@ exports.deleteAllMhs = async (req, res) => {
 
   // res.status(200).send(list_mhs);
 
-  User.deleteMany({
+  User.deleteMany(
+    {
       roles: mhs._id,
     },
     (err, data) => {
@@ -659,7 +667,7 @@ exports.getRekapAllMhsCount = async (req, res) => {
     let tidak_pkl = 0;
 
     const list_mhs = await Mahasiswa.find({
-      angkatan: year
+      angkatan: year,
     });
 
     // cari pkl yang lulus dan tidak lulus
@@ -755,8 +763,20 @@ exports.getRekapDosenCount = async (req, res) => {
   let list_rekap = {};
 
   // const tahun = ["2018", "2019", "2020", "2021", "2022"];
-  let dosen, queryMhs, resultMhs, queryPKL, resultPKL, querySkripsi, resultSkripsi,
-    resultAktif, resultCuti, resultDrop, resultLulus, resultMangkir, resultMengundurkan, resultMeninggal;
+  let dosen,
+    queryMhs,
+    resultMhs,
+    queryPKL,
+    resultPKL,
+    querySkripsi,
+    resultSkripsi,
+    resultAktif,
+    resultCuti,
+    resultDrop,
+    resultLulus,
+    resultMangkir,
+    resultMengundurkan,
+    resultMeninggal;
   for (let i = 0; i < 5; i++) {
     const year = curYear - i;
     lulusPKL = 0;
@@ -769,7 +789,7 @@ exports.getRekapDosenCount = async (req, res) => {
     });
     queryMhs = Mahasiswa.find({
       kodeWali: dosen._id,
-      angkatan: year
+      angkatan: year,
     });
     resultMhs = await queryMhs.exec();
     queryPKL = PKL.find();
@@ -817,37 +837,37 @@ exports.getRekapDosenCount = async (req, res) => {
     resultAktif = await Mahasiswa.count({
       kodeWali: dosen._id,
       status: "Aktif",
-      angkatan: year
+      angkatan: year,
     });
     resultCuti = await Mahasiswa.count({
       kodeWali: dosen._id,
       status: "Cuti",
-      angkatan: year
+      angkatan: year,
     });
     resultMangkir = await Mahasiswa.count({
       kodeWali: dosen._id,
       status: "Mangkir",
-      angkatan: year
+      angkatan: year,
     });
     resultDrop = await Mahasiswa.count({
       kodeWali: dosen._id,
       status: "Drop Out",
-      angkatan: year
+      angkatan: year,
     });
     resultMengundurkan = await Mahasiswa.count({
       kodeWali: dosen._id,
       status: "Undur Diri",
-      angkatan: year
+      angkatan: year,
     });
     resultLulus = await Mahasiswa.count({
       kodeWali: dosen._id,
       status: "Lulus",
-      angkatan: year
+      angkatan: year,
     });
     resultMeninggal = await Mahasiswa.count({
       kodeWali: dosen._id,
       status: "Meninggal Dunia",
-      angkatan: year
+      angkatan: year,
     });
 
     list_rekap[year] = {
@@ -868,8 +888,7 @@ exports.getRekapDosenCount = async (req, res) => {
         lulus: lulusSkripsi,
         belum: belumSkripsi,
       },
-    }
-
+    };
   }
   res.status(200).send(list_rekap);
 };
@@ -1174,7 +1193,7 @@ exports.getDetailMhsWali = async (req, res) => {
         ipk: list_ipk,
         tanggal: skripsi_mhs.tanggal.toISOString().split("T")[0],
       };
-    }else{
+    } else {
       obj_detail = {
         name: mahasiswa.name,
         nim: mahasiswa.nim,
@@ -1197,10 +1216,7 @@ exports.getDetailMhsWali = async (req, res) => {
 //change password feature for user with error handling
 exports.changePassword = async (req, res) => {
   const user = await User.findById(req.userId);
-  const {
-    oldPassword,
-    newPassword
-  } = req.body;
+  const { oldPassword, newPassword } = req.body;
 
   if (!user) {
     return res.status(404).send("User Not Found");
@@ -1238,9 +1254,11 @@ exports.resetPassword = async (req, res) => {
   } //if user role is mahasiswa then reset password to mahasiswa firstname
   else if (role.name == "mahasiswa") {
     const mhs = await Mahasiswa.findOne({
-      user: user._id
+      user: user._id,
     });
     user.password = bcrypt.hashSync(mhs.name.toLowerCase().split(" ")[0], 8);
+  } else if (role.name == "departemen") {
+    user.password = bcrypt.hashSync("departemen", 8);
   }
 
   await user.save();
@@ -1343,7 +1361,7 @@ exports.getAllInfoWithNIM = async (req, res) => {
         semester_skripsi: "-",
         ip: listIP,
         ipk: listIPK,
-        tanggal: "-"
+        tanggal: "-",
       };
     }
     res.status(200).send(result);

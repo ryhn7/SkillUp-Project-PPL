@@ -1244,14 +1244,16 @@ exports.getAllInfoWithNIM = async (req, res) => {
       status_konfirmasi: "sudah",
     });
     const skripsi = await Skripsi.findOne({
-      mahasiswa,
+      mahasiswa: mahasiswa._id,
       status_konfirmasi: "sudah",
     });
     const irs = await IRS.find({
-      mahasiswa,
+      mahasiswa: mahasiswa._id,
+      status_konfirmasi: "sudah",
     });
     const khs = await KHS.find({
-      mahasiswa,
+      mahasiswa: mahasiswa._id,
+      status_konfirmasi: "sudah",
     });
     // pendifinisian dan pengecekan array IRS dan KHS
     let listSKS = [];
@@ -1261,22 +1263,24 @@ exports.getAllInfoWithNIM = async (req, res) => {
     let sem = 0;
     if (irs) {
       irs.forEach((isian) => {
-        if (isian.status_konfirmasi === "sudah") {
-          listSKS.push(isian.sks);
-        } else {
-          listSKS.push("-");
-        }
-        sem = isian.semester_aktif;
+        // if (isian.status_konfirmasi === "sudah") {
+        //   listSKS.push(isian.sks);
+        // } else {
+        //   listSKS.push("-");
+        // }
+        sem = Math.max(isian.semester_aktif,sem);
       });
     }
 
     if (khs) {
       khs.forEach((kartu) => {
         if (kartu.status_konfirmasi === "sudah") {
+          listSKS.push(kartu.sks);
           listSKSK.push(kartu.sks_kumulatif);
           listIP.push(kartu.ip);
           listIPK.push(kartu.ip_kumulatif);
         } else {
+          listSKS.push("-");
           listSKSK.push("-");
           listIP.push("-");
           listIPK.push("-");

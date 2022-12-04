@@ -81,6 +81,7 @@ exports.signin = (req, res) => {
           id: user.id,
           role: user.roles.name,
           name: mahasiswa.name,
+          email: mahasiswa.email,
         })
           .setProtectedHeader({ alg: "HS256", typ: "JWT" })
           .setIssuedAt()

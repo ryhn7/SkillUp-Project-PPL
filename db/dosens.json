@@ -1,0 +1,276 @@
+[{
+  "_id": {
+    "$oid": "6357db84f2a0400c48b36272"
+  },
+  "name": "Satriyo Adhy, S.Si, M.T",
+  "email": "satriyo@lecturer.undip.ac.id",
+  "nip": "198302032006041",
+  "user": {
+    "$oid": "6357db84f2a0400c48b36271"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36276"
+  },
+  "name": "Drs. Eko Adi Sarwoko, M.Kom.",
+  "email": "eko@lecturer.undip.ac.id",
+  "nip": "196511071992031",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36275"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db84f2a0400c48b36274"
+  },
+  "name": "Prajanto Wahyu Adi, M.Kom.",
+  "email": "prajanto@lecturer.undip.ac.id",
+  "nip": "198803222020121",
+  "user": {
+    "$oid": "6357db84f2a0400c48b36273"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3627a"
+  },
+  "name": "Dr. Aris Sugiharto, S.Si., M.Kom.",
+  "email": "aris@lecturer.undip.ac.id",
+  "nip": "197108111997021",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36279"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36278"
+  },
+  "name": "Priyo Sidik Sasongko, S.Si., M.Kom.",
+  "email": "priyo@lecturer.undip.ac.id",
+  "nip": "197007051997021",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36277"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3627c"
+  },
+  "name": "Beta Noranita, S.Si, M.Kom.",
+  "email": "beta@lecturer.undip.ac.id",
+  "nip": "197308291998022",
+  "user": {
+    "$oid": "6357db85f2a0400c48b3627b"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3627e"
+  },
+  "name": "Dr. Aris Puji Widodo, S.Si, M.T",
+  "email": "apw@lecturer.undip.ac.id",
+  "nip": "197404011999031",
+  "user": {
+    "$oid": "6357db85f2a0400c48b3627d"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36282"
+  },
+  "name": "Sukmawati Nur Endah, S.Si, M.Kom.",
+  "email": "sukma@lecturer.undip.ac.id",
+  "nip": "197805022005012",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36281"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36280"
+  },
+  "name": "Dinar Mutiara K N, S.T., M.InfoTech.(Comp)., Ph.D.",
+  "email": "dinar@lecturer.undip.ac.id",
+  "nip": "197601102009122",
+  "user": {
+    "$oid": "6357db85f2a0400c48b3627f"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36284"
+  },
+  "name": "Helmie Arif Wibawa, S.Si, M.Cs",
+  "email": "helmie@lecturer.undip.ac.id",
+  "nip": "197805162003121",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36283"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36288"
+  },
+  "name": "Sutikno, ST, M.Cs",
+  "email": "sutikno@lecturer.undip.ac.id",
+  "nip": "197905242009121",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36287"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36286"
+  },
+  "name": "Indra Waspada, ST, M.T.I",
+  "email": "indra@lecturer.undip.ac.id",
+  "nip": "197902122008121",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36285"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3628a"
+  },
+  "name": "Edy Suharto, S.T., M.Kom.",
+  "email": "edy@lecturer.undip.ac.id",
+  "nip": "198009142006041",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36289"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3628c"
+  },
+  "name": "Ragil Saputra, S.Si, M.Cs",
+  "email": "ragil@lecturer.undip.ac.id",
+  "nip": "198010212005011",
+  "user": {
+    "$oid": "6357db85f2a0400c48b3628b"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36290"
+  },
+  "name": "Panji Wisnu Wirawan, S.T., M.T.",
+  "email": "panji@lecturer.undip.ac.id",
+  "nip": "198104212008121",
+  "user": {
+    "$oid": "6357db85f2a0400c48b3628f"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3628e"
+  },
+  "name": "Dr. Retno Kusumaningrum, S.Si, M.Kom",
+  "email": "retno@lecturer.undip.ac.id",
+  "nip": "198104202005012",
+  "user": {
+    "$oid": "6357db85f2a0400c48b3628d"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36294"
+  },
+  "name": "Khadijah, S.Kom, M.Cs",
+  "email": "khadijah@lecturer.undip.ac.id",
+  "nip": "198903032015042",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36293"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36296"
+  },
+  "name": "Rismiyati, B.Eng, M.Cs",
+  "email": "rismi@lecturer.undip.ac.id",
+  "nip": "198511252018032",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36295"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36292"
+  },
+  "name": "Dr. Eng. Adi Wibowo, S.Si, M.Kom",
+  "email": "adi@lecturer.undip.ac.id",
+  "nip": "198203092006041",
+  "user": {
+    "$oid": "6357db85f2a0400c48b36291"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b36298"
+  },
+  "name": "Fajar Agung Nugroho, S.Kom., M.Cs.",
+  "email": "fajar@lecturer.undip.ac.id",
+  "nip": "198404112019031",
+  "user": {
+    "$oid": "6357db86f2a0400c48b36297"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b3629a"
+  },
+  "name": "Muhammad Malik Hakim, S.T., M.T.I.",
+  "email": "malik@lecturer.undip.ac.id",
+  "nip": "198106202015041",
+  "user": {
+    "$oid": "6357db86f2a0400c48b36299"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b3629c"
+  },
+  "name": "Guruh Aryotejo, S.Kom., M.Sc.",
+  "email": "guruh@lecturer.undip.ac.id",
+  "nip": "198012272015041",
+  "user": {
+    "$oid": "6357db86f2a0400c48b3629b"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b3629e"
+  },
+  "name": "Adhe Setya Pramayoga, S.Kom., M.T.",
+  "email": "setya@lecturer.undip.ac.id",
+  "nip": "199112092022041",
+  "user": {
+    "$oid": "6357db86f2a0400c48b3629d"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b362a2"
+  },
+  "name": "Nurdin Bahtiar, S.Si, M.T",
+  "email": "nurdin@lecturer.undip.ac.id",
+  "nip": "197907202003121",
+  "user": {
+    "$oid": "6357db86f2a0400c48b362a1"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b362a0"
+  },
+  "name": "Sandy Kurniawan, S.Kom., M.Kom.",
+  "email": "sandy@lecturer.undip.ac.id",
+  "nip": "199603032022041",
+  "user": {
+    "$oid": "6357db86f2a0400c48b3629f"
+  },
+  "__v": 0
+}]

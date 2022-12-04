@@ -1,0 +1,49 @@
+[{
+  "_id": {
+    "$oid": "63563812f089e92d082921f8"
+  },
+  "nilai": "A",
+  "semester": 6,
+  "status_konfirmasi": "sudah",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "file": "uploads\\irs\\1666852619196-Prak1-Introduction to Machine Learning and Google Colab.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635661c1921851251cb6a712"
+  },
+  "nilai": "A",
+  "semester": 5,
+  "status_konfirmasi": "belum",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "file": "uploads\\pkl\\1666605504967-KTP Hadoop.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a685a02080a2d48f5e9a2"
+  },
+  "nilai": "B",
+  "semester": 6,
+  "status_konfirmasi": "belum",
+  "mahasiswa": {
+    "$oid": "635a65e602080a2d48f5e996"
+  },
+  "file": "uploads\\pkl\\1666869368322-SYARAT DAN KETENTUAN CABANG OLAHRAGA FUTSAL.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635d30802030a6739cd522ed"
+  },
+  "nilai": "B",
+  "semester": 2,
+  "status_konfirmasi": "sudah",
+  "mahasiswa": {
+    "$oid": "6357fbd9d2ffb65e6c2458e4"
+  },
+  "file": "uploads\\pkl\\1667051657280-tugas.pdf",
+  "__v": 0
+}]

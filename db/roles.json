@@ -1,0 +1,25 @@
+[{
+  "_id": {
+    "$oid": "633d9cfe5658f86e6c2d9090"
+  },
+  "name": "mahasiswa",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "633d9cfe5658f86e6c2d9091"
+  },
+  "name": "admin",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  },
+  "name": "dosen",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "633d9cfe5658f86e6c2d9093"
+  },
+  "name": "departemen",
+  "__v": 0
+}]

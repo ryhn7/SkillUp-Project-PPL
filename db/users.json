@@ -1,0 +1,309 @@
+[{
+  "_id": {
+    "$oid": "6342af5f2555e46c4c85e5f2"
+  },
+  "username": "departemen",
+  "email": "departemen@gmail.com",
+  "password": "$2a$08$ZkG3FDPNcXD5aMjl/5Ce7.3YG9AqiWZqmbTSJMEyYxc/AvganCX.u",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9093"
+  }
+},{
+  "_id": {
+    "$oid": "6346cb72c78009ca02e7fd13"
+  },
+  "username": "admin",
+  "email": "admin@gmail.com",
+  "password": "$2a$08$YLfRjwxzdzs4makjPzdz3.9H1sMwxGtA/XqrzoDvfjD/Vh7ECv/Dm",
+  "__v": 1,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9091"
+  }
+},{
+  "_id": {
+    "$oid": "6357db84f2a0400c48b36271"
+  },
+  "username": "198302032006041",
+  "email": "satriyo@lecturer.undip.ac.id",
+  "password": "$2a$08$ZJJzPDBB8MxSb/DlMYTcseT6Ua4qzkG6QqK9V95ZBTolTE3XJ7PE.",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36275"
+  },
+  "username": "196511071992031",
+  "email": "eko@lecturer.undip.ac.id",
+  "password": "$2a$08$YqdZXxO2K7TnW90NM7kMQOsYsrOb959.WW588/or9nq8v7Axhr.uS",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db84f2a0400c48b36273"
+  },
+  "username": "198803222020121",
+  "email": "prajanto@lecturer.undip.ac.id",
+  "password": "$2a$08$ZGjaRUCyZpiVc5YHfqICpu/dA6/5Pn3MLGHi/ykpEMiXgoZbd.oBm",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36277"
+  },
+  "username": "197007051997021",
+  "email": "priyo@lecturer.undip.ac.id",
+  "password": "$2a$08$3ErY0aV0nJJZOWWRAuxgV.Bo7Qn0EeTKNwhZoTQ/YpyG4pAGe8aMW",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3627b"
+  },
+  "username": "197308291998022",
+  "email": "beta@lecturer.undip.ac.id",
+  "password": "$2a$08$UuuWs/lmb4g6u4qdIq7vTew1ZUPBVGfrm6gwzWN5ffNkLG6W6oCRO",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36279"
+  },
+  "username": "197108111997021",
+  "email": "aris@lecturer.undip.ac.id",
+  "password": "$2a$08$fJS0ux0bbkSjsCKOQ7IxOuHeEv9mPI38.11mJq/dc5deK37MioSdK",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3627d"
+  },
+  "username": "197404011999031",
+  "email": "apw@lecturer.undip.ac.id",
+  "password": "$2a$08$4cHkDIO08a.s4fBiDkHTD.Cl17aSyEeyUHDxaBhTuSdj2peZedwFa",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3627f"
+  },
+  "username": "197601102009122",
+  "email": "dinar@lecturer.undip.ac.id",
+  "password": "$2a$08$K4hNPv94qh.m59fEFAmLN.p/AK2uTuBZS5a/hDD1zxR7hFZ6rL1l2",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36281"
+  },
+  "username": "197805022005012",
+  "email": "sukma@lecturer.undip.ac.id",
+  "password": "$2a$08$AInF7s/P4OFwRMsX2Jpy8uxOoq/ihne9iB4/6w1FbinknkFHwiYfm",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36283"
+  },
+  "username": "197805162003121",
+  "email": "helmie@lecturer.undip.ac.id",
+  "password": "$2a$08$fIdlPEgQpsw6BKudZ6Qfvuntnn8MFJ2//.vJLYDmUO5NDgr5uZEQm",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36285"
+  },
+  "username": "197902122008121",
+  "email": "indra@lecturer.undip.ac.id",
+  "password": "$2a$08$kZjNrkSU7SfGOcQeMAs/S.FXofgDwmIZheIjw0IXgxwK9rIsIXa9.",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36287"
+  },
+  "username": "197905242009121",
+  "email": "sutikno@lecturer.undip.ac.id",
+  "password": "$2a$08$gDFDhlmFPVJ2u47LXoowK.Pv7lPbGuVhAZeGSVClaIc89m0VRi20y",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36289"
+  },
+  "username": "198009142006041",
+  "email": "edy@lecturer.undip.ac.id",
+  "password": "$2a$08$8sOE3.LVldEuuUD6JeswWuI/CrZmXru8igFhzMVYOWc/dD5c.y1dq",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3628b"
+  },
+  "username": "198010212005011",
+  "email": "ragil@lecturer.undip.ac.id",
+  "password": "$2a$08$N4NIjfkPoa5XZxiiIjVGg.URAqaZuKBmq6CK2Vlg12nldxPoznAUK",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3628d"
+  },
+  "username": "198104202005012",
+  "email": "retno@lecturer.undip.ac.id",
+  "password": "$2a$08$fZ61HBnZnDNWyldDM/K9X.4tKE91uhxAFtAS5LbIi5tyC4LhEvVHK",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b3628f"
+  },
+  "username": "198104212008121",
+  "email": "panji@lecturer.undip.ac.id",
+  "password": "$2a$08$ymOOc5OgrW8GPLsRwmTw4uXFYmBidoPwU77aFeV7tJpgYX5ZBSjq.",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36291"
+  },
+  "username": "198203092006041",
+  "email": "adi@lecturer.undip.ac.id",
+  "password": "$2a$08$Gk9Fy62l1HYyIf4iDc5ajOTnSADIKusvPyPbuG.hVgsPQleqhyGQ2",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36293"
+  },
+  "username": "198903032015042",
+  "email": "khadijah@lecturer.undip.ac.id",
+  "password": "$2a$08$r6Kb6L/jn5/Qu3iIFtPUx.xKQ2LZRERMMHPGI8RcCB9QpwTKrAk5m",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db85f2a0400c48b36295"
+  },
+  "username": "198511252018032",
+  "email": "rismi@lecturer.undip.ac.id",
+  "password": "$2a$08$73qNQ1sfYV19TPDXV4fEje9ref1UYylgfPY475YtyHDaUICqjFMMq",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b36297"
+  },
+  "username": "198404112019031",
+  "email": "fajar@lecturer.undip.ac.id",
+  "password": "$2a$08$XguU3tgIdzG2rr1ORAcDneXjDdZjU8YXbaRcBCdpU3MCSghznucGC",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b36299"
+  },
+  "username": "198106202015041",
+  "email": "malik@lecturer.undip.ac.id",
+  "password": "$2a$08$/P0zdfb6pJLWdQCPNlH8huLDGhl0xIrn3h/28/oWIZAk2SWKlgniW",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b3629b"
+  },
+  "username": "198012272015041",
+  "email": "guruh@lecturer.undip.ac.id",
+  "password": "$2a$08$ssZBN9CtogiP1O0FVrOx6e5.IU2OAJdjcux3Gb9FbKz.AYBOh8cAu",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b3629d"
+  },
+  "username": "199112092022041",
+  "email": "setya@lecturer.undip.ac.id",
+  "password": "$2a$08$g926zZUDQyvzAtYnEMbGGud9vNycLgtO2X7uXgrFy1Iry9HaSW9Wy",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b3629f"
+  },
+  "username": "199603032022041",
+  "email": "sandy@lecturer.undip.ac.id",
+  "password": "$2a$08$3Rb9blg.rypluYvqRMzxkeI8VNRIXdqWP7GQYFFuWKanQ4hYPbBSq",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "6357db86f2a0400c48b362a1"
+  },
+  "username": "197907202003121",
+  "email": "nurdin@lecturer.undip.ac.id",
+  "password": "$2a$08$nKOEC56TI8e88WmezSxETuDjUIH43jAqoVXmC6FxvS/Rons8J2iEC",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+},{
+  "_id": {
+    "$oid": "63675afd43272f79cb049983"
+  },
+  "username": "departemen1",
+  "email": "departemen1@gmail.com",
+  "password": "$2a$08$ZkG3FDPNcXD5aMjl/5Ce7.3YG9AqiWZqmbTSJMEyYxc/AvganCX.u",
+  "__v": 0,
+  "roles": {
+    "$oid": "633d9cfe5658f86e6c2d9092"
+  }
+}]

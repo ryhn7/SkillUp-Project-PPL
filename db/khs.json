@@ -1,0 +1,330 @@
+[{
+  "_id": {
+    "$oid": "63590d999ec5f3664cdd7ba5"
+  },
+  "semester_aktif": 1,
+  "sks": 21,
+  "sks_kumulatif": 21,
+  "ip": 3.9,
+  "ip_kumulatif": 3.9,
+  "status_konfirmasi": "sudah",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "file": "uploads\\khs\\1666780569158-Salinan dari Surat Komitmen Peserta Bangkit 2023 (1).pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a4f7e110f9959709be5dd"
+  },
+  "semester_aktif": 5,
+  "sks": 22,
+  "sks_kumulatif": 114,
+  "ip": 3.9,
+  "ip_kumulatif": 3.85,
+  "file": "uploads\\khs\\1666862974806-Prak1-Introduction to Machine Learning and Google Colab.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c480"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635cc3ae8c8ab139b03e5a6c"
+  },
+  "semester_aktif": 3,
+  "sks": 24,
+  "sks_kumulatif": 60,
+  "ip": 3.9,
+  "ip_kumulatif": 3.8,
+  "status_konfirmasi": "sudah",
+  "file": "uploads\\khs\\1667023787835-asd.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635cc4df8c8ab139b03e5c00"
+  },
+  "semester_aktif": 2,
+  "sks": 21,
+  "sks_kumulatif": 42,
+  "ip": 3.6,
+  "ip_kumulatif": 3.7,
+  "status_konfirmasi": "sudah",
+  "file": "uploads\\khs\\1667024093631-mvsteen-distributed-systems-3rd-preliminary-version-3-01pre-2017-170215.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635d303d2030a6739cd522c3"
+  },
+  "semester_aktif": 1,
+  "sks": 23,
+  "sks_kumulatif": 23,
+  "ip": 4,
+  "ip_kumulatif": 4,
+  "status_konfirmasi": "sudah",
+  "file": "uploads\\khs\\1667051581008-MPI Materi.pdf",
+  "mahasiswa": {
+    "$oid": "6357fbd9d2ffb65e6c2458e4"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635d304e2030a6739cd522d1"
+  },
+  "semester_aktif": 2,
+  "sks": 22,
+  "sks_kumulatif": 24,
+  "ip": 4,
+  "ip_kumulatif": 3,
+  "status_konfirmasi": "sudah",
+  "file": "uploads\\khs\\1667051598569-ch4.pdf",
+  "mahasiswa": {
+    "$oid": "6357fbd9d2ffb65e6c2458e4"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635d306c2030a6739cd522df"
+  },
+  "semester_aktif": 3,
+  "sks": 23,
+  "sks_kumulatif": 68,
+  "ip": 4,
+  "ip_kumulatif": 4,
+  "status_konfirmasi": "sudah",
+  "file": "uploads\\khs\\1667051628258-Desain tanpa judul.pdf",
+  "mahasiswa": {
+    "$oid": "6357fbd9d2ffb65e6c2458e4"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e655554859716a8227a9a"
+  },
+  "semester_aktif": 1,
+  "sks": 21,
+  "sks_kumulatif": 21,
+  "ip": 4,
+  "ip_kumulatif": 4,
+  "status_konfirmasi": "belum",
+  "file": "uploads\\khs\\1667130708971-tugas (1).pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e658254859716a8227ab0"
+  },
+  "semester_aktif": 2,
+  "sks": 24,
+  "sks_kumulatif": 45,
+  "ip": 3.9,
+  "ip_kumulatif": 3.95,
+  "status_konfirmasi": "belum",
+  "file": "uploads\\khs\\1667130753254-Screenshot_47.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e65ad54859716a8227ac5"
+  },
+  "semester_aktif": 3,
+  "sks": 23,
+  "sks_kumulatif": 68,
+  "ip": 3,
+  "ip_kumulatif": 3.9,
+  "status_konfirmasi": "belum",
+  "file": "uploads\\khs\\1667130796484-Screenshot_47.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e65dd54859716a8227adc"
+  },
+  "semester_aktif": 4,
+  "sks": 23,
+  "sks_kumulatif": 91,
+  "ip": 3.8,
+  "ip_kumulatif": 3.8,
+  "status_konfirmasi": "belum",
+  "file": "uploads\\khs\\1667130844836-Screenshot_47.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e65f654859716a8227af2"
+  },
+  "semester_aktif": 5,
+  "sks": 22,
+  "sks_kumulatif": 112,
+  "ip": 3.8,
+  "ip_kumulatif": 3.8,
+  "status_konfirmasi": "belum",
+  "file": "uploads\\khs\\1667130869077-Screenshot_47.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e661054859716a8227b08"
+  },
+  "semester_aktif": 6,
+  "sks": 23,
+  "sks_kumulatif": 135,
+  "ip": 3.9,
+  "ip_kumulatif": 3.85,
+  "status_konfirmasi": "belum",
+  "file": "uploads\\khs\\1667130896729-Similarity Check - ASA #1 .pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e664954859716a8227b2e"
+  },
+  "semester_aktif": 8,
+  "sks": 15,
+  "sks_kumulatif": 160,
+  "ip": 3.8,
+  "ip_kumulatif": 3.85,
+  "status_konfirmasi": "belum",
+  "file": "uploads\\khs\\1667130953460-Similarity Check - ASA #1 .pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e670154859716a8227c16"
+  },
+  "semester_aktif": 4,
+  "sks": 22,
+  "sks_kumulatif": 45,
+  "ip": 4,
+  "ip_kumulatif": 4,
+  "status_konfirmasi": "sudah",
+  "file": "uploads\\khs\\1667131137191-Curiosity_Bukti Pembayaran.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e67c454859716a8227cd3"
+  },
+  "semester_aktif": 5,
+  "sks": 25,
+  "sks_kumulatif": 61,
+  "ip": 3.6,
+  "ip_kumulatif": 3.6,
+  "status_konfirmasi": "sudah",
+  "file": "uploads\\khs\\1667131332091-APEX B.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e67d654859716a8227ce1"
+  },
+  "semester_aktif": 6,
+  "sks": 21,
+  "sks_kumulatif": 70,
+  "ip": 4,
+  "ip_kumulatif": 3.8,
+  "status_konfirmasi": "sudah",
+  "file": "uploads\\khs\\1667131350602-Curiosity_Bukti Pembayaran.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e67ed54859716a8227cef"
+  },
+  "semester_aktif": 7,
+  "sks": 22,
+  "sks_kumulatif": 90,
+  "ip": 3.9,
+  "ip_kumulatif": 3.87,
+  "status_konfirmasi": "sudah",
+  "file": "uploads\\khs\\1667131373447-SI_kelasB_Benhard Simanullang_24060120140136_TugasRangkuman.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e7b05e9fbd57e04f64880"
+  },
+  "semester_aktif": 8,
+  "sks": 21,
+  "sks_kumulatif": 134,
+  "ip": 4,
+  "ip_kumulatif": 4,
+  "status_konfirmasi": "belum",
+  "file": "uploads\\khs\\1667136261234-Screenshot_47.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6374fcad2072644ad865c588"
+  },
+  "semester_aktif": 9,
+  "sks": 21,
+  "sks_kumulatif": 21,
+  "ip": 3,
+  "ip_kumulatif": 3.2,
+  "status_konfirmasi": "belum",
+  "file": "uploads\\khs\\1668612930304-Screenshot_24060120130047.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "637503342072644ad865c600"
+  },
+  "semester_aktif": 10,
+  "sks": 12,
+  "sks_kumulatif": 132,
+  "ip": 4,
+  "ip_kumulatif": 4,
+  "status_konfirmasi": "sudah",
+  "file": "uploads\\khs\\1668612916732-Screenshot_24060120130047.pdf",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "638bfbfa4c88b02ce489b422"
+  },
+  "semester_aktif": 1,
+  "sks": 20,
+  "sks_kumulatif": 20,
+  "ip": 4,
+  "ip_kumulatif": 4,
+  "status_konfirmasi": "belum",
+  "file": "uploads\\khs\\1670118394284-1-s2.0-S0360544219325368-main.pdf",
+  "mahasiswa": {
+    "$oid": "638b913d62b6c89ba02f18a6"
+  },
+  "__v": 0
+}]

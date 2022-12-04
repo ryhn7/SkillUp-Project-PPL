@@ -1,0 +1,205 @@
+[{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0c4"
+  },
+  "id": 11,
+  "nama": "Aceh"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0c5"
+  },
+  "id": 12,
+  "nama": "Sumatera Utara"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0c6"
+  },
+  "id": 13,
+  "nama": "Sumatera Barat"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0c7"
+  },
+  "id": 14,
+  "nama": "Riau"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0c8"
+  },
+  "id": 15,
+  "nama": "Jambi"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0c9"
+  },
+  "id": 16,
+  "nama": "Sumatera Selatan"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0ca"
+  },
+  "id": 17,
+  "nama": "Bengkulu"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0cb"
+  },
+  "id": 18,
+  "nama": "Lampung"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0cc"
+  },
+  "id": 19,
+  "nama": "Kepulauan Bangka Belitung"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0cd"
+  },
+  "id": 21,
+  "nama": "Kepulauan Riau"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0ce"
+  },
+  "id": 31,
+  "nama": "Daerah Khusus Ibukota Jakarta"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0cf"
+  },
+  "id": 32,
+  "nama": "Jawa Barat"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0d0"
+  },
+  "id": 33,
+  "nama": "Jawa Tengah"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0d1"
+  },
+  "id": 34,
+  "nama": "Daerah Istimewa Yogyakarta"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0d2"
+  },
+  "id": 35,
+  "nama": "Jawa Timur"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0d3"
+  },
+  "id": 36,
+  "nama": "Banten"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0d4"
+  },
+  "id": 51,
+  "nama": "Bali"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0d5"
+  },
+  "id": 52,
+  "nama": "Nusa Tenggara Barat"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0d6"
+  },
+  "id": 53,
+  "nama": "Nusa Tenggara Timur"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0d7"
+  },
+  "id": 61,
+  "nama": "Kalimantan Barat"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0d8"
+  },
+  "id": 62,
+  "nama": "Kalimantan Tengah"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0d9"
+  },
+  "id": 63,
+  "nama": "Kalimantan Selatan"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0da"
+  },
+  "id": 64,
+  "nama": "Kalimantan Timur"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0db"
+  },
+  "id": 65,
+  "nama": "Kalimantan Utara"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0dc"
+  },
+  "id": 71,
+  "nama": "Sulawesi Utara"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0dd"
+  },
+  "id": 72,
+  "nama": "Sulawesi Tengah"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0de"
+  },
+  "id": 73,
+  "nama": "Sulawesi Selatan"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0df"
+  },
+  "id": 74,
+  "nama": "Sulawesi Tenggara"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0e0"
+  },
+  "id": 75,
+  "nama": "Gorontalo"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0e1"
+  },
+  "id": 76,
+  "nama": "Sulawesi Barat"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0e2"
+  },
+  "id": 81,
+  "nama": "Maluku"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0e3"
+  },
+  "id": 82,
+  "nama": "Maluku Utara"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0e4"
+  },
+  "id": 91,
+  "nama": "Papua Barat"
+},{
+  "_id": {
+    "$oid": "6346c0302ecff67b50a0f0e5"
+  },
+  "id": 94,
+  "nama": "Papua"
+}]

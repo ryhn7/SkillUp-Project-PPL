@@ -1,0 +1,69 @@
+[{
+  "_id": {
+    "$oid": "63563826f089e92d08292206"
+  },
+  "nilai": "A",
+  "semester": 7,
+  "status_konfirmasi": "belum",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "tanggal": {
+    "$date": {
+      "$numberLong": "1666569600000"
+    }
+  },
+  "file": "uploads\\skripsi\\1666594854698-MDDanyDarmawan Surat Komitmen Peserta Bangkit 2023.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a6bf515d2291058bddd91"
+  },
+  "nilai": "C",
+  "semester": 7,
+  "status_konfirmasi": "belum",
+  "mahasiswa": {
+    "$oid": "635a65e602080a2d48f5e996"
+  },
+  "tanggal": {
+    "$date": {
+      "$numberLong": "1665360000000"
+    }
+  },
+  "file": "uploads\\skripsi\\1666870308446-PBP-BAB 1 setelah UTS.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635d30992030a6739cd5230a"
+  },
+  "nilai": "A",
+  "semester": 9,
+  "status_konfirmasi": "sudah",
+  "mahasiswa": {
+    "$oid": "6357fbd9d2ffb65e6c2458e4"
+  },
+  "tanggal": {
+    "$date": {
+      "$numberLong": "1665705600000"
+    }
+  },
+  "file": "uploads\\skripsi\\1667051673760-Similarity Check - ASA #1 .pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e676054859716a8227c50"
+  },
+  "nilai": "C",
+  "semester": 7,
+  "status_konfirmasi": "sudah",
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "tanggal": {
+    "$date": {
+      "$numberLong": "1665100800000"
+    }
+  },
+  "file": "uploads\\skripsi\\1667131232231-Curiosity_Bukti Pembayaran.pdf",
+  "__v": 0
+}]

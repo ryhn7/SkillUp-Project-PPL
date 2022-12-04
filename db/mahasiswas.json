@@ -1,0 +1,247 @@
+[{
+  "_id": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "status": "Aktif",
+  "name": "Benhard Simanullang",
+  "nim": "24060120140136",
+  "user": {
+    "$oid": "63562ae3efbe882950c2c481"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db84f2a0400c48b36271"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "status": "Lulus",
+  "name": "Fahrel Gibran Alghany",
+  "nim": "24060120130106",
+  "user": {
+    "$oid": "63562ae3efbe882950c2c47d"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db84f2a0400c48b36274"
+  },
+  "__v": 0,
+  "alamat": "Pedawang, Bae, Kudus, Jawa Tengah",
+  "email": "fahrel@students.undip.ac.id",
+  "kodeKab": "3320",
+  "phone": "081270360350"
+},{
+  "_id": {
+    "$oid": "63562ae3efbe882950c2c480"
+  },
+  "status": "Aktif",
+  "name": "Rayhan Illyas Annabil",
+  "nim": "24060120120004",
+  "user": {
+    "$oid": "63562ae3efbe882950c2c47f"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db85f2a0400c48b36294"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6357fbd9d2ffb65e6c2458e4"
+  },
+  "status": "Drop Out",
+  "name": "Rif'an Fatoni Febrianto",
+  "nim": "24060120130073",
+  "user": {
+    "$oid": "6357fbd9d2ffb65e6c2458e3"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db84f2a0400c48b36274"
+  },
+  "__v": 0,
+  "alamat": "Rock Bottom",
+  "email": "rifan@students.undip.ac.id",
+  "kodeKab": "3301",
+  "phone": "082135816504"
+},{
+  "_id": {
+    "$oid": "635a65e602080a2d48f5e996"
+  },
+  "status": "Aktif",
+  "name": "Joy Boy",
+  "nim": "232425",
+  "user": {
+    "$oid": "635a65e602080a2d48f5e995"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db85f2a0400c48b36276"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a91a08270ec2bb8369856"
+  },
+  "status": "Aktif",
+  "name": "Aulia CP",
+  "nim": "24060120130055",
+  "user": {
+    "$oid": "635a91a08270ec2bb8369855"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db85f2a0400c48b3627e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a923e1d6b332eace4c2bf"
+  },
+  "status": "Drop Out",
+  "name": "Farid Reza Nurhuda",
+  "nim": "24060120140075",
+  "user": {
+    "$oid": "635a923e1d6b332eace4c2be"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db85f2a0400c48b3628e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "636719cc5c959a6924a0ac84"
+  },
+  "status": "Aktif",
+  "name": "John",
+  "nim": "8805",
+  "email": "john@gmail.com",
+  "user": {
+    "$oid": "636719cc5c959a6924a0ac83"
+  },
+  "angkatan": "2020",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6373ad33a2d8815b484fbe5d"
+  },
+  "status": "Aktif",
+  "name": "Julius Adrian",
+  "nim": "24060120130127",
+  "user": {
+    "$oid": "6373ad32a2d8815b484fbe58"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db84f2a0400c48b36272"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6373ad33a2d8815b484fbe5b"
+  },
+  "status": "Aktif",
+  "name": "Charisto Marc Gybran",
+  "nim": "24060120140133",
+  "user": {
+    "$oid": "6373ad32a2d8815b484fbe57"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db84f2a0400c48b36272"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "637602dff44e0342a4989ece"
+  },
+  "status": "Aktif",
+  "name": "Julius Adrianz",
+  "nim": "24060120130128",
+  "user": {
+    "$oid": "637602dff44e0342a4989ecb"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db84f2a0400c48b36272"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "637602dff44e0342a4989ed0"
+  },
+  "status": "Aktif",
+  "name": "Charisto Marc Gybranz",
+  "nim": "24060120140134",
+  "user": {
+    "$oid": "637602dff44e0342a4989eca"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db84f2a0400c48b36272"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63760c2a20870487c08ee2d5"
+  },
+  "status": "Aktif",
+  "name": "Rifan Ilyas",
+  "nim": "24060120130103",
+  "user": {
+    "$oid": "63760c2a20870487c08ee2d4"
+  },
+  "angkatan": "2021",
+  "kodeWali": {
+    "$oid": "6357db85f2a0400c48b3628e"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "638b8fa362b6c89ba02f17b8"
+  },
+  "status": "Aktif",
+  "name": "faqih",
+  "nim": "24060120120120",
+  "user": {
+    "$oid": "638b8fa362b6c89ba02f17b7"
+  },
+  "angkatan": "2020",
+  "kodeWali": {
+    "$oid": "6357db85f2a0400c48b36286"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "638b913d62b6c89ba02f18a6"
+  },
+  "status": "Aktif",
+  "name": "fudhayl",
+  "nim": "24060120120201",
+  "user": {
+    "$oid": "638b913d62b6c89ba02f18a5"
+  },
+  "angkatan": "2021",
+  "kodeWali": {
+    "$oid": "6357db84f2a0400c48b36274"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "638b915062b6c89ba02f18af"
+  },
+  "status": "Drop Out",
+  "name": "asdfsa",
+  "nim": "24060130130130",
+  "user": {
+    "$oid": "638b915062b6c89ba02f18ae"
+  },
+  "angkatan": "2022",
+  "kodeWali": {
+    "$oid": "6357db84f2a0400c48b36274"
+  },
+  "__v": 0
+}]

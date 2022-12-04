@@ -1,0 +1,265 @@
+[{
+  "_id": {
+    "$oid": "6358ad8c9ec5f3664cdd793f"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 1,
+  "sks": 21,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "file": "uploads\\irs\\1666848622603-Salinan dari Surat Komitmen Peserta Bangkit 2023 (1).pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6358ad959ec5f3664cdd794d"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 2,
+  "sks": 24,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "file": "uploads\\irs\\1666755988863-Salinan dari Surat Komitmen Peserta Bangkit 2023 (1).pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63591fbf04312e1e304aa97c"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 1,
+  "sks": 21,
+  "mahasiswa": {
+    "$oid": "6357fbd9d2ffb65e6c2458e4"
+  },
+  "file": "uploads\\irs\\1666785215408-Salinan dari Surat Komitmen Peserta Bangkit 2023 (1).pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63591fc804312e1e304aa98a"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 2,
+  "sks": 24,
+  "mahasiswa": {
+    "$oid": "6357fbd9d2ffb65e6c2458e4"
+  },
+  "file": "uploads\\irs\\1666785224048-MDDanyDarmawan Surat Komitmen Peserta Bangkit 2023.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a08f46f18a220d43cdb8d"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 3,
+  "sks": 24,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "file": "uploads\\irs\\1666844916130-MDDanyDarmawan Surat Komitmen Peserta Bangkit 2023.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a12dcbf699563706f0277"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 4,
+  "sks": 24,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "file": "uploads\\irs\\1666847448110-Print Kartu UTS.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a17a5e1c417373c6dab5a"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 5,
+  "sks": 21,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "file": "uploads\\irs\\1666848674642-Print Kartu UTS.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a270b92769707e8f464db"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 7,
+  "sks": 24,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "file": "uploads\\irs\\1666852619196-Prak1-Introduction to Machine Learning and Google Colab.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a4ee2110f9959709be5c7"
+  },
+  "status_konfirmasi": "belum",
+  "semester_aktif": 5,
+  "sks": 22,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c480"
+  },
+  "file": "uploads\\irs\\1666862818071-rehan.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635d302c2030a6739cd522b1"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 3,
+  "sks": 22,
+  "mahasiswa": {
+    "$oid": "6357fbd9d2ffb65e6c2458e4"
+  },
+  "file": "uploads\\irs\\1667051564179-10 .Mobile Application Fundamental - 2 (1).pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e64b954859716a8227a08"
+  },
+  "status_konfirmasi": "belum",
+  "semester_aktif": 1,
+  "sks": 21,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "file": "uploads\\irs\\1667130553308-Desain tanpa judul.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e64c354859716a8227a16"
+  },
+  "status_konfirmasi": "belum",
+  "semester_aktif": 2,
+  "sks": 24,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "file": "uploads\\irs\\1667130569189-tugas.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e64da54859716a8227a2f"
+  },
+  "status_konfirmasi": "belum",
+  "semester_aktif": 3,
+  "sks": 23,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "file": "uploads\\irs\\1667130586742-APEX B.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e64f554859716a8227a3d"
+  },
+  "status_konfirmasi": "belum",
+  "semester_aktif": 4,
+  "sks": 23,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "file": "uploads\\irs\\1667130613807-tugas.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e650054859716a8227a4b"
+  },
+  "status_konfirmasi": "belum",
+  "semester_aktif": 5,
+  "sks": 22,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "file": "uploads\\irs\\1667130624410-Curiosity_Bukti Pembayaran.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e651154859716a8227a59"
+  },
+  "status_konfirmasi": "belum",
+  "semester_aktif": 6,
+  "sks": 23,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "file": "uploads\\irs\\1667130641499-Week 5 - Problem Tree.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e651d54859716a8227a67"
+  },
+  "status_konfirmasi": "belum",
+  "semester_aktif": 7,
+  "sks": 20,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "file": "uploads\\irs\\1667130653682-SI_kelasB_Benhard Simanullang_24060120140136_TugasRangkuman.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e652a54859716a8227a75"
+  },
+  "status_konfirmasi": "belum",
+  "semester_aktif": 8,
+  "sks": 15,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c482"
+  },
+  "file": "uploads\\irs\\1667130670894-Screenshot_47.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635e7ae2e9fbd57e04f64859"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 8,
+  "sks": 21,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "file": "uploads\\irs\\1667136226612-tugas (1).pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635fb7bc7d6bd545a47aa1fa"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 6,
+  "sks": 19,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c480"
+  },
+  "file": "uploads\\irs\\1667217340061-rehan.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6374f6102072644ad865c4ba"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 6,
+  "sks": 21,
+  "mahasiswa": {
+    "$oid": "63562ae3efbe882950c2c47e"
+  },
+  "file": "uploads\\irs\\1668609670290-elbow_method.pdf",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "638bfbe14c88b02ce489b408"
+  },
+  "status_konfirmasi": "sudah",
+  "semester_aktif": 1,
+  "sks": 20,
+  "mahasiswa": {
+    "$oid": "638b913d62b6c89ba02f18a6"
+  },
+  "file": "uploads\\irs\\1670118369717-1-s2.0-S0360544219325368-main.pdf",
+  "__v": 0
+}]
